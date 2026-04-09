@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Обо мне - ИИ-Ассистент</title>
+    <style>
+        /* Общие стили и фон */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a2a6c 0%, #b21f4e 100%);
+            color: #e0e0e0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+            overflow-x: hidden;
+        }
+
+        /* Контейнер карточки */
+        .card {
+            background-color: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px); /* Эффект матового стекла */
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 800px;
+            width: 100%;
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            text-align: center;
+            transition: transform 0.3s ease-in-out;
+        }
+
+        /* Эффект при наведении на всю карточку */
+        .card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.5);
+        }
+
+        h1 {
+            color: #ffffff;
+            margin-bottom: 10px;
+            font-size: 2.5em;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        p.subtitle {
+            color: #a0a0ff;
+            margin-bottom: 30px;
+            font-size: 1.1em;
+        }
+
+        /* Стилизация элементов управления */
+        .features {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 30px;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .feature-box {
+            background-color: rgba(255, 255, 255, 0.05);
+            padding: 20px;
+            border-radius: 15px;
+            width: 200px;
+            transition: all 0.3s ease;
+            border: 1px solid transparent;
+        }
+
+        /* Эффект hover для блоков функций */
+        .feature-box:hover {
+            background-color: rgba(255, 255, 255, 0.15);
+            border-color: #a0a0ff;
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 5px 15px rgba(160, 160, 255, 0.4);
+        }
+
+        .feature-box h3 {
+            color: #ffffff;
+            margin-top: 0;
+            font-size: 1.2em;
+        }
+
+        /* Кнопка */
+        .cta-button {
+            display: inline-block;
+            margin-top: 40px;
+            padding: 12px 30px;
+            background-color: #b21f4e;
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            border: 2px solid #b21f4e;
+            box-shadow: 0 4px 15px rgba(178, 31, 78, 0.4);
+        }
+
+        /* Эффект hover для кнопки */
+        .cta-button:hover {
+            background-color: transparent;
+            color: #b21f4e;
+            border-color: #b21f4e;
+            transform: scale(1.1);
+            box-shadow: 0 6px 20px rgba(178, 31, 78, 0.6);
+        }
+
+        /* Иконки (просто текст для примера) */
+        .icon {
+            font-size: 1.5em;
+            margin-bottom: 10px;
+            display: block;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="card">
+        <h1>🤖 Я — Ваш ИИ-Ассистент</h1>
+        <p class="subtitle">Созданный на основе передовых моделей машинного обучения для помощи вам в мире информации.</p>
+
+<div class="features">
+            <div class="feature-box">
+                <span class="icon">🧠</span>
+                <h3>Генерация текста</h3>
+                <p>Пишу статьи, письма, стихи и код по вашему запросу.</p>
+            </div>
+            <div class="feature-box">
+                <span class="icon">💡</span>
+                <h3>Анализ данных</h3>
+                <p>Помогаю структурировать информацию и находить закономерности.</p>
+            </div>
+            <div class="feature-box">
+                <span class="icon">🌐</span>
+                <h3>Многоязычность</h3>
+                <p>Общаюсь и перевожу на десятках языков мира.</p>
+            </div>
+        </div>
+
+        <a href="#" class="cta-button">Начать общение</a>
+    </div>
+</body>
+</html>
