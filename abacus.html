@@ -296,21 +296,39 @@ function build() {
     }
 
     // Touch/swipe support on the wire row
-    let touchWire = -1;
+    let touchStartX = 0;
+    let touchStartBead = -1;
     row.addEventListener('touchstart', (e) => {
       const touch = e.touches[0];
-      touchWire = i;
-      handleSwipe(touch.clientX, i);
+      touchStartX = touch.clientX;
+      touchStartBead = findClosestBead(touch.clientX, i);
       e.preventDefault();
     }, { passive: false });
     row.addEventListener('touchmove', (e) => {
-      if (touchWire < 0) return;
+      if (touchStartBead < 0) return;
       const touch = e.touches[0];
-      handleSwipe(touch.clientX, touchWire);
+      const deltaX = touch.clientX - touchStartX;
+      const step = S.beadW + S.gap;
+      const beadSteps = Math.round(-deltaX / step); // left = positive
+      let newCount = touchStartBead + 1 + beadSteps;
+      if (newCount < 0) newCount = 0;
+      if (newCount > WIRE_CONFIG[i].beads) newCount = WIRE_CONFIG[i].beads;
+      if (state[i] !== newCount) {
+        state[i] = newCount;
+        const rowEl = wiresEl.children[WIRE_CONFIG.length - 1 - i];
+        rowEl.querySelectorAll('.bead').forEach(b => b.style.transition = 'none');
+        layoutWire(i);
+        requestAnimationFrame(() => {
+          requestAnimationFrame(() => {
+            rowEl.querySelectorAll('.bead').forEach(b => b.style.transition = '');
+          });
+        });
+        updateDisplay();
+      }
       e.preventDefault();
     }, { passive: false });
-    row.addEventListener('touchend', () => { touchWire = -1; });
-    row.addEventListener('touchcancel', () => { touchWire = -1; });
+    row.addEventListener('touchend', () => { touchStartBead = -1; });
+    row.addEventListener('touchcancel', () => { touchStartBead = -1; });
 
     wiresEl.appendChild(row);
   }
@@ -347,33 +365,19 @@ function toggle(w, b) {
   updateDisplay();
 }
 
-function handleSwipe(clientX, w) {
-  const cfg = WIRE_CONFIG[w];
-  const maxBeads = cfg.beads;
+function findClosestBead(clientX, w) {
   const rowIdx = WIRE_CONFIG.length - 1 - w;
   const row = wiresEl.children[rowIdx];
+  const beads = row.querySelectorAll('.bead');
   const rect = row.getBoundingClientRect();
   const relX = clientX - rect.left;
-
-  // Map x position to number of beads counted (left side)
-  const step = S.beadW + S.gap;
-  let count = Math.round((relX - S.margin) / step) + 1;
-  if (count < 0) count = 0;
-  if (count > maxBeads) count = maxBeads;
-
-  if (state[w] !== count) {
-    state[w] = count;
-    // Disable transition during swipe for instant feedback
-    row.querySelectorAll('.bead').forEach(b => b.style.transition = 'none');
-    layoutWire(w);
-    // Re-enable transition after layout
-    requestAnimationFrame(() => {
-      requestAnimationFrame(() => {
-        row.querySelectorAll('.bead').forEach(b => b.style.transition = '');
-      });
-    });
-    updateDisplay();
-  }
+  let closest = 0, minDist = Infinity;
+  beads.forEach((bead, idx) => {
+    const beadCenter = bead.offsetLeft + bead.offsetWidth / 2;
+    const dist = Math.abs(relX - beadCenter);
+    if (dist < minDist) { minDist = dist; closest = idx; }
+  });
+  return closest;
 }
 
 function updateDisplay() {
