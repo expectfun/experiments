@@ -31,6 +31,11 @@
     min-width: 200px; text-align: center;
     box-shadow: 0 2px 8px rgba(0,0,0,.15);
     font-variant-numeric: tabular-nums;
+    outline: none;
+  }
+  #display:focus {
+    border-color: #4a90d9;
+    box-shadow: 0 2px 8px rgba(0,0,0,.15), 0 0 0 2px rgba(74,144,217,.3);
   }
 
   /* ===== ABACUS ===== */
@@ -122,6 +127,16 @@
     white-space: nowrap;
   }
 
+  #setBtn {
+    padding: 0 16px;
+    font-size: .9rem; font-weight: 600;
+    background: #4a7a30; color: #f0e8d8;
+    border: 2px solid #3a5a20; border-radius: 7px;
+    cursor: pointer; transition: background .15s;
+    flex-shrink: 0;
+    height: 100%;
+  }
+  #setBtn:hover { background: #3a5a20; }
   #resetBtn {
     padding: 0 20px;
     font-size: .9rem; font-weight: 600;
@@ -139,7 +154,8 @@
 <h1>Russian Abacus — Счёты</h1>
 <p class="subtitle">Click beads to slide them · Left = counted</p>
 <div class="top-bar">
-  <div id="display">0</div>
+  <div id="display" contenteditable="true">0</div>
+  <button id="setBtn">Set</button>
   <button id="resetBtn">Reset</button>
 </div>
 
@@ -279,6 +295,23 @@ function build() {
       row.appendChild(bead);
     }
 
+    // Touch/swipe support on the wire row
+    let touchWire = -1;
+    row.addEventListener('touchstart', (e) => {
+      const touch = e.touches[0];
+      touchWire = i;
+      handleSwipe(touch.clientX, i);
+      e.preventDefault();
+    }, { passive: false });
+    row.addEventListener('touchmove', (e) => {
+      if (touchWire < 0) return;
+      const touch = e.touches[0];
+      handleSwipe(touch.clientX, touchWire);
+      e.preventDefault();
+    }, { passive: false });
+    row.addEventListener('touchend', () => { touchWire = -1; });
+    row.addEventListener('touchcancel', () => { touchWire = -1; });
+
     wiresEl.appendChild(row);
   }
 
@@ -314,6 +347,35 @@ function toggle(w, b) {
   updateDisplay();
 }
 
+function handleSwipe(clientX, w) {
+  const cfg = WIRE_CONFIG[w];
+  const maxBeads = cfg.beads;
+  const rowIdx = WIRE_CONFIG.length - 1 - w;
+  const row = wiresEl.children[rowIdx];
+  const rect = row.getBoundingClientRect();
+  const relX = clientX - rect.left;
+
+  // Map x position to number of beads counted (left side)
+  const step = S.beadW + S.gap;
+  let count = Math.round((relX - S.margin) / step) + 1;
+  if (count < 0) count = 0;
+  if (count > maxBeads) count = maxBeads;
+
+  if (state[w] !== count) {
+    state[w] = count;
+    // Disable transition during swipe for instant feedback
+    row.querySelectorAll('.bead').forEach(b => b.style.transition = 'none');
+    layoutWire(w);
+    // Re-enable transition after layout
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        row.querySelectorAll('.bead').forEach(b => b.style.transition = '');
+      });
+    });
+    updateDisplay();
+  }
+}
+
 function updateDisplay() {
   let val = 0;
   for (let i = 0; i < WIRE_CONFIG.length; i++) {
@@ -333,6 +395,59 @@ function reset() {
 }
 
 document.getElementById('resetBtn').addEventListener('click', reset);
+
+function applyDisplayInput() {
+  const raw = display2.textContent.replace(/[^0-9.,]/g, '').replace(/,/g, '');
+  const val = parseFloat(raw);
+  if (isNaN(val)) { updateDisplay(); return; }
+  let remaining = val;
+  for (let w = WIRE_CONFIG.length - 1; w >= 0; w--) {
+    const wireVal = WIRE_VALUES[w];
+    const maxBeads = WIRE_CONFIG[w].beads;
+    const count = Math.min(maxBeads, Math.floor(remaining / wireVal));
+    state[w] = count;
+    remaining -= count * wireVal;
+    remaining = Math.round(remaining * 1e10) / 1e10;
+  }
+  for (let w = 0; w < WIRE_CONFIG.length; w++) layoutWire(w);
+  skipBlur = true;
+  display2.blur();
+  updateDisplay();
+}
+
+document.getElementById('setBtn').addEventListener('mousedown', (e) => {
+  // Prevent blur so display text isn't overwritten before we read it
+  e.preventDefault();
+});
+document.getElementById('setBtn').addEventListener('click', applyDisplayInput);
+
+// Handle typing a number into the display
+const display2 = document.getElementById('display');
+let skipBlur = false;
+
+display2.addEventListener('keydown', (e) => {
+  if (e.key === 'Enter') {
+    e.preventDefault();
+    applyDisplayInput();
+  }
+});
+// Prevent line breaks in contenteditable
+display2.addEventListener('paste', (e) => {
+  e.preventDefault();
+  const text = (e.clipboardData || window.clipboardData).getData('text').replace(/[^0-9.,]/g, '');
+  document.execCommand('insertText', false, text);
+});
+display2.addEventListener('blur', () => { skipBlur = false; updateDisplay(); });
+
+display2.addEventListener('focus', () => {
+  // Select all text on focus for easy replacement
+  const range = document.createRange();
+  range.selectNodeContents(display2);
+  const sel = window.getSelection();
+  sel.removeAllRanges();
+  sel.addRange(range);
+});
+
 window.addEventListener('resize', build);
 build();
 </script>
