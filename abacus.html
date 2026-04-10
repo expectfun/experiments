@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Russian Abacus — Счёты</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    background: #d6cfc4;
+    display: flex; flex-direction: column; align-items: center;
+    height: 100vh; padding: 12px;
+    user-select: none; overflow: hidden;
+  }
+  h1 { font-size: 1.2rem; color: #3d2b1f; margin-bottom: 2px; }
+  .subtitle { color: #777; margin-bottom: 8px; font-size: .8rem; }
+
+  .top-bar {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 10px;
+  }
+  #display {
+    font-size: 2rem; font-weight: 700; letter-spacing: 2px;
+    color: #3d2b1f;
+    background: #faf6f0;
+    border: 3px solid #6b4c30;
+    border-radius: 8px; padding: 6px 24px;
+    min-width: 200px; text-align: center;
+    box-shadow: 0 2px 8px rgba(0,0,0,.15);
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* ===== ABACUS ===== */
+  #abacus {
+    position: relative;
+  }
+
+  /* wooden frame */
+  .frame-top, .frame-bottom {
+    position: absolute;
+    z-index: 10;
+    border-radius: 2px;
+  }
+  .frame-top {
+    background: linear-gradient(to bottom, #a07040, #7a5030 40%, #6b4226 80%, #5a3520);
+    box-shadow: 0 2px 4px rgba(0,0,0,.3), inset 0 2px 3px rgba(255,255,255,.15);
+  }
+  .frame-bottom {
+    background: linear-gradient(to bottom, #6b4226, #7a5030 60%, #5a3520);
+    box-shadow: 0 -1px 3px rgba(0,0,0,.2), inset 0 -2px 3px rgba(255,255,255,.1);
+  }
+  .frame-left, .frame-right {
+    position: absolute;
+    z-index: 9;
+    border-radius: 2px;
+  }
+  .frame-left {
+    background: linear-gradient(to right, #a07040, #8a5a35 30%, #7a5030 70%, #6b4226);
+    box-shadow: 2px 0 4px rgba(0,0,0,.25), inset 2px 0 3px rgba(255,255,255,.1);
+  }
+  .frame-right {
+    background: linear-gradient(to right, #6b4226, #7a5030 30%, #8a5a35 70%, #5a3520);
+    box-shadow: -2px 0 4px rgba(0,0,0,.25), inset -1px 0 2px rgba(255,255,255,.08);
+  }
+
+  .wires { position: relative; }
+
+  .wire { position: relative; }
+
+  .wire-line {
+    position: absolute;
+    left: -2px; right: -2px;
+    top: 50%; height: 2px;
+    transform: translateY(-50%);
+    background: #555;
+    z-index: 0;
+    border-radius: 1px;
+  }
+
+  .bead {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    border-radius: 50%;
+    z-index: 1;
+    cursor: pointer;
+    transition: left 0.18s ease-out;
+  }
+  .bead-inner {
+    width: 100%; height: 100%;
+    border-radius: 50%;
+    background: radial-gradient(ellipse at 40% 35%, #e8d5a8, #d4b87a 45%, #b89850 80%, #9a7a38);
+    border: 1.5px solid #8a6a30;
+    box-shadow: 0 1px 2px rgba(0,0,0,.3), inset 0 1px 2px rgba(255,255,255,.25);
+  }
+  .bead:hover .bead-inner {
+    background: radial-gradient(ellipse at 40% 35%, #f0dfb8, #dcc08a 45%, #c0a060 80%, #a88a48);
+  }
+  .bead:active .bead-inner {
+    background: radial-gradient(ellipse at 40% 35%, #d8c498, #c4a868 45%, #a88840 80%, #886a28);
+  }
+  .bead[data-dark] .bead-inner {
+    background: radial-gradient(ellipse at 40% 35%, #555, #333 45%, #1a1a1a 80%, #000);
+    border-color: #000;
+  }
+  .bead[data-dark]:hover .bead-inner {
+    background: radial-gradient(ellipse at 40% 35%, #666, #444 45%, #222 80%, #0a0a0a);
+  }
+  .bead[data-dark]:active .bead-inner {
+    background: radial-gradient(ellipse at 40% 35%, #444, #222 45%, #111 80%, #000);
+  }
+
+  .wire-label {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #8a6a30;
+    opacity: .5;
+    white-space: nowrap;
+  }
+
+  #resetBtn {
+    padding: 0 20px;
+    font-size: .9rem; font-weight: 600;
+    background: #7a5030; color: #f0e8d8;
+    border: 2px solid #5a3520; border-radius: 7px;
+    cursor: pointer; transition: background .15s;
+    flex-shrink: 0;
+    height: 100%;
+  }
+  #resetBtn:hover { background: #5a3520; }
+</style>
+</head>
+<body>
+
+<h1>Russian Abacus — Счёты</h1>
+<p class="subtitle">Click beads to slide them · Left = counted</p>
+<div class="top-bar">
+  <div id="display">0</div>
+  <button id="resetBtn">Reset</button>
+</div>
+
+<div id="abacus">
+  <div class="frame-top"></div>
+  <div class="frame-bottom"></div>
+  <div class="frame-left"></div>
+  <div class="frame-right"></div>
+  <div class="wires" id="wires"></div>
+</div>
+
+
+
+<script>
+const WIRE_CONFIG = [
+  { beads: 10, label: '0.001' },
+  { beads: 10, label: '0.01' },
+  { beads: 10, label: '0.1' },
+  { beads: 4,  label: '¼' },
+  { beads: 10, label: '1' },
+  { beads: 10, label: '10' },
+  { beads: 10, label: '100' },
+  { beads: 10, label: '1K' },
+  { beads: 10, label: '10K' },
+  { beads: 10, label: '100K' },
+  { beads: 10, label: '1M' },
+];
+
+const WIRE_VALUES = [0.001, 0.01, 0.1, 0.25, 1, 10, 100, 1000, 10000, 100000, 1000000];
+
+const wiresEl = document.getElementById('wires');
+const displayEl = document.getElementById('display');
+const abacusEl = document.getElementById('abacus');
+
+const state = WIRE_CONFIG.map(() => 0);
+
+// Scaled dimensions — computed in computeScale()
+let S = {};  // holds all scaled values
+
+function computeScale() {
+  const vh = window.innerHeight;
+  const overhead = 180;
+  const availH = vh - overhead;
+  const numWires = WIRE_CONFIG.length;
+  const baseWireH = 38;
+
+  let scale = availH / (numWires * baseWireH);
+  if (scale > 3) scale = 3;
+  if (scale < 0.5) scale = 0.5;
+
+  const wireH = Math.round(baseWireH * scale);
+  const totalH = numWires * wireH;
+  const width = Math.round(totalH / 2);  // 1:2 ratio
+
+  S = {
+    scale,
+    wireH,
+    width,
+    beadW: Math.max(4, Math.round(10 * scale)),
+    beadH: Math.max(8, Math.round(18 * scale)),
+    margin: Math.max(3, Math.round(6 * scale)),
+    gap: Math.max(1, Math.round(2 * scale)),
+    frameW: Math.max(4, Math.round(8 * scale)),
+    frameH: Math.max(3, Math.round(4 * scale)),
+    frameP: Math.max(2, Math.round(3 * scale)),
+    labelSize: Math.max(0.45, 0.6 * scale),
+    labelRight: Math.max(18, Math.round(30 * scale)),
+  };
+}
+
+function build() {
+  computeScale();
+  wiresEl.innerHTML = '';
+
+  // Set abacus width
+  abacusEl.style.width = S.width + 'px';
+
+  // Frame borders
+  const ft = abacusEl.querySelector('.frame-top');
+  const fb = abacusEl.querySelector('.frame-bottom');
+  const fl = abacusEl.querySelector('.frame-left');
+  const fr = abacusEl.querySelector('.frame-right');
+
+  [ft, fb].forEach(el => {
+    el.style.left = -S.frameP + 'px';
+    el.style.right = -S.frameP + 'px';
+    el.style.height = S.frameH + 'px';
+  });
+  ft.style.top = -(S.frameH / 2) + 'px';
+  fb.style.bottom = -(S.frameH / 2) + 'px';
+
+  [fl, fr].forEach(el => {
+    el.style.top = -(S.frameH / 2) + 'px';
+    el.style.bottom = -(S.frameH / 2) + 'px';
+    el.style.width = S.frameW + 'px';
+  });
+  fl.style.left = -S.frameP + 'px';
+  fr.style.right = -S.frameP + 'px';
+
+  // Build wires top-down
+  for (let i = WIRE_CONFIG.length - 1; i >= 0; i--) {
+    const cfg = WIRE_CONFIG[i];
+    const row = document.createElement('div');
+    row.className = 'wire';
+    row.style.height = S.wireH + 'px';
+    row.dataset.wire = i;
+
+    const line = document.createElement('div');
+    line.className = 'wire-line';
+    row.appendChild(line);
+
+    const lbl = document.createElement('span');
+    lbl.className = 'wire-label';
+    lbl.textContent = cfg.label;
+    lbl.style.fontSize = S.labelSize + 'rem';
+    lbl.style.right = -S.labelRight + 'px';
+    row.appendChild(lbl);
+
+    for (let b = 0; b < cfg.beads; b++) {
+      const bead = document.createElement('div');
+      bead.className = 'bead';
+      bead.style.width = S.beadW + 'px';
+      bead.style.height = S.beadH + 'px';
+      bead.dataset.wire = i;
+      bead.dataset.index = b;
+
+      const inner = document.createElement('div');
+      inner.className = 'bead-inner';
+      bead.appendChild(inner);
+
+      const mid = Math.floor(cfg.beads / 2);
+      if (b === mid - 1 || b === mid) {
+        bead.dataset.dark = '1';
+      }
+
+      bead.addEventListener('click', () => toggle(i, b));
+      row.appendChild(bead);
+    }
+
+    wiresEl.appendChild(row);
+  }
+
+  for (let i = 0; i < WIRE_CONFIG.length; i++) layoutWire(i);
+  updateDisplay();
+}
+
+function layoutWire(w) {
+  const cfg = WIRE_CONFIG[w];
+  const count = state[w];
+  const rowIdx = WIRE_CONFIG.length - 1 - w;
+  const row = wiresEl.children[rowIdx];
+  const beads = row.querySelectorAll('.bead');
+
+  const totalBeads = cfg.beads;
+
+  for (let b = 0; b < totalBeads; b++) {
+    let left;
+    if (b < count) {
+      left = S.margin + b * (S.beadW + S.gap);
+    } else {
+      const rightIdx = totalBeads - 1 - b;
+      left = S.width - S.margin - S.beadW - rightIdx * (S.beadW + S.gap);
+    }
+    beads[b].style.left = left + 'px';
+  }
+}
+
+function toggle(w, b) {
+  const count = state[w];
+  state[w] = (b < count) ? b : b + 1;
+  layoutWire(w);
+  updateDisplay();
+}
+
+function updateDisplay() {
+  let val = 0;
+  for (let i = 0; i < WIRE_CONFIG.length; i++) {
+    val += state[i] * WIRE_VALUES[i];
+  }
+  if (val === Math.floor(val)) {
+    displayEl.textContent = Math.floor(val).toLocaleString('en-US');
+  } else {
+    displayEl.textContent = val.toLocaleString('en-US', { maximumFractionDigits: 2 });
+  }
+}
+
+function reset() {
+  state.fill(0);
+  for (let i = 0; i < WIRE_CONFIG.length; i++) layoutWire(i);
+  updateDisplay();
+}
+
+document.getElementById('resetBtn').addEventListener('click', reset);
+window.addEventListener('resize', build);
+build();
+</script>
+</body>
+</html>
