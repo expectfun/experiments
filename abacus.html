@@ -302,16 +302,21 @@ function build() {
       const touch = e.touches[0];
       touchStartX = touch.clientX;
       touchBead = findClosestBead(touch.clientX, i);
-      e.preventDefault();
-    }, { passive: false });
+    }, { passive: true });
     row.addEventListener('touchend', (e) => {
       if (touchBead < 0) return;
       const touch = e.changedTouches[0];
       const deltaX = touch.clientX - touchStartX;
-      if (Math.abs(deltaX) > 5) { // only if actual swipe
+      const count = state[i];
+      // Beads on left (counted) can only swipe right to uncount;
+      // beads on right (uncounted) can only swipe left to count
+      const isCounted = touchBead < count;
+      const swipeOk = isCounted ? deltaX > 5 : deltaX < -5;
+      if (swipeOk || Math.abs(deltaX) <= 5) { // swipe in correct dir or simple tap
         toggle(i, touchBead);
       }
       touchBead = -1;
+      e.preventDefault();
     });
     row.addEventListener('touchcancel', () => { touchBead = -1; });
 
