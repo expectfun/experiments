@@ -1,0 +1,4476 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>Евровидение 2026 · SF1</title>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#0d0d1a">
+<style>
+
+:root {
+  --bg: #0d0d1a;
+  --surface: #13132a;
+  --card: #1a1a35;
+  --text: #e4e4f0;
+  --dim: #7a7a9e;
+  --accent: #7c6cf0;
+  --accent2: #a78bfa;
+  --green: #34d399;
+  --blue: #60a5fa;
+  --border: rgba(255,255,255,.06);
+  --r: 16px;
+  --st: env(safe-area-inset-top, 0px);
+  --sb: env(safe-area-inset-bottom, 0px);
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro', system-ui, sans-serif;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -webkit-tap-highlight-color: transparent;
+  overflow-x: hidden;
+}
+
+/* LIST */
+.lp { max-width: 500px; margin: 0 auto; padding: 16px 12px calc(16px + var(--sb)); }
+.hd { text-align: center; padding: calc(20px + var(--st)) 0 8px; }
+.hd h1 {
+  font-size: 1.5em; font-weight: 800;
+  background: linear-gradient(135deg, #7c6cf0, #c084fc, #f472b6);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+}
+.hd .sub { color: var(--dim); font-size: .85em; margin-top: 4px; }
+.al {
+  display: flex; align-items: center; justify-content: center; gap: 6px;
+  color: var(--accent2); text-decoration: none; padding: 12px; margin-bottom: 14px;
+  background: var(--surface); border-radius: var(--r); font-size: .9em; font-weight: 500;
+}
+
+/* CARD */
+.c {
+  background: var(--card); border-radius: var(--r); margin-bottom: 10px;
+  cursor: pointer; overflow: hidden; border: 1px solid var(--border);
+  transition: transform .12s; animation: ci .3s ease-out both;
+}
+.c:active { transform: scale(.97); }
+@keyframes ci { from { opacity: 0; transform: translateY(8px); } }
+.c:nth-child(1) { animation-delay: 10ms; }
+.c:nth-child(2) { animation-delay: 30ms; }
+.c:nth-child(3) { animation-delay: 50ms; }
+.c:nth-child(4) { animation-delay: 70ms; }
+.c:nth-child(5) { animation-delay: 90ms; }
+.c:nth-child(6) { animation-delay: 110ms; }
+.c:nth-child(7) { animation-delay: 130ms; }
+.c:nth-child(8) { animation-delay: 150ms; }
+.c:nth-child(9) { animation-delay: 170ms; }
+.c:nth-child(10) { animation-delay: 190ms; }
+.c:nth-child(11) { animation-delay: 210ms; }
+.c:nth-child(12) { animation-delay: 230ms; }
+.c:nth-child(13) { animation-delay: 250ms; }
+.c:nth-child(14) { animation-delay: 270ms; }
+.c:nth-child(15) { animation-delay: 290ms; }
+.c:nth-child(16) { animation-delay: 310ms; }
+.c:nth-child(17) { animation-delay: 330ms; }
+.ct { position: relative; height: 44px; overflow: hidden; }
+.cb { width: 100%; height: 100%; object-fit: cover; }
+.cbg {
+  position: absolute; top: 6px; right: 8px;
+  background: rgba(0,0,0,.55); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
+  padding: 2px 10px; border-radius: 20px; font-size: .7em; color: #ddd;
+}
+.cbd { padding: 10px 12px; }
+.car { display: flex; gap: 10px; align-items: center; }
+.cai { width: 48px; height: 48px; border-radius: 50%; object-fit: cover; flex-shrink: 0; }
+.cin { min-width: 0; flex: 1; }
+.ccn { font-weight: 700; font-size: .95em; }
+.cpr { color: var(--accent2); font-size: .85em; }
+.csn { color: var(--dim); font-size: .8em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.csn .sr { font-style: italic; }
+.cm { margin-top: 6px; display: flex; flex-wrap: wrap; gap: 5px; align-items: center; }
+.b { display: inline-block; padding: 2px 8px; border-radius: 10px; font-size: .7em; font-weight: 600; }
+.bg { background: rgba(52,211,153,.12); color: var(--green); }
+.bb { background: rgba(96,165,250,.12); color: var(--blue); }
+.bd { background: rgba(255,255,255,.04); color: var(--dim); }
+
+/* DETAIL */
+.dp, .ap { max-width: 500px; margin: 0 auto; padding-bottom: var(--sb); }
+.dh { position: relative; overflow: hidden; padding-top: var(--st); }
+.dba { width: 100%; height: 72px; object-fit: cover; }
+.dcn { padding: 12px 16px 2px; font-size: 1.4em; font-weight: 800; }
+.dst { padding: 0 16px 10px; color: var(--dim); font-size: .82em; }
+.back {
+  position: absolute; top: calc(10px + var(--st)); left: 10px; z-index: 10;
+  background: rgba(0,0,0,.5); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+  border: none; color: #fff; padding: 6px 14px; border-radius: 20px;
+  font-size: .85em; cursor: pointer; font-weight: 600;
+}
+.ds { margin: 0 12px 14px; padding: 14px; background: var(--card); border-radius: var(--r); border: 1px solid var(--border); }
+.st { font-size: 1em; font-weight: 700; margin-bottom: 10px; color: var(--accent2); }
+.ab { display: flex; gap: 12px; }
+.dai { width: 72px; height: 72px; border-radius: 14px; object-fit: cover; flex-shrink: 0; }
+.ai { min-width: 0; flex: 1; }
+.dpr { font-size: 1.1em; font-weight: 700; }
+.dbi { color: var(--dim); font-size: .82em; margin: 2px 0 6px; }
+.dbo p { font-size: .84em; color: var(--dim); margin-bottom: 3px; line-height: 1.45; }
+.do { margin-bottom: 8px; display: flex; gap: 6px; flex-wrap: wrap; }
+.dsa { margin-bottom: 6px; font-size: .85em; }
+.stat { display: inline-block; margin-right: 6px; }
+.dsel {
+  display: inline-block; padding: 2px 10px; border-radius: 12px;
+  background: rgba(124,108,240,.12); color: var(--accent2);
+  font-size: .78em; font-weight: 500; margin-bottom: 8px;
+}
+.dc p { font-size: .84em; color: var(--dim); margin-bottom: 3px; line-height: 1.45; }
+.dstl { font-size: 1.25em; font-weight: 700; margin-bottom: 1px; }
+.dstr { color: var(--dim); font-size: .9em; font-style: italic; margin-bottom: 8px; }
+.dm { font-size: .82em; color: var(--dim); margin-bottom: 3px; }
+.dsc p { font-size: .82em; color: var(--dim); margin-top: 6px; line-height: 1.45; }
+
+/* LYRICS */
+.lhint { font-size: .75em; color: var(--dim); text-align: center; margin-bottom: 10px; opacity: .6; }
+.lpair { margin-bottom: 6px; padding-left: 4px; }
+.lo {
+  font-size: .88em; padding: 4px 8px; background: rgba(124,108,240,.06);
+  border-radius: 6px; border-left: 3px solid var(--accent); line-height: 1.4;
+}
+.lt {
+  font-size: .82em; color: var(--dim); padding: 2px 8px 4px; margin-top: 1px;
+  border-left: 3px solid rgba(52,211,153,.4); line-height: 1.4;
+}
+.spacer { height: 30px; }
+
+/* ABOUT */
+.ap .ds p { font-size: .88em; color: var(--dim); margin-bottom: 6px; line-height: 1.5; }
+.ap .ds strong { color: var(--text); }
+
+html { scroll-behavior: smooth; }
+::selection { background: var(--accent); color: #fff; }
+
+</style>
+</head>
+<body>
+<div class="lp" id="list-page">
+  <div class="hd"><h1>🎤 Евровидение 2026</h1><div class="sub">Первый полуфинал · 12 мая · 17 стран</div></div>
+  <a class="al" href="#" onclick="showAbout();return false">ℹ️  О Евровидении</a>
+  <div class="cards">
+      <div class="c" onclick="showDetail(1)">
+        <div class="ct"><img class="cb" src="img/banner_p3.webp" alt="" loading="lazy"><span class="cbg">#1</span></div>
+        <div class="cbd">
+          <div class="car">
+            <img class="cai" src="img/artist_p3.webp" alt="" loading="lazy">
+            <div class="cin">
+              <div class="ccn">Молдова</div>
+              <div class="cpr">Satoshi</div>
+              <div class="csn">Viva, Moldova! <span class="sr">— Да здравствует Молдова!</span></div>
+            </div>
+          </div>
+          <div class="cm"><span class="b bg">93% в финал</span> <span class="b bb">🏆 &lt;1%</span> <span class="b bd">Поп-рэп</span></div>
+        </div>
+      </div>
+      <div class="c" onclick="showDetail(2)">
+        <div class="ct"><img class="cb" src="img/banner_p4.webp" alt="" loading="lazy"><span class="cbg">#2</span></div>
+        <div class="cbd">
+          <div class="car">
+            <img class="cai" src="img/artist_p4.webp" alt="" loading="lazy">
+            <div class="cin">
+              <div class="ccn">Швеция</div>
+              <div class="cpr">Фелисия</div>
+              <div class="csn">My System <span class="sr">— Моя система</span></div>
+            </div>
+          </div>
+          <div class="cm"><span class="b bg">99% в финал</span> <span class="b bb">🏆 2.9%</span> <span class="b bd">Поп</span></div>
+        </div>
+      </div>
+      <div class="c" onclick="showDetail(3)">
+        <div class="ct"><img class="cb" src="img/banner_p5.webp" alt="" loading="lazy"><span class="cbg">#3</span></div>
+        <div class="cbd">
+          <div class="car">
+            <img class="cai" src="img/artist_p5.webp" alt="" loading="lazy">
+            <div class="cin">
+              <div class="ccn">Хорватия</div>
+              <div class="cpr">Lelek</div>
+              <div class="csn">Andromeda <span class="sr">— Андромеда</span></div>
+            </div>
+          </div>
+          <div class="cm"><span class="b bg">89% в финал</span> <span class="b bb">🏆 &lt;1%</span></div>
+        </div>
+      </div>
+      <div class="c" onclick="showDetail(4)">
+        <div class="ct"><img class="cb" src="img/banner_p6.webp" alt="" loading="lazy"><span class="cbg">#4</span></div>
+        <div class="cbd">
+          <div class="car">
+            <img class="cai" src="img/artist_p6.webp" alt="" loading="lazy">
+            <div class="cin">
+              <div class="ccn">Греция</div>
+              <div class="cpr">Акилас</div>
+              <div class="csn">Φέρτο (Ferto) <span class="sr">— Неси</span></div>
+            </div>
+          </div>
+          <div class="cm"><span class="b bg">99% в финал</span> <span class="b bb">🏆 17%</span> <span class="b bd">Электро-поп</span></div>
+        </div>
+      </div>
+      <div class="c" onclick="showDetail(5)">
+        <div class="ct"><img class="cb" src="img/banner_p7.webp" alt="" loading="lazy"><span class="cbg">#5</span></div>
+        <div class="cbd">
+          <div class="car">
+            <img class="cai" src="img/artist_p7.webp" alt="" loading="lazy">
+            <div class="cin">
+              <div class="ccn">Португалия</div>
+              <div class="cpr">Bandidos do Cante</div>
+              <div class="csn">Rosa <span class="sr">— Роза</span></div>
+            </div>
+          </div>
+          <div class="cm"><span class="b bg">50% в финал</span> <span class="b bb">🏆 &lt;1%</span> <span class="b bd">Поп</span></div>
+        </div>
+      </div>
+      <div class="c" onclick="showDetail(6)">
+        <div class="ct"><img class="cb" src="img/banner_p8.webp" alt="" loading="lazy"><span class="cbg">#6</span></div>
+        <div class="cbd">
+          <div class="car">
+            <img class="cai" src="img/artist_p8.webp" alt="" loading="lazy">
+            <div class="cin">
+              <div class="ccn">Грузия</div>
+              <div class="cpr">Бзикеби</div>
+              <div class="csn">On Replay <span class="sr">— На повторе</span></div>
+            </div>
+          </div>
+          <div class="cm"><span class="b bg">42% в финал</span> <span class="b bb">🏆 &lt;1%</span> <span class="b bd">Электро-поп</span></div>
+        </div>
+      </div>
+      <div class="c" onclick="showDetail(7)">
+        <div class="ct"><img class="cb" src="img/banner_p9.webp" alt="" loading="lazy"><span class="cbg">⭐ Авто-финалист</span></div>
+        <div class="cbd">
+          <div class="car">
+            <img class="cai" src="img/artist_p9.webp" alt="" loading="lazy">
+            <div class="cin">
+              <div class="ccn">Италия</div>
+              <div class="cpr">Саль да Винчи</div>
+              <div class="csn">Per sempre sì <span class="sr">— Да — навсегда</span></div>
+            </div>
+          </div>
+          <div class="cm"> <span class="b bb">🏆 5.3%</span></div>
+        </div>
+      </div>
+      <div class="c" onclick="showDetail(8)">
+        <div class="ct"><img class="cb" src="img/banner_p10.webp" alt="" loading="lazy"><span class="cbg">#8</span></div>
+        <div class="cbd">
+          <div class="car">
+            <img class="cai" src="img/artist_p10.webp" alt="" loading="lazy">
+            <div class="cin">
+              <div class="ccn">Финляндия</div>
+              <div class="cpr">Линда Лампениус</div>
+              <div class="csn">Liekinheitin <span class="sr">— Огнемёт</span></div>
+            </div>
+          </div>
+          <div class="cm"><span class="b bg">99% в финал</span> <span class="b bb">🏆 50%</span> <span class="b bd">Поп-рок</span></div>
+        </div>
+      </div>
+      <div class="c" onclick="showDetail(9)">
+        <div class="ct"><img class="cb" src="img/banner_p11.webp" alt="" loading="lazy"><span class="cbg">#9</span></div>
+        <div class="cbd">
+          <div class="car">
+            <img class="cai" src="img/artist_p11.webp" alt="" loading="lazy">
+            <div class="cin">
+              <div class="ccn">Черногория</div>
+              <div class="cpr">Тамара Живкович</div>
+              <div class="csn">Нова зора (Nova zora) <span class="sr">— Новая заря</span></div>
+            </div>
+          </div>
+          <div class="cm"><span class="b bg">59% в финал</span> <span class="b bb">🏆 &lt;1%</span> <span class="b bd">Электропоп</span></div>
+        </div>
+      </div>
+      <div class="c" onclick="showDetail(10)">
+        <div class="ct"><img class="cb" src="img/banner_p12.webp" alt="" loading="lazy"><span class="cbg">#10</span></div>
+        <div class="cbd">
+          <div class="car">
+            <img class="cai" src="img/artist_p12.webp" alt="" loading="lazy">
+            <div class="cin">
+              <div class="ccn">Эстония</div>
+              <div class="cpr">Vanilla Ninja</div>
+              <div class="csn">Too Epic to Be True <span class="sr">— Слишком эпично, чтобы быть</span></div>
+            </div>
+          </div>
+          <div class="cm"><span class="b bg">48% в финал</span> <span class="b bb">🏆 &lt;1%</span> <span class="b bd">Поп-рок</span></div>
+        </div>
+      </div>
+      <div class="c" onclick="showDetail(11)">
+        <div class="ct"><img class="cb" src="img/banner_p13.webp" alt="" loading="lazy"><span class="cbg">#11</span></div>
+        <div class="cbd">
+          <div class="car">
+            <img class="cai" src="img/artist_p13.webp" alt="" loading="lazy">
+            <div class="cin">
+              <div class="ccn">Израиль</div>
+              <div class="cpr">Ноам Беттан</div>
+              <div class="csn">Michelle <span class="sr">— Мишель</span></div>
+            </div>
+          </div>
+          <div class="cm"><span class="b bg">99% в финал</span> <span class="b bb">🏆 5.3%</span> <span class="b bd">Поп</span></div>
+        </div>
+      </div>
+      <div class="c" onclick="showDetail(12)">
+        <div class="ct"><img class="cb" src="img/banner_p14.webp" alt="" loading="lazy"><span class="cbg">⭐ Авто-финалист</span></div>
+        <div class="cbd">
+          <div class="car">
+            <img class="cai" src="img/artist_p14.webp" alt="" loading="lazy">
+            <div class="cin">
+              <div class="ccn">Германия</div>
+              <div class="cpr">Сара Энгельс</div>
+              <div class="csn">Fire <span class="sr">— Огонь / В ударе</span></div>
+            </div>
+          </div>
+          <div class="cm"> <span class="b bb">🏆 &lt;1%</span> <span class="b bd">Пауэр-поп</span></div>
+        </div>
+      </div>
+      <div class="c" onclick="showDetail(13)">
+        <div class="ct"><img class="cb" src="img/banner_p15.webp" alt="" loading="lazy"><span class="cbg">#13</span></div>
+        <div class="cbd">
+          <div class="car">
+            <img class="cai" src="img/artist_p15.webp" alt="" loading="lazy">
+            <div class="cin">
+              <div class="ccn">Бельгия</div>
+              <div class="cpr">Essyla</div>
+              <div class="csn">Dancing on the Ice <span class="sr">— Танец на льду</span></div>
+            </div>
+          </div>
+          <div class="cm"><span class="b bg">40% в финал</span> <span class="b bb">🏆 &lt;1%</span> <span class="b bd">Поп</span></div>
+        </div>
+      </div>
+      <div class="c" onclick="showDetail(14)">
+        <div class="ct"><img class="cb" src="img/banner_p16.webp" alt="" loading="lazy"><span class="cbg">#14</span></div>
+        <div class="cbd">
+          <div class="car">
+            <img class="cai" src="img/artist_p16.webp" alt="" loading="lazy">
+            <div class="cin">
+              <div class="ccn">Литва</div>
+              <div class="cpr">Lion Ceccah</div>
+              <div class="csn">Sólo quiero más <span class="sr">— Я просто хочу большего</span></div>
+            </div>
+          </div>
+          <div class="cm"><span class="b bg">69% в финал</span> <span class="b bb">🏆 &lt;1%</span> <span class="b bd">Арт-поп</span></div>
+        </div>
+      </div>
+      <div class="c" onclick="showDetail(15)">
+        <div class="ct"><img class="cb" src="img/banner_p17.webp" alt="" loading="lazy"><span class="cbg">#15</span></div>
+        <div class="cbd">
+          <div class="car">
+            <img class="cai" src="img/artist_p17.webp" alt="" loading="lazy">
+            <div class="cin">
+              <div class="ccn">Сан Марино</div>
+              <div class="cpr">Сенит (feat. Boy George)</div>
+              <div class="csn">Superstar <span class="sr">— Суперзвезда</span></div>
+            </div>
+          </div>
+          <div class="cm"><span class="b bg">20% в финал</span> <span class="b bb">🏆 &lt;1%</span> <span class="b bd">Поп</span></div>
+        </div>
+      </div>
+      <div class="c" onclick="showDetail(16)">
+        <div class="ct"><img class="cb" src="img/banner_p18.webp" alt="" loading="lazy"><span class="cbg">#16</span></div>
+        <div class="cbd">
+          <div class="car">
+            <img class="cai" src="img/artist_p18.webp" alt="" loading="lazy">
+            <div class="cin">
+              <div class="ccn">Польша</div>
+              <div class="cpr">Алиция</div>
+              <div class="csn">Pray <span class="sr">— Молись</span></div>
+            </div>
+          </div>
+          <div class="cm"><span class="b bg">57% в финал</span> <span class="b bb">🏆 &lt;1%</span> <span class="b bd">R&amp;B</span></div>
+        </div>
+      </div>
+      <div class="c" onclick="showDetail(17)">
+        <div class="ct"><img class="cb" src="img/banner_p19.webp" alt="" loading="lazy"><span class="cbg">#17</span></div>
+        <div class="cbd">
+          <div class="car">
+            <img class="cai" src="img/artist_p19.webp" alt="" loading="lazy">
+            <div class="cin">
+              <div class="ccn">Сербия</div>
+              <div class="cpr">Лавина</div>
+              <div class="csn">Крај мене (Kraj mene) <span class="sr">— Рядом со мной</span></div>
+            </div>
+          </div>
+          <div class="cm"><span class="b bg">80% в финал</span> <span class="b bb">🏆 &lt;1%</span> <span class="b bd">Прогрессивный метал</span></div>
+        </div>
+      </div>
+  </div>
+</div>
+  <div class="dp" id="detail-1" style="display:none">
+    <div class="dh">
+      <button class="back" onclick="showList()">← Назад</button>
+      <img class="dba" src="img/banner_p3.webp" alt="">
+      <div class="dcn">Молдова</div>
+      <div class="dst">🎤 Участвует в полуфинале</div>
+    </div>
+    <div class="ds">
+      <div class="st">🎤 Исполнитель</div>
+      <div class="ab">
+        <img class="dai" src="img/artist_p3.webp" alt="">
+        <div class="ai">
+          <div class="dpr">Satoshi</div>
+<div class="dbi">р. 1998</div>
+          <div class="dbo">
+          <p>Влад Сабажук Кагул Выбрал псевдоним, вдохновившись создателем биткойна Сатоси Накамото. С 2022 года выпустил уже 3 альбома.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="ds">
+      <div class="st">🌍 Страна</div>
+<div class="do"><span class="b bg">В финал: 93%</span> <span class="b bb">Победа: &lt;1%</span></div>
+      <div class="dsa"><span class="stat">Возвращение, последний раз были в 2024</span></div>
+<div class="dsel">открытый отбор</div>
+      <div class="dc">
+        <p>Молдова — любимчик фанатов, делает упор не на сильный вокал, а на весёлые и живые песни.</p>
+      </div>
+    </div>
+    <div class="ds">
+      <div class="st">🎵 Песня</div>
+      <div class="dstl">Viva, Moldova!</div>
+      <div class="dstr">Да здравствует Молдова!</div>
+      <div class="dm">🗣️ Румынский · Испанский · Английский · Французский · Итальянский · Гавайский · Латынь</div>
+<div class="dm">🎵 Поп-рэп</div>
+      <div class="dsc">
+        <p>В песне упоминается много молдавских культурных моментов: город Сороки, песенный жанр дойна, танец хора, советский фильм «Мария, Мирабела», песня «Focul Din Vatră», композитор Евгений Дога, поэт Григорий Виеру... Одна из бэк-вокалисток, Алёна Мун, уже дважды была на Евровидении. В 2012 тоже в роли бэк-вокалистки, а в 2013 с сольным номером.</p>
+      </div>
+    </div>
+    <div class="ds">
+      <div class="st">📝 Текст песни</div>
+      <div class="lhint">оригинал → перевод</div>
+      <div class="lyrics">
+        <div class="lpair">
+          <div class="lo">Viva, Moldova!</div>
+          <div class="lt">Да здравствует Молдова!</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Viva Moldova, aloha, adio, vida loca</div>
+          <div class="lt">Да здравствует Молдова, привет, прощай,</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Soroca, Europa, Palma de Mallorca</div>
+          <div class="lt">Сороки, Европа, Пальма-де-Майорка</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Salute a tutti, Moldova is on duty</div>
+          <div class="lt">Привет всем, Молдова на дежурстве</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">E una e nova, welcome to Moldova</div>
+          <div class="lt">Она единственная, она новая, добро</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Moldova, aloha, adio, vida loca</div>
+          <div class="lt">Молдова, привет, прощай, безумная жизнь</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Soroca, Europa, Palma de Mallorca</div>
+          <div class="lt">Сороки, Европа, Пальма-де-Майорка</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Salute a tutti, Moldova is on duty</div>
+          <div class="lt">Привет всем, Молдова на дежурстве</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">E una e nova, Republica Moldova</div>
+          <div class="lt">Она единственная, она новая — Республика</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Patria-mamă, te amo, forever ne cheamă</div>
+          <div class="lt">Родина-мать, я люблю тебя, она всегда зовёт</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">La lucru, la zeamă, noi trecem vamă</div>
+          <div class="lt">На работу, на похлёбку, с тоской по матери</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Familia e baza, mi casa es su casa</div>
+          <div class="lt">Семья — это база, мой дом — твой дом</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Asseyez-vous la masă, şi spune-ne qué pasa</div>
+          <div class="lt">Присаживайся за стол и расскажи, что как там?</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Undeva, undeva, între praf și stele</div>
+          <div class="lt">Где-то, где-то между пылью и звёздами</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Suntem noi, rătăcit stringând spre ele</div>
+          <div class="lt">Это мы — потерянные, кричим к ним</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Viva Moldova, aloha, adio, vida loca</div>
+          <div class="lt">Да здравствует Молдова, привет, прощай,</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Soroca, Europa, Palma de Mallorca</div>
+          <div class="lt">Сороки, Европа, Пальма-де-Майорка</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Salute a tutti, Moldova is on duty</div>
+          <div class="lt">Привет всем, Молдова на дежурстве</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">E una e nova, Republica Moldova</div>
+          <div class="lt">Она единственная, она новая — Республика</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Welcome to Moldova</div>
+          <div class="lt">Добро пожаловать в Молдову</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Republica Moldova</div>
+          <div class="lt">Республика Молдова</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Doina, te quiero</div>
+          <div class="lt">Дойна, люблю тебя</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Hora, te quiero</div>
+          <div class="lt">Хора, люблю тебя</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Limba română, moldovano vero</div>
+          <div class="lt">Румынский язык, воистину — молдавский</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Vibe-ul mereu Maria Mirabela</div>
+          <div class="lt">Наш вайб всегда как у «Марии, Мирабелы»</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Focul din vatră</div>
+          <div class="lt">«Focul Din Vatră»</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Doga, Vieru</div>
+          <div class="lt">Дога, Виеру</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Peace, Europa</div>
+          <div class="lt">Мир, Европа</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Hasta la vista</div>
+          <div class="lt">До встречи</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Asta e viața, nu mai fi tristă</div>
+          <div class="lt">Такова жизнь, не печалься</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">In vino veritas — vine Moldova</div>
+          <div class="lt">Истина в вине — надвигается Молдова</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Noroc, Cin-cin, Terra Nova</div>
+          <div class="lt">Выпьем, ваше здоровье, Новая Земля</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Dorule, dorule, du-mă, dorule</div>
+          <div class="lt">Тоска, тоска, унеси меня, тоска</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Dorule, dorule, du-mă, dorule</div>
+          <div class="lt">Тоска, тоска, унеси меня, тоска</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Dorule, dorule, du-mă, dorule</div>
+          <div class="lt">Тоска, тоска, унеси меня, тоска</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Dorule, dorule, dor-</div>
+          <div class="lt">Тоска, тоска, тос-</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Viva Moldova, aloha, adio, vida loca</div>
+          <div class="lt">Да здравствует Молдова, привет, прощай,</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Soroca, Europa, Palma de Mallorca</div>
+          <div class="lt">Сороки, Европа, Пальма-де-Майорка</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Salute a tutti, Moldova is on duty</div>
+          <div class="lt">Привет всем, Молдова на дежурстве</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">E una e nova, welcome to Moldova</div>
+          <div class="lt">Она единственная, она новая — Республика</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Moldova, aloha, adio, vida loca</div>
+          <div class="lt">Молдова, привет, прощай, безумная жизнь</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Soroca, Europa, Palma de Mallorca</div>
+          <div class="lt">Сороки, Европа, Пальма-де-Майорка</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Salute a tutti, Moldova is on duty</div>
+          <div class="lt">Привет всем, Молдова на дежурстве</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">E una e nova, Republica Moldova</div>
+          <div class="lt">Она единственная, она новая — Республика</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Welcome to Moldova</div>
+          <div class="lt">Добро пожаловать в Молдову</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Welcome to Moldova</div>
+          <div class="lt">Добро пожаловать в Молдову</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">3</div>
+          <div class="lt">Нацотбор</div>
+        </div>
+
+      </div>
+    </div>
+    <div class="spacer"></div>
+  </div>
+  <div class="dp" id="detail-2" style="display:none">
+    <div class="dh">
+      <button class="back" onclick="showList()">← Назад</button>
+      <img class="dba" src="img/banner_p4.webp" alt="">
+      <div class="dcn">Швеция</div>
+      <div class="dst">🎤 Участвует в полуфинале</div>
+    </div>
+    <div class="ds">
+      <div class="st">🎤 Исполнитель</div>
+      <div class="ab">
+        <img class="dai" src="img/artist_p4.webp" alt="">
+        <div class="ai">
+          <div class="dpr">Фелисия</div>
+<div class="dbi">р. 2001</div>
+          <div class="dbo">
+          <p>Фелисия Эрикссон Туллинге С детства Фелисия страдает от социальной тревожности. Сначала выступала инкогнито с псевдонимом Fröken Snusk и головой, полностью покрытой розовой балаклавой. C началом сольной карьеры она скрывает лишь нижнюю часть лица маской или надевает большие солнцезащитные очки.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="ds">
+      <div class="st">🌍 Страна</div>
+<div class="do"><span class="b bg">В финал: 99%</span> <span class="b bb">Победа: 2.9%</span></div>
+      <div class="dsa"><span class="stat">7 побед</span> <span class="stat">в финале 11× подряд</span></div>
+<div class="dsel">открытый отбор</div>
+      <div class="dc">
+        <p>Швеция считается одной из самых сильных стран в истории Евровидения</p>
+      </div>
+    </div>
+    <div class="ds">
+      <div class="st">🎵 Песня</div>
+      <div class="dstl">My System</div>
+      <div class="dstr">Моя система</div>
+      <div class="dm">🗣️ Английский</div>
+<div class="dm">🎵 Поп</div>
+      <div class="dsc">
+        <p>Тек-хаус EDM У песни пять соавторов из трёх стран: Швеции, Норвегии и Дании.</p>
+      </div>
+    </div>
+    <div class="ds">
+      <div class="st">📝 Текст песни</div>
+      <div class="lhint">оригинал → перевод</div>
+      <div class="lyrics">
+        <div class="lpair">
+          <div class="lo">My System</div>
+          <div class="lt">Моя система</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">I don&#x27;t even want you (Want you)</div>
+          <div class="lt">Я даже не хочу тебя (Хочу тебя),</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">No, you don&#x27;t take up space</div>
+          <div class="lt">Нет, ты не займёшь пустое место</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">On any given Monday (Monday)</div>
+          <div class="lt">В любой случайный понедельник,</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">I&#x27;m forgetting how you taste</div>
+          <div class="lt">Я забываю твой вкус.</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">I killed the whole idea of you</div>
+          <div class="lt">Идею о тебе убила внутри себя</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Been dancing on your grave</div>
+          <div class="lt">И танцевала на твоей могиле,</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">&#x27;Cause I don&#x27;t even want you</div>
+          <div class="lt">Ведь я даже не хочу тебя,</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Then Friday screams your name</div>
+          <div class="lt">Но с пятницей твоё имя доносится криком.</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">&#x27;Cause now you&#x27;re in my head</div>
+          <div class="lt">И теперь ты у меня в голове,</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">My heart, my body parts</div>
+          <div class="lt">В моём сердце, в частях моего тела,</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">You&#x27;re always coming back on the weekends</div>
+          <div class="lt">И всегда возвращаешься по выходным,</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">You&#x27;re in every touch</div>
+          <div class="lt">В каждом прикосновении</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">And thought and every shot</div>
+          <div class="lt">И мысли, в каждой секунде —</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">No, I can&#x27;t get you out of my system</div>
+          <div class="lt">Я никак не могу вывести тебя из своей системы</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">(My system)</div>
+          <div class="lt">(Своей системы).</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">No, I can&#x27;t get you out of my system</div>
+          <div class="lt">Нет, я никак не могу вывести тебя из своей</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Hate the morning after</div>
+          <div class="lt">Ненавижу утро следующего дня,</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Hate the way you make me feel</div>
+          <div class="lt">Ненавижу, как ты заставляешь меня себя</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">I am a disaster</div>
+          <div class="lt">Я — ходячая катастрофа,</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">I just need to fix myself for real</div>
+          <div class="lt">Мне нужно разобраться в себе наконец.</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">&#x27;Cause now you&#x27;re in my head</div>
+          <div class="lt">И теперь ты у меня в голове,</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">My heart, my body parts</div>
+          <div class="lt">В моём сердце, в частях моего тела,</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">You&#x27;re always coming back on the weekends</div>
+          <div class="lt">И всегда возвращаешься по выходным,</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">You&#x27;re in every touch</div>
+          <div class="lt">В каждом прикосновении</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">And thought and every shot</div>
+          <div class="lt">И мысли, в каждой секунде —</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">No, I can&#x27;t get you out of my system</div>
+          <div class="lt">Я никак не могу вывести тебя из своей системы</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">(My system)</div>
+          <div class="lt">(Своей системы).</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">No, I can&#x27;t get you out of my system</div>
+          <div class="lt">Нет, я никак не могу вывести тебя из своей</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">No, I can&#x27;t get you out of my system</div>
+          <div class="lt">Нет, я никак не могу вывести тебя из своей</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">If I deleted all the memories of you and me</div>
+          <div class="lt">Если бы я удалила все воспоминания о нас с</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">And barricaded my walls</div>
+          <div class="lt">Забаррикадировалась за стенами,</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">If I encrypted all my feelings for security</div>
+          <div class="lt">Зашифровала все свои чувства ради</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">It wouldn&#x27;t matter at all</div>
+          <div class="lt">То это всё равно бы не помогло.</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">&#x27;Cause now you&#x27;re in my head</div>
+          <div class="lt">И теперь ты у меня в голове,</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">My heart, my body parts</div>
+          <div class="lt">В моём сердце, в частях моего тела,</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">You&#x27;re always coming back on the weekends</div>
+          <div class="lt">И всегда возвращаешься по выходным,</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">You&#x27;re in every touch</div>
+          <div class="lt">В каждом прикосновении</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">And thought and every shot</div>
+          <div class="lt">И мысли, в каждой секунде —</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">No, I can&#x27;t get you out of my system</div>
+          <div class="lt">Я никак не могу вывести тебя из своей системы.</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">(My, my, my system)</div>
+          <div class="lt">(Моя, моя, моя система)</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">No, I can&#x27;t get you out of my system</div>
+          <div class="lt">Нет, я никак не могу вывести тебя из своей</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">4</div>
+          <div class="lt">Нацотбор</div>
+        </div>
+
+      </div>
+    </div>
+    <div class="spacer"></div>
+  </div>
+  <div class="dp" id="detail-3" style="display:none">
+    <div class="dh">
+      <button class="back" onclick="showList()">← Назад</button>
+      <img class="dba" src="img/banner_p5.webp" alt="">
+      <div class="dcn">Хорватия</div>
+      <div class="dst">🎤 Участвует в полуфинале</div>
+    </div>
+    <div class="ds">
+      <div class="st">🎤 Исполнитель</div>
+      <div class="ab">
+        <img class="dai" src="img/artist_p5.webp" alt="">
+        <div class="ai">
+          <div class="dpr">Lelek</div>
+
+          <div class="dbo">
+          <p>Инка Вечерина Перушич Юдита Шторга Корина Оливия Рогич Лара Бртан Марина Рамляк Группа была основана в 2024 году и в том же году попыталась пройти на Евровидение.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="ds">
+      <div class="st">🌍 Страна</div>
+<div class="do"><span class="b bg">В финал: 89%</span> <span class="b bb">Победа: &lt;1%</span></div>
+      <div class="dsa"></div>
+<div class="dsel">открытый отбор</div>
+      <div class="dc">
+
+      </div>
+    </div>
+    <div class="ds">
+      <div class="st">🎵 Песня</div>
+      <div class="dstl">Andromeda</div>
+      <div class="dstr">Андромеда</div>
+      <div class="dm">🗣️ Хорватский</div>
+
+      <div class="dsc">
+        <p>Фолк-поп Исполнительницы используют традиционные хорватские татуировки, называемые сиканье. Они использовались для обозначения, что ребёнок — христанин, и его не могли украсть и обратить в ислам. В Турции песня и клип вызвали скандал: слова и визуал восприняли как критику Османской империи и изображение порабощения хорваток турками.</p>
+      </div>
+    </div>
+    <div class="ds">
+      <div class="st">📝 Текст песни</div>
+      <div class="lhint">оригинал → перевод</div>
+      <div class="lyrics">
+        <div class="lpair">
+          <div class="lo">Andromeda</div>
+          <div class="lt">Андромеда</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Dok pališ svijeću, pitaj svoju baku</div>
+          <div class="lt">Как зажжёшь свечу, спроси свою бабушку</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Zašto je kćeri rađala u strahu</div>
+          <div class="lt">Почему дочерей родила она в страхе?</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Zašto su mnogi odabrali groblje</div>
+          <div class="lt">Почему так многие выбрали смерть?</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Nisu naše majke iznjedrile roblje</div>
+          <div class="lt">Наши матери рожали не рабов</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Mnoge su suze potekle kô rijeka</div>
+          <div class="lt">Много слез лилось рекой</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Zašto se piše povijest ispočetka?</div>
+          <div class="lt">Почему история пишется с нуля?</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Sinovi naši nisu podanici</div>
+          <div class="lt">Наши сыновья — не чьи-то подданые</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Da l&#x27; vas noću bude iz kolijevke krici?</div>
+          <div class="lt">Вас ночью будят из колыбели крики?</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Uzmi me sebi, kraljice Zemljo</div>
+          <div class="lt">Возьми меня с собой, королева Земля</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Tvoja je duša, njima sam tijelo</div>
+          <div class="lt">Твоя моя душа, а для них лишь тело.</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Vodi me do zvijezda, porušenih gnijezda</div>
+          <div class="lt">Веди меня к звёздам, разрушенным</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Tamo gdje uz krike isprate vojnike</div>
+          <div class="lt">Туда, где криками провожают солдат</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Vodi me do zvijezda, daleko od pogleda</div>
+          <div class="lt">Веди меня к звёздам, с глаз долой</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Andromeda</div>
+          <div class="lt">Андромеда</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Sve urezane ožiljke do kosti</div>
+          <div class="lt">Все шрамы пронзили кожу до костей</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Ni jedna majka neće vam oprostit&#x27;</div>
+          <div class="lt">Ни одна мать вас не простит</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Na stolu srama zlato sa đerdanâ</div>
+          <div class="lt">На столе позора — золото ожерелий</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Dok peru ruke krvlju naših rana</div>
+          <div class="lt">Пока они умывают руки кровью с наших</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Izdajice</div>
+          <div class="lt">Предатели</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Izdajice</div>
+          <div class="lt">Предатели</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Izdajice</div>
+          <div class="lt">Предатели</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Izdajice</div>
+          <div class="lt">Предатели</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Uzmi me sebi, kraljice Zemljo</div>
+          <div class="lt">Возьми меня с собой, королева Земля</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Tvoja je duša, njima sam tijelo</div>
+          <div class="lt">Твоя моя душа, а для них лишь тело.</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Vodi me do zvijezda, porušenih gnijezda</div>
+          <div class="lt">Веди меня к звёздам, разрушенным</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Tamo gdje uz krike isprate vojnike</div>
+          <div class="lt">Туда, где криками провожают солдат</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Vodi me do zvijezda daleko od pogleda</div>
+          <div class="lt">Веди меня к звёздам, с глаз долой</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Andromeda</div>
+          <div class="lt">Андромеда</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Vodi me do zvijezda, porušenih gnijezda</div>
+          <div class="lt">Веди меня к звёздам, разрушенным</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Tamo gdje uz klike isprate vojnike</div>
+          <div class="lt">Туда, где криками провожают солдат</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Vodi me do zvijezda daleko od pogleda</div>
+          <div class="lt">Веди меня к звёздам, с глаз долой</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Andromeda</div>
+          <div class="lt">Андромеда</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Andromeda</div>
+          <div class="lt">Андромеда</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Andromeda (Andromeda)</div>
+          <div class="lt">Андромеда (Андромеда)</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Andromeda</div>
+          <div class="lt">Андромеда</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Andromeda (Andromeda)</div>
+          <div class="lt">Андромеда (Андромеда)</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Andromeda</div>
+          <div class="lt">Андромеда</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Andromeda</div>
+          <div class="lt">Андромеда</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">5</div>
+          <div class="lt">Нацотбор</div>
+        </div>
+
+      </div>
+    </div>
+    <div class="spacer"></div>
+  </div>
+  <div class="dp" id="detail-4" style="display:none">
+    <div class="dh">
+      <button class="back" onclick="showList()">← Назад</button>
+      <img class="dba" src="img/banner_p6.webp" alt="">
+      <div class="dcn">Греция</div>
+      <div class="dst">🎤 Участвует в полуфинале</div>
+    </div>
+    <div class="ds">
+      <div class="st">🎤 Исполнитель</div>
+      <div class="ab">
+        <img class="dai" src="img/artist_p6.webp" alt="">
+        <div class="ai">
+          <div class="dpr">Акилас</div>
+<div class="dbi">р. 1999</div>
+          <div class="dbo">
+          <p>Акилас Митилинайос Сере Квир Два года работал певцом на круизных лайнерах</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="ds">
+      <div class="st">🌍 Страна</div>
+<div class="do"><span class="b bg">В финал: 99%</span> <span class="b bb">Победа: 17%</span></div>
+      <div class="dsa"><span class="stat">🏆 1 победа</span> <span class="stat">в финале 2× подряд</span></div>
+<div class="dsel">открытый отбор</div>
+      <div class="dc">
+
+      </div>
+    </div>
+    <div class="ds">
+      <div class="st">🎵 Песня</div>
+      <div class="dstl">Φέρτο (Ferto)</div>
+      <div class="dstr">Неси</div>
+      <div class="dm">🗣️ Греческий · Английский · Французский · Испанский</div>
+<div class="dm">🎵 Электро-поп</div>
+      <div class="dsc">
+        <p>Акилас в интервью говорил, что не любит упоминаемый в песне сашими с тунцом. Один из соавторов песни — Тео Пузбурис, представлявший Грецию на Евровидении-2014 в составе дуэта Freaky Fortune.</p>
+      </div>
+    </div>
+    <div class="ds">
+      <div class="st">📝 Текст песни</div>
+      <div class="lhint">оригинал → перевод</div>
+      <div class="lyrics">
+        <div class="lpair">
+          <div class="lo">Φέρτο (Ferto)</div>
+          <div class="lt">Неси</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Πρέπει να παίξω, δεν θα πάω πάσο</div>
+          <div class="lt">Я должен играть, я не сдамся</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Mi ambicion es fuego, nunca fracaso</div>
+          <div class="lt">Я горю амбициями, я никогда не проигрываю</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">No hay limite, todo lo arraso</div>
+          <div class="lt">У меня нет пределов, я выиграю всё</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Κυνηγάω τα πάντα μέχρι να τα φτάσω</div>
+          <div class="lt">Я преследую всё, пока не доберусь до цели</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Θέλω ένα στέμμα κι έναν θρόνο να κάτσω</div>
+          <div class="lt">Я хочу корону и трон, на котором буду сидеть</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Ένα block επιταγών και check σε όλους να γράψω</div>
+          <div class="lt">И книжку с чеками, чтобы я их всем выписывал</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Φέρε μου ένα ποτό που θέλω να ξεδιψάσω</div>
+          <div class="lt">Несите мне напиток, чтобы утолить мою жажду</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Φερ&#x27; τα μου όλα-όλα, πάλι δεν θα χορτάσω</div>
+          <div class="lt">Несите мне всё это, но я не буду удовлетворён</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Real estate, φερ&#x27; το</div>
+          <div class="lt">Недвижимость, несите</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Sashimi tuna, φερ&#x27; το</div>
+          <div class="lt">Тунец сашими, несите</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Χρυσό ρολόι, γυαλί designer</div>
+          <div class="lt">Золотые часы, дизайнерские стаканы</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Σου λέω φερ&#x27; το</div>
+          <div class="lt">Говорю, несите</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Leather παλτό, φερ&#x27; το</div>
+          <div class="lt">Кожаное пальто, несите</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Κι escargot, φερ&#x27; το</div>
+          <div class="lt">И улиток, несите</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Rally cars, yacht με stars</div>
+          <div class="lt">Гоночные машины, яхта с звёздами</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Σου είπα φερ&#x27; το</div>
+          <div class="lt">Я говорю вам, несите</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">(Φερ&#x27; το, φερ&#x27; το, φερ&#x27; το)</div>
+          <div class="lt">(Несите, несите, несите)</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Φερ&#x27; το μου, φερ&#x27; το μου, φερ&#x27; το</div>
+          <div class="lt">Несите мне, несите мне, несите</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Φερ&#x27; το μου, φερ&#x27; το μου, φερ&#x27; το</div>
+          <div class="lt">Несите мне, несите мне, несите</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Φερ&#x27; το μου, φερ&#x27; το μου, φερ&#x27; το</div>
+          <div class="lt">Несите мне, несите мне, несите</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Σου είπα φερ&#x27; το</div>
+          <div class="lt">Я говорю вам, несите</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Φερ&#x27; το μου, φερ&#x27; το μου, φερ&#x27; το</div>
+          <div class="lt">Несите мне, несите мне, несите</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Φερ&#x27; το μου, φερ&#x27; το μου, φερ&#x27; το</div>
+          <div class="lt">Несите мне, несите мне, несите</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Φερ&#x27; το μου, φερ&#x27; το μου, φερ&#x27; το</div>
+          <div class="lt">Несите мне, несите мне, несите</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Je veux le sommet, pas juste un pas</div>
+          <div class="lt">Мне нужна вершина, а не просто один шаг</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Rien ne me suffit, je réclame tout ça</div>
+          <div class="lt">Ничего не достаточно для меня, я хочу всё</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Ακόμη κι όλα δεν ειν&#x27; αρκετά</div>
+          <div class="lt">Даже всего в мире мне недостаточно</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Θέλω τόσα πολλά, που δεν είναι απτά</div>
+          <div class="lt">Я хочу так многого, что это невозможно осознать</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Θέλω δόξα, αιωνιότητα και λεφτά</div>
+          <div class="lt">Я хочу славы, вечности и денег</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Ρούχα επιλεγμένα που &#x27;ναι τόσο ακριβά</div>
+          <div class="lt">Одежду на заказ, дорогущую</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Να φωνάζουν τ&#x27; όνομά μου τόσο δυνατά</div>
+          <div class="lt">Чтобы они кричали моё имя</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Και να χορεύω-χορεύω όσο πάω ψηλά</div>
+          <div class="lt">И танцевать, танцевать, пока я поднимаюсь всё</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">(Diamond rings) Φερ&#x27; το</div>
+          <div class="lt">(Бриллиантовые кольца), несите</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">(Cuban links) Φερ&#x27; το</div>
+          <div class="lt">(Кубинские цепочки), несите</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">(Submarines, jet machines)</div>
+          <div class="lt">(Подлодки, реактивные машины),</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Θέλω, οπότε φερ&#x27; το</div>
+          <div class="lt">Хочу всё это, несите</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">(Γη κι ουρανό) Φερ&#x27; το</div>
+          <div class="lt">Землю и небо, несите</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">(Τον κόσμο όλο) Φερ&#x27; το</div>
+          <div class="lt">Весь мир, несите</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">(Εντός κι εκτός πλανήτη)</div>
+          <div class="lt">(Всё что на планете и вокруг неё),</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Αν δεν το &#x27;χω, φερ&#x27; το</div>
+          <div class="lt">Если у меня нет, несите</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">(Φερ&#x27; το, φερ&#x27; το)</div>
+          <div class="lt">(Несите, несите, несите)</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Φερ&#x27; το μου, φερ&#x27; το μου, φερ&#x27; το</div>
+          <div class="lt">Несите мне, несите мне, несите</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Φερ&#x27; το μου, φερ&#x27; το μου, φερ&#x27; το</div>
+          <div class="lt">Несите мне, несите мне, несите</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Φερ&#x27; το μου, φερ&#x27; το μου, φερ&#x27; το</div>
+          <div class="lt">Несите мне, несите мне, несите</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Σου είπα φερ&#x27; το</div>
+          <div class="lt">Я говорю вам, несите</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Φερ&#x27; το μου, φερ&#x27; το μου, φερ&#x27; το</div>
+          <div class="lt">Несите мне, несите мне, несите</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Φερ&#x27; το μου, φερ&#x27; το μου, φερ&#x27; το</div>
+          <div class="lt">Несите мне, несите мне, несите</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Φερ&#x27; το μου, φερ&#x27; το μου, φερ&#x27; το</div>
+          <div class="lt">Несите мне, несите мне, несите</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Θέλω δόξα, αιωνιότητα και λεφτά</div>
+          <div class="lt">Я хочу славы, вечности и денег</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Ρούχα επιλεγμένα που &#x27;ναι τόσο ακριβά</div>
+          <div class="lt">Одежду на заказ, дорогущую</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Να φωνάζουν τ&#x27; όνομά μου τόσο δυνατά</div>
+          <div class="lt">Чтобы они кричали моё имя</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Να λένε &quot;Φερ&#x27; το μας, Ακύλα, φερ&#x27; το&quot;</div>
+          <div class="lt">Чтобы они говорили: &quot;Неси нам, Акила, неси.&quot;</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Κοίτα μαμά</div>
+          <div class="lt">Посмотри, мама</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Όσα στερηθήκαμε παλιά</div>
+          <div class="lt">На всё, чего нам так не хватало</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Νιώθω πως θα καταφέρω</div>
+          <div class="lt">Я чувствую, что смогу,</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Να προσφέρω μη μας λείψει κάτι ξανά</div>
+          <div class="lt">Я обеспечу нас, чтобы больше нам ничего не</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Δες με μαμά</div>
+          <div class="lt">Посмотри на меня, мама</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Αγοράζω να κλείσω κενά</div>
+          <div class="lt">Я покупаю, чтобы заполнить пустоты</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Θα σου πάρω κι εσένα πολλά</div>
+          <div class="lt">Я куплю тебе много вещей</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Σπίτια, αμάξια και εξοχικά</div>
+          <div class="lt">Дома, машины и дачи</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">(Βέβαια, αν κερδίσω</div>
+          <div class="lt">(Конечно, если я выиграю,</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Whatever, κατάλαβες, οπότε)</div>
+          <div class="lt">Ну ты поняла, неважно, так что)</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Φερ&#x27; το μου, φερ&#x27; το μου, φερ&#x27; το</div>
+          <div class="lt">Несите мне, несите мне, несите</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Φερ&#x27; το μου, φερ&#x27; το μου, φερ&#x27; το</div>
+          <div class="lt">Несите мне, несите мне, несите</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Φερ&#x27; το μου, φερ&#x27; το μου, φερ&#x27; το</div>
+          <div class="lt">Несите мне, несите мне, несите</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Φερ&#x27; το μου, φερ&#x27; το μου, φερ&#x27; το</div>
+          <div class="lt">Несите мне, несите мне, несите</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Φερ&#x27; το μου, φερ&#x27; το μου, φερ&#x27; το</div>
+          <div class="lt">Несите мне, несите мне, несите</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Φερ&#x27; το μου, φερ&#x27; το μου, φερ&#x27; το</div>
+          <div class="lt">Несите мне, несите мне, несите</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Σου είπα φερ&#x27; το</div>
+          <div class="lt">Я говорю вам, несите</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">6</div>
+          <div class="lt">Нацотбор</div>
+        </div>
+
+      </div>
+    </div>
+    <div class="spacer"></div>
+  </div>
+  <div class="dp" id="detail-5" style="display:none">
+    <div class="dh">
+      <button class="back" onclick="showList()">← Назад</button>
+      <img class="dba" src="img/banner_p7.webp" alt="">
+      <div class="dcn">Португалия</div>
+      <div class="dst">🎤 Участвует в полуфинале</div>
+    </div>
+    <div class="ds">
+      <div class="st">🎤 Исполнитель</div>
+      <div class="ab">
+        <img class="dai" src="img/artist_p7.webp" alt="">
+        <div class="ai">
+          <div class="dpr">Bandidos do Cante</div>
+
+          <div class="dbo">
+          <p>Мигель Коста Дуарте Фариас Франсиско Рапосо Луис Алейшу Франсиско Пестана Из 16 участников португальского отбора 13 заявили, что не будут участвовать в Евровидении, если выиграют, в знак протеста против участия Израиля. Группа была одной из немногих, кто заявил, что примет участие, а потом заняли первое место из 16.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="ds">
+      <div class="st">🌍 Страна</div>
+<div class="do"><span class="b bg">В финал: 50%</span> <span class="b bb">Победа: &lt;1%</span></div>
+      <div class="dsa"><span class="stat">🏆 1 победа</span> <span class="stat">в финале 5× подряд</span></div>
+<div class="dsel">открытый отбор</div>
+      <div class="dc">
+        <p>Португалия на Евровидении часто заметно отличается по звучанию от других участников. Страна нередко делает ставку на мелодичные, спокойные песни на португальском языке.</p>
+      </div>
+    </div>
+    <div class="ds">
+      <div class="st">🎵 Песня</div>
+      <div class="dstl">Rosa</div>
+      <div class="dstr">Роза</div>
+      <div class="dm">🗣️ Португальский</div>
+<div class="dm">🎵 Поп</div>
+      <div class="dsc">
+        <p>Канте Алентеджано Песня написана в традиционном жанре Канте Алентеджано с характерным полифоническим вокалом с почти полным отсутствием музыки.</p>
+      </div>
+    </div>
+    <div class="ds">
+      <div class="st">📝 Текст песни</div>
+      <div class="lhint">оригинал → перевод</div>
+      <div class="lyrics">
+        <div class="lpair">
+          <div class="lo">Rosa</div>
+          <div class="lt">Роза</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">No silêncio do luar</div>
+          <div class="lt">В тишине лунного света</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Sopra o vento devagar</div>
+          <div class="lt">Ветер дует медленно.</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Traz o cheiro das roseiras</div>
+          <div class="lt">Он приносит аромат розовых кустов</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">E o teu nome a sussurrar</div>
+          <div class="lt">И шепчет твоё имя.</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Meu amor se hoje for</div>
+          <div class="lt">Любовь моя, если этим вечером</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">À noitinha ao meu jardim</div>
+          <div class="lt">Я ступлю в свой сад,</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Por lá encontrarei rosas</div>
+          <div class="lt">Там я найду розы.</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Fazem-me lembrar de ti</div>
+          <div class="lt">Они напоминают мне о тебе.</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Não há pressa de onde eu sou</div>
+          <div class="lt">Там, откуда я родом, некуда спешить.</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Não há preço p’ra esta calma</div>
+          <div class="lt">У этого покоя нет цены.</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Se falhei paguei em dobro</div>
+          <div class="lt">Если я терпел неудачу, я платил вдвойне.</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Sobrou pouco ou quase nada</div>
+          <div class="lt">Осталось мало, или почти ничего.</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Só as rosas que plantei</div>
+          <div class="lt">Только розы, которые я посадил,</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Quando a gente era verdade</div>
+          <div class="lt">Когда мы были настоящими.</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Sobrou pouco, eu não reguei</div>
+          <div class="lt">Осталось мало — я их не поливал,</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">E o jardim virou saudade</div>
+          <div class="lt">И сад превратился в тоску.</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Meu amor se hoje for</div>
+          <div class="lt">Любовь моя, если этим вечером</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">À noitinha ao meu jardim</div>
+          <div class="lt">Я ступлю в свой сад,</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Por lá encontrarei rosas</div>
+          <div class="lt">Там я найду розы.</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Fazem-me lembrar de ti</div>
+          <div class="lt">Они напоминают мне о тебе.</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Fazem-me lembrar de ti</div>
+          <div class="lt">Они напоминают мне о тебе</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Com saudade do teu beijo</div>
+          <div class="lt">С тоской по твоему поцелую.</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">És a rosa mais bonita</div>
+          <div class="lt">Ты — самая красивая роза,</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Que brotou ao sul do Tejo</div>
+          <div class="lt">Которая расцвела к югу от реки.</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Fazem-me lembrar de ti</div>
+          <div class="lt">Они напоминают мне о тебе</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Com saudade do teu beijo</div>
+          <div class="lt">С тоской по твоему поцелую.</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">És a rosa mais bonita</div>
+          <div class="lt">Ты — самая красивая роза,</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Que brotou ao sul do Tejo</div>
+          <div class="lt">Которая расцвела к югу от реки.</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">És a rosa mais bonita</div>
+          <div class="lt">Ты — самая красивая роза,</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Que brotou no Alentejo</div>
+          <div class="lt">Которая когда-то расцвела в Алентежу.</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">7</div>
+          <div class="lt">Нацотбор</div>
+        </div>
+
+      </div>
+    </div>
+    <div class="spacer"></div>
+  </div>
+  <div class="dp" id="detail-6" style="display:none">
+    <div class="dh">
+      <button class="back" onclick="showList()">← Назад</button>
+      <img class="dba" src="img/banner_p8.webp" alt="">
+      <div class="dcn">Грузия</div>
+      <div class="dst">🎤 Участвует в полуфинале</div>
+    </div>
+    <div class="ds">
+      <div class="st">🎤 Исполнитель</div>
+      <div class="ab">
+        <img class="dai" src="img/artist_p8.webp" alt="">
+        <div class="ai">
+          <div class="dpr">Бзикеби</div>
+
+          <div class="dbo">
+          <p>Георгий Шиолашвили Мариам Татулашвили Мариам Кикуашвили Победители Детского Евровидения в 2008 году с пчелиной песней «Bzz…». Название группы на грузинском означает «осы».</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="ds">
+      <div class="st">🌍 Страна</div>
+<div class="do"><span class="b bg">В финал: 42%</span> <span class="b bb">Победа: &lt;1%</span></div>
+      <div class="dsa"></div>
+<div class="dsel">внутренний отбор</div>
+      <div class="dc">
+
+      </div>
+    </div>
+    <div class="ds">
+      <div class="st">🎵 Песня</div>
+      <div class="dstl">On Replay</div>
+      <div class="dstr">На повторе</div>
+      <div class="dm">🗣️ Английский</div>
+<div class="dm">🎵 Электро-поп</div>
+      <div class="dsc">
+        <p>Жёлто-чёрные костюмы отсылают к пчелиной идентичности группы. Один из соавторов песни — Lizi Pop, представлявшая Грузию на Детском Евровидении в 2014 году и соведущая Детского Евровидения в 2017 году.</p>
+      </div>
+    </div>
+    <div class="ds">
+      <div class="st">📝 Текст песни</div>
+      <div class="lhint">оригинал → перевод</div>
+      <div class="lyrics">
+        <div class="lpair">
+          <div class="lo">On Replay</div>
+          <div class="lt">На повторе</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Tam, ta-ra-ram-tam, tam-tam, pai</div>
+          <div class="lt">Там, та-ра-рам-там, там-там, пай</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Tam, ta-ra-ram-tam, tam-tam, pai</div>
+          <div class="lt">Там, та-ра-рам-там, там-там, пай</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Tam, ta-ra-ram-tam, tam-tam, pai</div>
+          <div class="lt">Там, та-ра-рам-там, там-там, пай</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Tu-pa, tu-pa, tu-pa, tu-pa</div>
+          <div class="lt">Ту-па, ту-па, ту-па, ту-па</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Tam, ta-ra-ram-tam, tam-tam, pai</div>
+          <div class="lt">Там, та-ра-рам-там, там-там, пай</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Tam, ta-ra-ram-tam, tam-tam, pai</div>
+          <div class="lt">Там, та-ра-рам-там, там-там, пай</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Tam, ta-ra-ram-tam, tam-tam, pai</div>
+          <div class="lt">Там, та-ра-рам-там, там-там, пай</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Tu-pa, tu-pa, tu-pa, tu-pa</div>
+          <div class="lt">Ту-па, ту-па, ту-па, ту-па</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Lights on, stand by</div>
+          <div class="lt">Огни горят, мы готовы,</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Unmasked, you and I</div>
+          <div class="lt">Сбросив маски, ты и я,</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Step left, step right</div>
+          <div class="lt">Шаг влево, шаг вправо,</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Neon lights, they ignite</div>
+          <div class="lt">Вспыхивают неоновые огни</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Na-na-na-na-na, we go wild, oh my</div>
+          <div class="lt">На-на-на-на-на, мы сходим с ума,</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Shameless, we tear it up</div>
+          <div class="lt">Не зная стыда, разрываем всё вокруг,</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Don&#x27;t ask why</div>
+          <div class="lt">Не спрашивайте причину</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Don&#x27;t think</div>
+          <div class="lt">Не думай,</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Let go</div>
+          <div class="lt">Отпусти</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Keep me on replay, okay</div>
+          <div class="lt">Оставь меня на повторе, окей,</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">La-la-la-la-la-la-la</div>
+          <div class="lt">Ла-ла-ла-ла-ла-ла-ла,</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">La-la-la-la-la-la-la</div>
+          <div class="lt">Ла-ла-ла-ла-ла-ла-ла,</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">La-la-la-la-la-la-la</div>
+          <div class="lt">Ла-ла-ла-ла-ла-ла-ла,</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Keep me on replay, okay</div>
+          <div class="lt">Оставь меня на повторе, окей,</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">La-la-la-la-la-la-la</div>
+          <div class="lt">Ла-ла-ла-ла-ла-ла-ла,</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">La-la-la-la-la-la-la</div>
+          <div class="lt">Ла-ла-ла-ла-ла-ла-ла,</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">La-la-la-la-la-la-la</div>
+          <div class="lt">Ла-ла-ла-ла-ла-ла-ла,</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Keep me on replay, okay</div>
+          <div class="lt">Оставь меня на повторе, окей</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Tam, ta-ra-ram-tam, tam-tam, pai</div>
+          <div class="lt">Там, та-ра-рам-там, там-там, пай</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Tam, ta-ra-ram-tam, tam-tam, pai</div>
+          <div class="lt">Там, та-ра-рам-там, там-там, пай</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Tam, ta-ra-ram-tam, tam-tam, pai</div>
+          <div class="lt">Там, та-ра-рам-там, там-там, пай</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Tu-pa, tu-pa, tu-pa, tu-pa</div>
+          <div class="lt">Ту-па, ту-па, ту-па, ту-па</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">La-la-la-light it up</div>
+          <div class="lt">За-за-за-зажигаем,</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">We go high-low, high-low</div>
+          <div class="lt">Мы летим то вверх, то вниз,</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Ta-ta-ta-take it over</div>
+          <div class="lt">Во-во-во-возьми все под свой контроль,</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Feel it in your soul</div>
+          <div class="lt">Почувствуй в своей душе,</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Can&#x27;t digitise our thunder</div>
+          <div class="lt">Этот гром невозможно оцифровать,</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">No code, no clone</div>
+          <div class="lt">Никаких кодов и клонов.</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Don&#x27;t think</div>
+          <div class="lt">Не думай,</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Let go</div>
+          <div class="lt">Отпусти</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Keep me on replay, okay</div>
+          <div class="lt">Оставь меня на повторе, окей,</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">La-la-la-la-la-la-la</div>
+          <div class="lt">Ла-ла-ла-ла-ла-ла-ла,</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">La-la-la-la-la-la-la</div>
+          <div class="lt">Ла-ла-ла-ла-ла-ла-ла,</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">La-la-la-la-la-la-la</div>
+          <div class="lt">Ла-ла-ла-ла-ла-ла-ла,</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Keep me on replay, okay</div>
+          <div class="lt">Оставь меня на повторе, окей,</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">La-la-la-la-la-la-la</div>
+          <div class="lt">Ла-ла-ла-ла-ла-ла-ла,</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">La-la-la-la-la-la-la</div>
+          <div class="lt">Ла-ла-ла-ла-ла-ла-ла,</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">La-la-la-la-la-la-la</div>
+          <div class="lt">Ла-ла-ла-ла-ла-ла-ла,</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Keep me on replay, okay</div>
+          <div class="lt">Оставь меня на повторе, окей</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Take my hand, don&#x27;t disappear</div>
+          <div class="lt">Возьми меня за руку, не исчезай.</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">This is real, this is clear</div>
+          <div class="lt">Это по-настоящему это ясно,</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Not afraid of the trial</div>
+          <div class="lt">Не боюсь испытаний,</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Stay with me a little while</div>
+          <div class="lt">Останься со мной, ненадолго,</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">We don&#x27;t wait in linе for miracles</div>
+          <div class="lt">Мы не ждем в очереди за чудесами,</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">We jump in, we tеar the veil</div>
+          <div class="lt">Мы прыгаем, мы разрываем завесу,</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Right here right now, no maybe</div>
+          <div class="lt">Прямо здесь и сейчас, без всяких «может быть»</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">No void that can take me</div>
+          <div class="lt">Нет пустоты, которая могла бы меня поглотить.</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Yeah, yeah, we rise and fall and riѕe again</div>
+          <div class="lt">Да, да, мы поднимаемся, падаем и вновь</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">La-la-la-la-la-la-la</div>
+          <div class="lt">Ла-ла-ла-ла-ла-ла-ла,</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">La-la-la-la-la-la-la</div>
+          <div class="lt">Ла-ла-ла-ла-ла-ла-ла,</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">La-la-la-la-la-la-la</div>
+          <div class="lt">Ла-ла-ла-ла-ла-ла-ла,</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Keep me on replay, okay</div>
+          <div class="lt">Оставь меня на повторе, окей,</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">La-la-la-la-la-la-la</div>
+          <div class="lt">Ла-ла-ла-ла-ла-ла-ла,</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">La-la-la-la-la-la-la</div>
+          <div class="lt">Ла-ла-ла-ла-ла-ла-ла,</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">La-la-la-la-la-la-la</div>
+          <div class="lt">Ла-ла-ла-ла-ла-ла-ла,</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Keep me on replay, okay</div>
+          <div class="lt">Оставь меня на повторе, окей,</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">La-la-la-la-la-la-la</div>
+          <div class="lt">Ла-ла-ла-ла-ла-ла-ла,</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">La-la-la-la-la-la-la</div>
+          <div class="lt">Ла-ла-ла-ла-ла-ла-ла,</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">La-la-la-la-la-la-la</div>
+          <div class="lt">Ла-ла-ла-ла-ла-ла-ла,</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Keep me on replay, okay</div>
+          <div class="lt">Оставь меня на повторе, окей,</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">La-la-la-la-la-la-la</div>
+          <div class="lt">Ла-ла-ла-ла-ла-ла-ла,</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">La-la-la-la-la-la-la</div>
+          <div class="lt">Ла-ла-ла-ла-ла-ла-ла,</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">La-la-la-la-la-la-la</div>
+          <div class="lt">Ла-ла-ла-ла-ла-ла-ла,</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Keep me on replay, okay</div>
+          <div class="lt">Оставь меня на повторе, окей</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">8</div>
+          <div class="lt">Лайв</div>
+        </div>
+
+      </div>
+    </div>
+    <div class="spacer"></div>
+  </div>
+  <div class="dp" id="detail-7" style="display:none">
+    <div class="dh">
+      <button class="back" onclick="showList()">← Назад</button>
+      <img class="dba" src="img/banner_p9.webp" alt="">
+      <div class="dcn">Италия</div>
+      <div class="dst">⭐ Член Большой пятёрки</div>
+    </div>
+    <div class="ds">
+      <div class="st">🎤 Исполнитель</div>
+      <div class="ab">
+        <img class="dai" src="img/artist_p9.webp" alt="">
+        <div class="ai">
+          <div class="dpr">Саль да Винчи</div>
+<div class="dbi">р. 1969</div>
+          <div class="dbo">
+          <p>Сальваторе Соррентино Нью-Йорк, США →Неаполь, Италия Самый возрастной участник этого года. Сын Марио Да Винчи, классического неаполитанского певца. Автор 25 студийных альбомов, 9 из которых совместно с отцом. Певцом стал и сын Саля по имени Франческо Да Винчи, пытавшийся попасть на Евровидение-2023 от Сан-Марино.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="ds">
+      <div class="st">🌍 Страна</div>
+<div class="do"><span class="b bb">Победа: 5.3%</span></div>
+      <div class="dsa"><span class="stat">🏆 3 победы</span></div>
+<div class="dsel">открытый отбор</div>
+      <div class="dc">
+        <p>Последний раз, когда Италия не попала в топ-7, был в 2016 году.</p>
+      </div>
+    </div>
+    <div class="ds">
+      <div class="st">🎵 Песня</div>
+      <div class="dstl">Per sempre sì</div>
+      <div class="dstr">Да — навсегда</div>
+      <div class="dm">🗣️ Итальянский</div>
+
+      <div class="dsc">
+        <p>Неаполитанский Диско-фанк Неаполитанская песня Эта свадебная песня в духе итальянсекой музыки 80-ых довольно неожиданно выиграла Фестиваль в Сан-Ремо, один из самых сложных отборов на Евровидении.</p>
+      </div>
+    </div>
+    <div class="ds">
+      <div class="st">📝 Текст песни</div>
+      <div class="lhint">оригинал → перевод</div>
+      <div class="lyrics">
+        <div class="lpair">
+          <div class="lo">Per sempre sì</div>
+          <div class="lt">Да — навсегда</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">È cominciato tutto quanto dal principio</div>
+          <div class="lt">Всё началось когда-то с самого начала</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Io che per te ero solo un uomo sconosciuto</div>
+          <div class="lt">Я для тебя был просто незнакомцем</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Poi diventato un re dal cuore innamorato</div>
+          <div class="lt">Но стал потом влюблённым королём</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Tu una regina, ora vestita in bianco sposa</div>
+          <div class="lt">А ты — моей царицей в белом свадебном</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Abbiamo sognato figli in una grande casa</div>
+          <div class="lt">Мы грезили о детях в большом доме</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">E superato tutte le difficoltà</div>
+          <div class="lt">И через все прошли мы испытанья</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Perché un amore non è amore per la vita</div>
+          <div class="lt">Ведь любовь нельзя назвать любовью на всю</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Se non ha affrontato la più ripida salita</div>
+          <div class="lt">Если она не прошла огонь и воду</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">E si accenderà la musica e qui ti aspetterò</div>
+          <div class="lt">И заиграет музыка, и буду ждать тебя я здесь</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Il più grande giorno ti regalerò</div>
+          <div class="lt">Величайший день тебе я подарю</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Saremo io e te per sempre</div>
+          <div class="lt">Будем только ты и я</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Legati per la vita che</div>
+          <div class="lt">Связанные жизнью навсегда</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Senza te non vale niente</div>
+          <div class="lt">Которая без тебя ничего не стоит</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Non ha senso viverе</div>
+          <div class="lt">В которой нет смысла жить</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Con la mano sul petto</div>
+          <div class="lt">С рукой на сердце</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Io te lo prometto davanti a Dio</div>
+          <div class="lt">Я клянусь тебе пред Богом</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Sarеmo io e te da qui</div>
+          <div class="lt">Будем только ты и я</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Sarà per sempre &quot;sì&quot;</div>
+          <div class="lt">И с этого дня — навечно «да»</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">So bene che è una grande incognita il futuro</div>
+          <div class="lt">Я знаю: будущее полно неизвестности</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Ma insieme a te non mi spaventerà perché</div>
+          <div class="lt">Но вместе с тобой мне ничего не страшно</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Costruiremo tutto, ma non alzeremo un muro</div>
+          <div class="lt">Построим всё, но стен воздвигать не будем</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Litigare e far l&#x27;amore e poi che male c&#x27;è?</div>
+          <div class="lt">Ссориться и заниматься любовью — ну что в</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">E si accenderà la musica, per te io canterò</div>
+          <div class="lt">И заиграет музыка, и для тебя я буду петь</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Il più grande giorno ti regalerò</div>
+          <div class="lt">Величайший день тебе я подарю</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Saremo io e te per sempre</div>
+          <div class="lt">Будем только ты и я</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Legati per la vita che</div>
+          <div class="lt">Связанные жизнью навсегда</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Senza te non vale niente</div>
+          <div class="lt">Которая без тебя ничего не стоит</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Non ha senso vivere</div>
+          <div class="lt">В которой нет смысла жить</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Con la mano sul petto</div>
+          <div class="lt">С рукой на сердце</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Io te lo prometto davanti a Dio</div>
+          <div class="lt">Я клянусь тебе пред Богом</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Saremo io e te da qui</div>
+          <div class="lt">Будем только ты и я</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Sarà per sempre &quot;sì&quot;</div>
+          <div class="lt">И с этого дня — навечно «да»</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Soltanto &quot;sì&quot;</div>
+          <div class="lt">Только «да»</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Per questi giorni e mille altri ancora</div>
+          <div class="lt">Для этих дней и тысячи других</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Un semplice &quot;sì&quot;</div>
+          <div class="lt">Простое «да»</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">L&#x27;eternità è dentro una parola</div>
+          <div class="lt">Вечность заключена в одном слове</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Saremo io e te per sempre</div>
+          <div class="lt">Будем только ты и я</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Legati per la vita che</div>
+          <div class="lt">Связанные жизнью навсегда</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Senza te non vale niente</div>
+          <div class="lt">Которая без тебя ничего не стоит</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Non ha senso vivere</div>
+          <div class="lt">В которой нет смысла жить</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Con la mano sul petto</div>
+          <div class="lt">С рукой на сердце</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Io te lo prometto davanti a Dio</div>
+          <div class="lt">Я клянусь тебе пред Богом</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Saremo io e te accussí</div>
+          <div class="lt">Будем только ты и я</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Sarrà pe sempe &quot;sì&quot;</div>
+          <div class="lt">И с этого дня — навечно «да»</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">9</div>
+          <div class="lt">Нацотбор</div>
+        </div>
+
+      </div>
+    </div>
+    <div class="spacer"></div>
+  </div>
+  <div class="dp" id="detail-8" style="display:none">
+    <div class="dh">
+      <button class="back" onclick="showList()">← Назад</button>
+      <img class="dba" src="img/banner_p10.webp" alt="">
+      <div class="dcn">Финляндия</div>
+      <div class="dst">🎤 Участвует в полуфинале</div>
+    </div>
+    <div class="ds">
+      <div class="st">🎤 Исполнитель</div>
+      <div class="ab">
+        <img class="dai" src="img/artist_p10.webp" alt="">
+        <div class="ai">
+          <div class="dpr">Линда Лампениус</div>
+<div class="dbi">р. 1970, 1990</div>
+          <div class="dbo">
+          <p>Пете Паркконен Хельсинки и Пихтипудас Пете занял 3-е место в Idol. Линда Брава — одна из самых возрастных и успешных участниц этого года с почти полувековой карьерой. Линда стала известной финской скрипачкой ещё в детстве в 1970-ые. Линда исполняла камерную музыку по всему миру, включая многие благотворительные концерты. Линда была моделью, играла в кино, жюрила X Factor, открыла производство сидра, написала книгу, участвовала в гонках, катается на горных лыжах, занимается боксом, дайвингом, стрельбой из лука и бальными танцами.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="ds">
+      <div class="st">🌍 Страна</div>
+<div class="do"><span class="b bg">В финал: 99%</span> <span class="b bb">Победа: 50%</span></div>
+      <div class="dsa"><span class="stat">🏆 1 победа</span> <span class="stat">в финале 5× подряд</span></div>
+<div class="dsel">открытый отбор</div>
+      <div class="dc">
+
+      </div>
+    </div>
+    <div class="ds">
+      <div class="st">🎵 Песня</div>
+      <div class="dstl">Liekinheitin</div>
+      <div class="dstr">Огнемёт</div>
+      <div class="dm">🗣️ Финский · Английский</div>
+<div class="dm">🎵 Поп-рок</div>
+      <div class="dsc">
+        <p>Классический кроссовер На Евровидении вживую разрешено только петь, но Линде выдали специальное разрешение играть на скрипке по-настоящему.</p>
+      </div>
+    </div>
+    <div class="ds">
+      <div class="st">📝 Текст песни</div>
+      <div class="lhint">оригинал → перевод</div>
+      <div class="lyrics">
+        <div class="lpair">
+          <div class="lo">Liekinheitin</div>
+          <div class="lt">Огнемёт</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Ois viisaampi häipyy täält</div>
+          <div class="lt">Я должен быть мудрее, я должен уйти</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Miten tunteet vois jäädyttää?</div>
+          <div class="lt">Как я мог заморозить свои чувства?</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Sä oot, sä oot liekinheitin</div>
+          <div class="lt">Ты, ты огнемет</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Samas illas, savuu ilmas</div>
+          <div class="lt">Та же старая ночь, дым в воздухе</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Etin ihmisjoukost sua</div>
+          <div class="lt">Я ищу тебя в толпе</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Puhut muille, sun tutuille</div>
+          <div class="lt">Ты мило говоришь со своими друзьями</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Oot ku et ees tuntis mua</div>
+          <div class="lt">Притворяешься, что даже не знаешь меня</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Vähän outoo, ettet sä kato mua silmiin</div>
+          <div class="lt">Как-то странно, ты не смотришь мне в</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Ku viime yönä et saanut musta käsiäs irti</div>
+          <div class="lt">Когда прошлой ночью ты не мог оторвать</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Vaik saan sult runtuu, niin se hyvältä tuntuu</div>
+          <div class="lt">Ты плохо со мной обращаешься, но, черт</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Ois viisaampi häipyy täält</div>
+          <div class="lt">Я должен быть мудрее, я должен уйти</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Mut tulel vielkin leikin</div>
+          <div class="lt">Но я все еще играю с огнем</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Miten tunteet vois jäädyttää</div>
+          <div class="lt">Как я мог заморозить то, что чувствую?</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Ku sä oot liekinheitin? Ooh</div>
+          <div class="lt">Когда ты огнеметчик? ох</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Saat mut palamaan (A-aah, aah)</div>
+          <div class="lt">Ты поджег меня</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Saan sust palan vaan</div>
+          <div class="lt">Но ты никогда не будешь полностью моим</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Oot niin kuuma, mut jääkylmä</div>
+          <div class="lt">О, так жарко, но холодно, как лед</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Sä oot, sä oot liekinheitin, liekinheitin</div>
+          <div class="lt">Ты, ты огнемет, огнемет</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Pariin iltaan en sua kii saa</div>
+          <div class="lt">Ночи проходят, я не могу связаться с</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Voiko ihminen kuolla kiimaan? Joo</div>
+          <div class="lt">Может ли человек умереть от жары?</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Aina kun ollaan iho ihoa vasten</div>
+          <div class="lt">Каждый раз, когда мы кожа к коже</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Mä saan sust palovammoja kolmannen as-</div>
+          <div class="lt">Ты даешь мне ожоги третьей степени</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">teen</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Oh dear Lord, saanko viel yhen kasteen</div>
+          <div class="lt">О, дорогой Господь, еще одно отпущение</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Kun syntiä taas teen?</div>
+          <div class="lt">Ибо я снова согрешил</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Ois viisaampi häipyy täält</div>
+          <div class="lt">Я должен быть мудрее, я должен уйти</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Mut tulel vielkin leikin</div>
+          <div class="lt">Но я все еще играю с огнем</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Miten tunteet vois jäädyttää</div>
+          <div class="lt">Как я мог заморозить то, что чувствую?</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Ku sä oot liekinheitin? Ooh</div>
+          <div class="lt">Когда ты огнеметчик? ох</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Saat mut palamaan (A-aah, aah)</div>
+          <div class="lt">Ты поджег меня</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Saan sust palan vaan</div>
+          <div class="lt">Но ты никогда не будешь полностью моим</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Oot niin kuuma, mut jääkylmä</div>
+          <div class="lt">О, так жарко, но холодно, как лед</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Sä oot, sä oot liekinheitin, liekinheitin</div>
+          <div class="lt">Ты, ты огнемет, огнемет</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Liekinheitin</div>
+          <div class="lt">Огнемет</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">10</div>
+          <div class="lt">Нацотбор</div>
+        </div>
+
+      </div>
+    </div>
+    <div class="spacer"></div>
+  </div>
+  <div class="dp" id="detail-9" style="display:none">
+    <div class="dh">
+      <button class="back" onclick="showList()">← Назад</button>
+      <img class="dba" src="img/banner_p11.webp" alt="">
+      <div class="dcn">Черногория</div>
+      <div class="dst">🎤 Участвует в полуфинале</div>
+    </div>
+    <div class="ds">
+      <div class="st">🎤 Исполнитель</div>
+      <div class="ab">
+        <img class="dai" src="img/artist_p11.webp" alt="">
+        <div class="ai">
+          <div class="dpr">Тамара Живкович</div>
+<div class="dbi">р. 2000 · Котор</div>
+          <div class="dbo">
+          <p>Пыталась попасть на Евровидение от Черногории в прошлом году, но заняла 9 место в национальном отборе.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="ds">
+      <div class="st">🌍 Страна</div>
+<div class="do"><span class="b bg">В финал: 59%</span> <span class="b bb">Победа: &lt;1%</span></div>
+      <div class="dsa"><span class="stat">мимо финала 6× подряд</span></div>
+<div class="dsel">открытый отбор</div>
+      <div class="dc">
+
+      </div>
+    </div>
+    <div class="ds">
+      <div class="st">🎵 Песня</div>
+      <div class="dstl">Нова зора (Nova zora)</div>
+      <div class="dstr">Новая заря</div>
+      <div class="dm">🗣️ Черногорский · Английский</div>
+<div class="dm">🎵 Электропоп</div>
+      <div class="dsc">
+        <p>Дэнс-поп В клипе, вышедшем 8 марта, показаны женский домашний труд и освобождение от него. Один из соавторов песни — Борис Суботич, также написавший прошлогоднюю песню Черногории Dobrodošli.</p>
+      </div>
+    </div>
+    <div class="ds">
+      <div class="st">📝 Текст песни</div>
+      <div class="lhint">оригинал → перевод</div>
+      <div class="lyrics">
+        <div class="lpair">
+          <div class="lo">Нова зора (Nova zora)</div>
+          <div class="lt">Новая заря</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Ko je ovdje ko? Ma kraj je</div>
+          <div class="lt">Кто есть кто? Что же, конец настал</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Moj je jači hod (Jači hod), za dalje</div>
+          <div class="lt">Мой шаг окреп (Шаг окреп), я двигаюсь</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Iz srca sad vadim olovo</div>
+          <div class="lt">Я вынимаю свинец из своего сердца</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Sve je gotovo, sve je gotovo</div>
+          <div class="lt">Всё кончено, всё кончено</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">(Lijepe žene, jake kao stijene, žene)</div>
+          <div class="lt">(Прекрасные женщины, сильные как</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">(Lijepe žene, lijepe su zbog sebe)</div>
+          <div class="lt">(Прекрасные женщины, прекрасные сами</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Finally breathing and finding love inside</div>
+          <div class="lt">Наконец я дышу и нахожу любовь внутри</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Kiša traje, kiša traje, nebo znak mi daje</div>
+          <div class="lt">Дождь идёт, дождь идёт, небо знак мне</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Grmi sijeva, grmi sijeva, sudbina se mijenja</div>
+          <div class="lt">Гремит и сверкает, гремит и сверкает,</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">O-ou, o-o-ou, o-ou, o-ou</div>
+          <div class="lt">О-у, о-о-у, о-у, о-у</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Iza gora, iza mora, rodila se nova zora</div>
+          <div class="lt">За горами, за морями, родилась новая заря</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">(Nova zora)</div>
+          <div class="lt">(Новая заря)</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Ko si ti da mi pričaš, ko sam ja?</div>
+          <div class="lt">Кем ты себя возомнил, чтобы</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Da l’ ću doć&#x27; ili poć&#x27;? Ja sam otišla</div>
+          <div class="lt">Приду ли я или пойду? Я уже ушла</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Sve što vodi do tebe, sam srušila</div>
+          <div class="lt">Всё, что ведёт к тебе, я разрушила</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Iz tvojih otrova, se Sunce probija</div>
+          <div class="lt">Даже сквозь твой яд пробивается солнце</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">I nova zora zasija</div>
+          <div class="lt">И новая заря засияет</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">(Lijepe žene, jake kao stijene, žene)</div>
+          <div class="lt">(Прекрасные женщины, сильные как</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">(Lijepe žene, lijepe su zbog sebe)</div>
+          <div class="lt">(Прекрасные женщины, прекрасные сами</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Finally breathing and finding love inside</div>
+          <div class="lt">Наконец я дышу и нахожу любовь внутри</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Kiša traje, kiša traje, nebo znak mi daje</div>
+          <div class="lt">Дождь идёт, дождь идёт, небо знак мне</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Grmi sijeva, grmi sijeva, sudbina se mijenja</div>
+          <div class="lt">Гремит и сверкает, гремит и сверкает,</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">O-ou, o-o-ou, o-ou, o-ou</div>
+          <div class="lt">О-у, о-о-у, о-у, о-у</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Iza gora, iza mora, rodila se nova zora</div>
+          <div class="lt">За горами, за морями, родилась новая заря</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Nema okova, nema okova, nema</div>
+          <div class="lt">Нет оков, нет оков, нет</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Kô od gromova rođena žena</div>
+          <div class="lt">Женщина, рождённая из грома</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Nema okova, nema okova, nema</div>
+          <div class="lt">Нет оков, нет оков, нет</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Kô od gromova rođena žena</div>
+          <div class="lt">Женщина, рождённая из грома</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Kiša traje, kiša traje, nebo znak mi daje</div>
+          <div class="lt">Дождь идёт, дождь идёт, небо знак мне</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Grmi sijeva, grmi sijeva, sudbina se mijenja</div>
+          <div class="lt">Гремит и сверкает, гремит и сверкает,</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">O-ou, o-o-ou, o-ou, o-ou</div>
+          <div class="lt">О-у, о-о-у, о-у, о-у</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Iza gora, iza mora, rodila se nova zora</div>
+          <div class="lt">За горами, за морями, родилась новая заря</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">(Nova zora)</div>
+          <div class="lt">(Новая заря)</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">11</div>
+          <div class="lt">Нацотбор</div>
+        </div>
+
+      </div>
+    </div>
+    <div class="spacer"></div>
+  </div>
+  <div class="dp" id="detail-10" style="display:none">
+    <div class="dh">
+      <button class="back" onclick="showList()">← Назад</button>
+      <img class="dba" src="img/banner_p12.webp" alt="">
+      <div class="dcn">Эстония</div>
+      <div class="dst">🎤 Участвует в полуфинале</div>
+    </div>
+    <div class="ds">
+      <div class="st">🎤 Исполнитель</div>
+      <div class="ab">
+        <img class="dai" src="img/artist_p12.webp" alt="">
+        <div class="ai">
+          <div class="dpr">Vanilla Ninja</div>
+
+          <div class="dbo">
+          <p>Леннаа Куурма Пирет Ярвис-Милдер Керли Кивилаан Эстонская группа с 2002 года, популярная и на родине, и в Европе. Группа представляла Швейцарию на Евровидении-2005 и заняла 8-ое место. Группа прекратила существовать в 2008 году из-за финансовых проблем, музыкантки занялись сольными карьерами. Но в 2020 году группа вернулась.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="ds">
+      <div class="st">🌍 Страна</div>
+<div class="do"><span class="b bg">В финал: 48%</span> <span class="b bb">Победа: &lt;1%</span></div>
+      <div class="dsa"><span class="stat">🏆 1 победа</span> <span class="stat">в финале 4× подряд</span></div>
+<div class="dsel">открытый отбор</div>
+      <div class="dc">
+
+      </div>
+    </div>
+    <div class="ds">
+      <div class="st">🎵 Песня</div>
+      <div class="dstl">Too Epic to Be True</div>
+      <div class="dstr">Слишком эпично, чтобы быть</div>
+      <div class="dm">🗣️ Английский</div>
+<div class="dm">🎵 Поп-рок</div>
+      <div class="dsc">
+        <p>правдой Эту песню написал продюсер Свен Лыхмус, создавший Vanilla Ninja. Помимо этого, он также создал и написал песни для групп Suntribe (Эстония-2005), Urban Symphony (Эстония-2009), а также продюсирует и написал песни для певиц Геттер Яани (Эстония-2011) и Лауры Пылдвере (Эстония-2017 вместе с Койтом Тооме).</p>
+      </div>
+    </div>
+    <div class="ds">
+      <div class="st">📝 Текст песни</div>
+      <div class="lhint">оригинал → перевод</div>
+      <div class="lyrics">
+        <div class="lpair">
+          <div class="lo">Too Epic to Be True</div>
+          <div class="lt">Слишком эпично, чтобы быть</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Too epic to be true</div>
+          <div class="lt">Слишком эпично, чтобы быть правдой</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">But here I am with you</div>
+          <div class="lt">Но вот я здесь, с тобой</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">The spark between us wrote the plot for us</div>
+          <div class="lt">Искра между нами создала целый сюжет</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Too epic to be true</div>
+          <div class="lt">Слишком эпично, чтобы быть правдой</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Maybe this could be heaven</div>
+          <div class="lt">Может, это и есть рай</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Maybe I&#x27;m just a fool</div>
+          <div class="lt">Может, я просто дура</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Maybe we&#x27;re closer than we think</div>
+          <div class="lt">А может, мы ближе, чем думаем?</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">And I&#x27;ve got a clear view</div>
+          <div class="lt">И я всё ясно вижу</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">When I said I loved you, I meant it</div>
+          <div class="lt">Когда я сказала, что люблю тебя, я</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">It is not so hard to believe it</div>
+          <div class="lt">В это не так уж трудно поверить</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Too epic to be true</div>
+          <div class="lt">Слишком эпично, чтобы быть правдой</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">But here I am with you</div>
+          <div class="lt">Но вот я здесь, с тобой</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">The spark between us wrote the plot for us</div>
+          <div class="lt">Искра между нами создала целый сюжет</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Too epic to be true</div>
+          <div class="lt">Слишком эпично, чтобы быть правдой</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Maybe I am so reckless</div>
+          <div class="lt">Может, я слишком безрассудная</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">I don&#x27;t play by the rules</div>
+          <div class="lt">Я не играю по правилам</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Maybe we&#x27;re closer than we think</div>
+          <div class="lt">А может, мы ближе, чем думаем?</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">And we&#x27;ve got a clear view</div>
+          <div class="lt">И ясно всё видим</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">When I said I loved you, I meant it</div>
+          <div class="lt">Когда я сказала, что люблю тебя, я</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">It is not so hard to believe it</div>
+          <div class="lt">В это не так уж трудно поверить</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Too epic to be true</div>
+          <div class="lt">Слишком эпично, чтобы быть правдой</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">But here I am with you</div>
+          <div class="lt">Но вот я здесь, с тобой</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">The spark between us wrote the plot for us</div>
+          <div class="lt">Искра между нами создала целый сюжет</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Too epic to be true</div>
+          <div class="lt">Слишком эпично, чтобы быть правдой</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">My life was uncontrolled</div>
+          <div class="lt">Моя жизнь была бесконтрольной</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Pure rebel rock and roll</div>
+          <div class="lt">Чистый бунтарский рок-н-ролл</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Before you came to me like that</div>
+          <div class="lt">Пока ты не появился и не сказал</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Too epic, too epic, too epic</div>
+          <div class="lt">Слишком эпично, слишком эпично,</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Too epic, too epic, too epic</div>
+          <div class="lt">Слишком эпично, слишком эпично,</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Too epic to be true</div>
+          <div class="lt">Слишком эпично, чтобы быть правдой</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">But here I am with you</div>
+          <div class="lt">Но вот я здесь, с тобой</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">The spark between us wrote the plot for us</div>
+          <div class="lt">Искра между нами создала целый сюжет</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Too epic to be true</div>
+          <div class="lt">Слишком эпично, чтобы быть правдой</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Too epic, too epic, too epic, epic to be true</div>
+          <div class="lt">Слишком эпично, слишком эпично,</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Too epic, too epic, too epic, epic to be true</div>
+          <div class="lt">Слишком эпично, слишком эпично,</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">The spark between us wrote the plot for us</div>
+          <div class="lt">Искра между нами создала целый сюжет</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Too epic to be true</div>
+          <div class="lt">Слишком эпично, чтобы быть правдой</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">12</div>
+          <div class="lt">Нацотбор</div>
+        </div>
+
+      </div>
+    </div>
+    <div class="spacer"></div>
+  </div>
+  <div class="dp" id="detail-11" style="display:none">
+    <div class="dh">
+      <button class="back" onclick="showList()">← Назад</button>
+      <img class="dba" src="img/banner_p13.webp" alt="">
+      <div class="dcn">Израиль</div>
+      <div class="dst">🎤 Участвует в полуфинале</div>
+    </div>
+    <div class="ds">
+      <div class="st">🎤 Исполнитель</div>
+      <div class="ab">
+        <img class="dai" src="img/artist_p13.webp" alt="">
+        <div class="ai">
+          <div class="dpr">Ноам Беттан</div>
+<div class="dbi">р. 1998 · Раанана</div>
+          <div class="dbo">
+          <p>Из семьи иммигрантов из Франции. Начал музыкальную карьеру после окончания службы в ЦАХАЛ в 2019 году.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="ds">
+      <div class="st">🌍 Страна</div>
+<div class="do"><span class="b bg">В финал: 99%</span> <span class="b bb">Победа: 5.3%</span></div>
+      <div class="dsa"><span class="stat">🏆 4 победы</span> <span class="stat">в финале 3× подряд</span></div>
+<div class="dsel">открытый отбор</div>
+      <div class="dc">
+        <p>Из-за участия Израиля в этом году Ирландия, Исландия, Испания, Нидерланды и Словения бойкотируют Евровидение. В прошлом году Израиль набрал больше всех зрительских голосов.</p>
+      </div>
+    </div>
+    <div class="ds">
+      <div class="st">🎵 Песня</div>
+      <div class="dstl">Michelle</div>
+      <div class="dstr">Мишель</div>
+      <div class="dm">🗣️ Французский · Иврит · Английский</div>
+<div class="dm">🎵 Поп</div>
+      <div class="dsc">
+        <p>Шансон Баллада Один из соавторов песни — Юваль Рафаэль, прошлогодняя участница от Израиля.</p>
+      </div>
+    </div>
+    <div class="ds">
+      <div class="st">📝 Текст песни</div>
+      <div class="lhint">оригинал → перевод</div>
+      <div class="lyrics">
+        <div class="lpair">
+          <div class="lo">Michelle</div>
+          <div class="lt">Мишель</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Mm-mm</div>
+          <div class="lt">Мм-мм</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Mm-mm</div>
+          <div class="lt">Мм-мм</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Mm-mm, mmm</div>
+          <div class="lt">Мм-мм, мм-мм</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">מישל זו אהבה רעילה, אני באפלה Мишель, от этой токсичной любви я брожу во тьме,</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">איך השארת אותי בצל? Зачем ты оставила меня в тени?</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">כוכבת בלי תהילה Звезда, не получившая славы,</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">משוגעת גדולה Настоящая сумасшедшая,</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">אני קם ונופל Я поднимаюсь и снова падаю.</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Oh, Michelle</div>
+          <div class="lt">О, Мишель,</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Je ne sais plus quoi faire</div>
+          <div class="lt">Я больше не знаю, как мне быть,</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Tu étais ma lumière</div>
+          <div class="lt">Ты была моим светом,</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Dieu j&#x27;t&#x27;en supplie réveille-moi</div>
+          <div class="lt">Боже, молю, дай мне проснуться,</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">J&#x27;ai plongé dans le noir</div>
+          <div class="lt">Я утонул во тьме,</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Ramène-moi de l&#x27;espoir</div>
+          <div class="lt">Верни мне надежду</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Et ma mademoiselle</div>
+          <div class="lt">И мою возлюбленную.</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Alors je danse, danse avec les maux</div>
+          <div class="lt">И я кружусь в танце с болью,</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Tu me verras rire, rire à nouveau</div>
+          <div class="lt">Ты увидишь, как я вновь смеюсь,</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">T&#x27;es ma douleur, j&#x27;n&#x27;étais qu&#x27;un décor</div>
+          <div class="lt">Ты моя боль, а я лишь декорация,</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">J&#x27;ai crié, crié, crié</div>
+          <div class="lt">И я кричу, кричу, кричу.</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Michelle</div>
+          <div class="lt">Мишель,</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Je te laisse partir, adieu ma belle</div>
+          <div class="lt">Я отпускаю тебя, прощай, моя любимая,</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Je te laisse partir, mais je t&#x27;aime</div>
+          <div class="lt">Я отпускаю тебя, хоть и люблю,</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">La reine des problèmes</div>
+          <div class="lt">Королева всех моих проблем —</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Michelle, Michelle, Michelle, Michelle</div>
+          <div class="lt">Мишель, Мишель, Мишель, Мишель.</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Aye-aye-aye-aye-aye-aye (Oh-oh, oh-oh)</div>
+          <div class="lt">Аи-аи-аи-аи-аи-аи (о-о, о-о)</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Aye-aye-aye-aye-aye-aye (Oh-oh, oh-oh)</div>
+          <div class="lt">Аи-аи-аи-аи-аи-аи (о-о, о-о)</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Walking down Florentin</div>
+          <div class="lt">Проходя по району Флорентин,</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Ocean eyes, memories</div>
+          <div class="lt">В воспоминаниях твои глаза, как океан,</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">I (I), I&#x27;m losing my mind</div>
+          <div class="lt">Я (я) схожу с ума,</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">An angel, but is it hell?</div>
+          <div class="lt">Она ангел, а это ли не ад?</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Trapped in your carousel</div>
+          <div class="lt">Я застрял в твоей карусели,</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">&#x27;Round and &#x27;round (&#x27;Round and &#x27;round)</div>
+          <div class="lt">Всё по кругу (по кругу),</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Under your spell</div>
+          <div class="lt">Я под твоими чарами.</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Michelle (Michelle)</div>
+          <div class="lt">Мишель (Мишель),</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Je te laisse partir, adieu ma belle</div>
+          <div class="lt">Я отпускаю тебя, прощай, моя любимая,</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Je te laisse partir, mais je t&#x27;aime</div>
+          <div class="lt">Я отпускаю тебя, хоть и люблю,</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">La reine des problèmes</div>
+          <div class="lt">Королева всех моих проблем —</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Michelle, Michelle, Michelle, Michelle</div>
+          <div class="lt">Мишель, Мишель, Мишель, Мишель.</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Aye-aye-aye-aye-aye-aye (Oh-oh, oh-oh)</div>
+          <div class="lt">Аи-аи-аи-аи-аи-аи (о-о, о-о)</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Aye-aye-aye-aye-aye-aye (Oh-oh, oh-oh)</div>
+          <div class="lt">Аи-аи-аи-аи-аи-аи (о-о, о-о)</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Ooh (Oh-oh, oh-oh)</div>
+          <div class="lt">Оо (о-о, о-о)</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Ooh (Oh-oh, oh-oh)</div>
+          <div class="lt">Оо (о-о, о-о)</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">ואולי בסוף יהיה לנו טוב А, может, всё в итоге хорошо для нас сложится,</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">מתפלל עלייך שתזכי לאהוב Я молюсь, чтобы тебе выпала возможность</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">בין דמעה לדמעה יש מי שישמע После пролитых слёз найдётся кто-то,</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">יש מי שישמע Кто услышит тебя.</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">(Michelle)</div>
+          <div class="lt">(Мишель)</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Je te laisse partir, adieu ma belle (Michelle)</div>
+          <div class="lt">Я отпускаю тебя, прощай, моя любимая (Мишель),</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Je te laisse partir, mais je t&#x27;aime</div>
+          <div class="lt">Я отпускаю тебя, хоть и люблю,</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">La reine des problèmes</div>
+          <div class="lt">Королева всех моих проблем</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Ooh (Oh-oh, oh-oh)</div>
+          <div class="lt">(Оо; о-о, о-о)...</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Oh, je t&#x27;aime</div>
+          <div class="lt">О, я люблю тебя,</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Ma reine des problèmes</div>
+          <div class="lt">Королева всех моих проблем –</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Michelle, Michelle, Michelle, Michelle</div>
+          <div class="lt">Мишель, Мишель, Мишель, Мишель.</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">13</div>
+          <div class="lt">Клип</div>
+        </div>
+
+      </div>
+    </div>
+    <div class="spacer"></div>
+  </div>
+  <div class="dp" id="detail-12" style="display:none">
+    <div class="dh">
+      <button class="back" onclick="showList()">← Назад</button>
+      <img class="dba" src="img/banner_p14.webp" alt="">
+      <div class="dcn">Германия</div>
+      <div class="dst">⭐ Член Большой пятёрки</div>
+    </div>
+    <div class="ds">
+      <div class="st">🎤 Исполнитель</div>
+      <div class="ab">
+        <img class="dai" src="img/artist_p14.webp" alt="">
+        <div class="ai">
+          <div class="dpr">Сара Энгельс</div>
+<div class="dbi">р. 1992 · Кёльн</div>
+          <div class="dbo">
+          <p>Стала известной в 2011 году после того, как заняла второе место в шоу Deutschland sucht den Superstar. Позднее также заняла второе место в проекте Let’s Dance и одержала победу в шоу Das große Promibacken, The Masked Singer и Dancing on Ice. Автор шести студийных альбомов и более 30 синглов.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="ds">
+      <div class="st">🌍 Страна</div>
+<div class="do"><span class="b bb">Победа: &lt;1%</span></div>
+      <div class="dsa"><span class="stat">🏆 2 победы</span></div>
+<div class="dsel">открытый отбор</div>
+      <div class="dc">
+
+      </div>
+    </div>
+    <div class="ds">
+      <div class="st">🎵 Песня</div>
+      <div class="dstl">Fire</div>
+      <div class="dstr">Огонь / В ударе</div>
+      <div class="dm">🗣️ Английский</div>
+<div class="dm">🎵 Пауэр-поп</div>
+      <div class="dsc">
+        <p>Песни с названием, означающим «огонь», уже были на Евровидении: Германия-1978 («Feuer»), Кипр-2018 («Fuego») и Албания-2025 («Zjerm»).</p>
+      </div>
+    </div>
+    <div class="ds">
+      <div class="st">📝 Текст песни</div>
+      <div class="lhint">оригинал → перевод</div>
+      <div class="lyrics">
+        <div class="lpair">
+          <div class="lo">Fire</div>
+          <div class="lt">Огонь / В ударе</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Stop denyin&#x27;, -nyin&#x27;, no lyin&#x27;, lyin&#x27; no more</div>
+          <div class="lt">Хватит отрицать-цать, не нужно обманывать-</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Boy, I&#x27;m out of your league</div>
+          <div class="lt">Парень, я птица не твоего полёта,</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Nonsense what you&#x27;ve been doin&#x27; to me</div>
+          <div class="lt">Это безумие, как ты со мной обходился,</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Just know that I could take my revenge</div>
+          <div class="lt">Просто знай, что я могу отомстить</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">I could go out with all of your friends</div>
+          <div class="lt">И пойти отрываться с твоими друзьями.</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">I can fake it &#x27;til I make it, but I won&#x27;t (Fake it &#x27;til I make</div>
+          <div class="lt">Я могла бы притворяться, пока не добьюсь своего,</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">it, but I won&#x27;t)</div>
+          <div class="lt">но не стану,</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">If you crave it, you can take it, but you don&#x27;t (Crave it,</div>
+          <div class="lt">Если ты захочешь, то получишь меня, но ты не</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">you can take it, but you don&#x27;t)</div>
+          <div class="lt">хочешь,</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">I don&#x27;t want it, I don&#x27;t need it, and I won&#x27;t let you</div>
+          <div class="lt">Я не хочу, да и не нужно мне это, не позволю тебе</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">repeat it</div>
+          <div class="lt">ещё раз со мной так обойтись,</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">You just play it &#x27;til you break it and it&#x27;s blown</div>
+          <div class="lt">Ты просто игрался и доломал всё, а теперь всё</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">I&#x27;m on fire, fire, you&#x27;re a liar, liar</div>
+          <div class="lt">Я в ударе, в ударе, а ты обманщик, обманщик,</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Stop denyin&#x27;, -nyin&#x27;, no lyin&#x27;, lyin&#x27; no more</div>
+          <div class="lt">Хватит отрицать-цать, не нужно обманывать-</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Like a vampire, you hide, then come out the night</div>
+          <div class="lt">Как вампир, ты прячешься, а потом появляешься в</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Stop denyin&#x27;, -nyin&#x27;, no lyin&#x27;, lyin&#x27; no more</div>
+          <div class="lt">Хватит отрицать-цать, не нужно обманывать-</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">I&#x27;m on fire, fire</div>
+          <div class="lt">Я в ударе, в ударе,</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Stop denyin&#x27;, -nyin&#x27;, no lyin&#x27;, lyin&#x27; no more</div>
+          <div class="lt">Хватит отрицать-цать, не нужно обманывать-</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Just wait a minutе, you&#x27;re gonna see</div>
+          <div class="lt">Подожди минуту, и всё поймёшь сам,</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">That you won&#x27;t find another like mе</div>
+          <div class="lt">Что другой такой, как я, ты не найдёшь.</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">You&#x27;ll come around and I&#x27;ll be to late</div>
+          <div class="lt">Ты вернёшься, а меня уже не будет,</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">&#x27;Cause I won&#x27;t do the same old mistake</div>
+          <div class="lt">Потому что я не наступлю на старые грабли.</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">I can fake it &#x27;til I make it, but I won&#x27;t (Fake it &#x27;til I make</div>
+          <div class="lt">Я могла бы притворяться, пока не добьюсь своего,</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">it, but I won&#x27;t)</div>
+          <div class="lt">но не стану,</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">If you crave it, you can take it, but you don&#x27;t (Crave it,</div>
+          <div class="lt">Если ты захочешь, то получишь меня, но ты не</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">you can take it, but you don&#x27;t)</div>
+          <div class="lt">хочешь,</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">I don&#x27;t want it, I don&#x27;t need it, and I won&#x27;t let you</div>
+          <div class="lt">Я не хочу, да и не нужно мне это, не позволю тебе</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">repeat it</div>
+          <div class="lt">ещё раз со мной так обойтись,</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">You just play it &#x27;til you break it and it&#x27;s blown</div>
+          <div class="lt">Ты просто игрался и доломал всё, а теперь всё</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">I&#x27;m on fire, fire, you&#x27;re a liar, liar</div>
+          <div class="lt">Я в ударе, в ударе, а ты обманщик, обманщик,</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Stop denyin&#x27;, -nyin&#x27;, no lyin&#x27;, lyin&#x27; no more</div>
+          <div class="lt">Хватит отрицать-цать, не нужно обманывать-</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Like a vampire, you hide, then come out the night</div>
+          <div class="lt">Как вампир, ты прячешься, а потом появляешься в</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Stop denyin&#x27;, -nyin&#x27;, no lyin&#x27;, lyin&#x27; no more</div>
+          <div class="lt">Хватит отрицать-цать, не нужно обманывать-</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">I&#x27;m on fire, fire</div>
+          <div class="lt">Я в ударе, в ударе, а ты обманщик, обманщик,</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Stop denyin&#x27;, -nyin&#x27;, no lyin&#x27;, lyin&#x27; no more</div>
+          <div class="lt">Хватит отрицать-цать, не нужно обманывать-</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Like a vampire, you hide, then come out the night</div>
+          <div class="lt">Как вампир, ты прячешься, а потом появляешься в</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Stop denyin&#x27;, -nyin&#x27;, no lyin&#x27;, lyin&#x27; no more</div>
+          <div class="lt">Хватит отрицать-цать, не нужно обманывать-</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">I&#x27;m on fire</div>
+          <div class="lt">Я в ударе!</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">I&#x27;m on fire, fire, you&#x27;re a liar, liar</div>
+          <div class="lt">Я в ударе, в ударе, а ты обманщик, обманщик,</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Stop denyin&#x27;, -nyin&#x27;, no lyin&#x27;, lyin&#x27; no more</div>
+          <div class="lt">Хватит отрицать-цать, не нужно обманывать-</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Like a vampire, you hide, then come out the night</div>
+          <div class="lt">Как вампир, ты прячешься, а потом появляешься в</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Stop denyin&#x27;, -nyin&#x27;, no lyin&#x27;, lyin&#x27; no more</div>
+          <div class="lt">Хватит отрицать-цать, не нужно обманывать-</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">I&#x27;m on fire</div>
+          <div class="lt">Я в ударе!</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">I&#x27;m on fire</div>
+          <div class="lt">Я в ударе!</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Like a vampire, you hide, then come out the night</div>
+          <div class="lt">Как вампир, ты прячешься, а потом появляешься в</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Stop denyin&#x27;, -nyin&#x27;, no lyin&#x27;, lyin&#x27; no more</div>
+          <div class="lt">Хватит отрицать-цать, не нужно обманывать-</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">14</div>
+          <div class="lt">Нацотбор</div>
+        </div>
+
+      </div>
+    </div>
+    <div class="spacer"></div>
+  </div>
+  <div class="dp" id="detail-13" style="display:none">
+    <div class="dh">
+      <button class="back" onclick="showList()">← Назад</button>
+      <img class="dba" src="img/banner_p15.webp" alt="">
+      <div class="dcn">Бельгия</div>
+      <div class="dst">🎤 Участвует в полуфинале</div>
+    </div>
+    <div class="ds">
+      <div class="st">🎤 Исполнитель</div>
+      <div class="ab">
+        <img class="dai" src="img/artist_p15.webp" alt="">
+        <div class="ai">
+          <div class="dpr">Essyla</div>
+<div class="dbi">р. 1996</div>
+          <div class="dbo">
+          <p>Элис Ван Эсбек Перве Участвовала во втором и пока последнем &quot;Евровидение: Хор&quot; в 2019 году. Заняла второе место на The Voice Belgique в 2020 году, проиграв Жереми Макиесе, который представил Бельгию на Евровидении в 2022 году. Псевдоним &quot;Essyla&quot; появился как перевернутое имя певицы &quot;Alice&quot;.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="ds">
+      <div class="st">🌍 Страна</div>
+<div class="do"><span class="b bg">В финал: 40%</span> <span class="b bb">Победа: &lt;1%</span></div>
+      <div class="dsa"><span class="stat">🏆 1 победа</span> <span class="stat">мимо финала 2× подряд</span></div>
+<div class="dsel">внутренний отбор</div>
+      <div class="dc">
+        <p>Бельгийского участника выбирают по очереди валлонский бродкастер RTBF и фламандский бродкастер VRT. В прошлом году любимец фанатов фламандец Red Sebastian не смог пройти в финал. В этом году пришла очередь Валлонии. По информации некоторых СМИ, сначала от Бельгии был выбран певец Лоик Нотте, представлявший Бельгию в 2015 году с песней «Rhythm Inside», но позже он отказался от участия из-за участия Израиля, и выбор пришлось поменять.</p>
+      </div>
+    </div>
+    <div class="ds">
+      <div class="st">🎵 Песня</div>
+      <div class="dstl">Dancing on the Ice</div>
+      <div class="dstr">Танец на льду</div>
+      <div class="dm">🗣️ Английский</div>
+<div class="dm">🎵 Поп</div>
+      <div class="dsc">
+
+      </div>
+    </div>
+    <div class="ds">
+      <div class="st">📝 Текст песни</div>
+      <div class="lhint">оригинал → перевод</div>
+      <div class="lyrics">
+        <div class="lpair">
+          <div class="lo">Dancing on the Ice</div>
+          <div class="lt">Танец на льду</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">I got that summer on my skin</div>
+          <div class="lt">Я чувствую лето на своей коже</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">It burns, it lives, it burns within</div>
+          <div class="lt">Оно горит, оно живёт, горит внутри меня</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">That wheel is hot and I&#x27;m driving</div>
+          <div class="lt">Руль горячий, я веду</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Rain&#x27;s a goner, but I&#x27;m sinking</div>
+          <div class="lt">Дождь кончился, но я тону</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">I&#x27;m gonna burst, I&#x27;m gonna scream</div>
+          <div class="lt">Сейчас взорвусь, сейчас закричу</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">I want love</div>
+          <div class="lt">Я хочу любви</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">But I&#x27;m not loyal</div>
+          <div class="lt">Но я не верная</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Call me queen</div>
+          <div class="lt">Называй меня королевой</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Though I&#x27;m not royal</div>
+          <div class="lt">Хоть я и не принадлежу к королевской</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Want to go</div>
+          <div class="lt">Хочу уйти</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">What if I&#x27;m all alone?</div>
+          <div class="lt">Но что, если я останусь совсем одна?</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">I keep dancing on the ice</div>
+          <div class="lt">Я продолжаю танцевать на льду</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Where everything dies</div>
+          <div class="lt">Где всё умирает</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Frozen to the bone</div>
+          <div class="lt">Промёрзла до костей</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">I keep dancing on the ice</div>
+          <div class="lt">Я продолжаю танцевать на льду</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">&#x27;Cause I feel alive</div>
+          <div class="lt">Потому что чувствую себя живой</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">I&#x27;m satisfied</div>
+          <div class="lt">Я довольна</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Keep dancing on the ice</div>
+          <div class="lt">Продолжаю танцевать на льду</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Keep dancing on the ice</div>
+          <div class="lt">Продолжаю танцевать на льду</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Got King Winter in my back</div>
+          <div class="lt">За спиной у меня зимний король</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Gotta keep going on the track</div>
+          <div class="lt">Но я всё ещё иду своей дорогой</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Sunscreen that sticks on wet bodies</div>
+          <div class="lt">Солнцезащитный крем для влажных тел</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Ice cream melting on my blue jeans</div>
+          <div class="lt">Мороженое тает на моих синих джинсах</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Melting on my blue jeans</div>
+          <div class="lt">Тает на моих синих джинсах</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">I want love</div>
+          <div class="lt">Я хочу любви</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">But I&#x27;m not loyal</div>
+          <div class="lt">Но я не верная</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Call me queen</div>
+          <div class="lt">Называй меня королевой</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Though I&#x27;m not royal</div>
+          <div class="lt">Хоть я и не принадлежу к королевской</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Want to go</div>
+          <div class="lt">Хочу уйти</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">What if I&#x27;m all alone?</div>
+          <div class="lt">Но что, если я останусь совсем одна?</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">I keep dancing on the icе</div>
+          <div class="lt">Я продолжаю танцевать на льду</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Where evеrything dies</div>
+          <div class="lt">Где всё умирает</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Frozen to the bone</div>
+          <div class="lt">Промёрзла до костей</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">I keep dancing on the ice</div>
+          <div class="lt">Я продолжаю танцевать на льду</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">&#x27;Cause I feel alive</div>
+          <div class="lt">Потому что чувствую себя живой</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">I&#x27;m satisfied</div>
+          <div class="lt">Я довольна</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Keep dancing on the ice</div>
+          <div class="lt">Продолжаю танцевать на льду</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">(Keep dancing, keep dancing on the ice)</div>
+          <div class="lt">(Продолжаю танцевать, продолжаю</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Keep dancing on the ice</div>
+          <div class="lt">Продолжаю танцевать на льду</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Hey, heh, hey</div>
+          <div class="lt">Эй, ха, эй</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Woah</div>
+          <div class="lt">Оу</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">I want love</div>
+          <div class="lt">Я хочу любви</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Keep dancing on the ice</div>
+          <div class="lt">Продолжаю танцевать на льду</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Call me queen</div>
+          <div class="lt">Зови меня королевой</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">(Keep dancing, keep dancing on the ice)</div>
+          <div class="lt">(Продолжаю танцевать, продолжаю</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Want to go</div>
+          <div class="lt">Хочу уйти</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Keep dancing on the ice</div>
+          <div class="lt">Продолжаю танцевать на льду</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">I want love (Hey)</div>
+          <div class="lt">Я хочу любви (Эй)</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Keep dancing on the ice (Hey)</div>
+          <div class="lt">Продолжаю танцевать на льду (Эй)</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Call me queen</div>
+          <div class="lt">Зови меня королевой</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">(Keep dancing, keep dancing on the ice)</div>
+          <div class="lt">(Продолжаю танцевать, продолжаю</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Want to go (Hey)</div>
+          <div class="lt">Хочу уйти (Эй)</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Keep dancing on the ice (Hey)</div>
+          <div class="lt">Продолжаю танцевать на льду (Эй)</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">15</div>
+          <div class="lt">Лайв</div>
+        </div>
+
+      </div>
+    </div>
+    <div class="spacer"></div>
+  </div>
+  <div class="dp" id="detail-14" style="display:none">
+    <div class="dh">
+      <button class="back" onclick="showList()">← Назад</button>
+      <img class="dba" src="img/banner_p16.webp" alt="">
+      <div class="dcn">Литва</div>
+      <div class="dst">🎤 Участвует в полуфинале</div>
+    </div>
+    <div class="ds">
+      <div class="st">🎤 Исполнитель</div>
+      <div class="ab">
+        <img class="dai" src="img/artist_p16.webp" alt="">
+        <div class="ai">
+          <div class="dpr">Lion Ceccah</div>
+<div class="dbi">р. 1991</div>
+          <div class="dbo">
+          <p>Томас Аленчикас Вильнюс 🌈 Квир Прошёл на Евровидение от Литвы с пятого раза. Развивает драг-культуру в Литве.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="ds">
+      <div class="st">🌍 Страна</div>
+<div class="do"><span class="b bg">В финал: 69%</span> <span class="b bb">Победа: &lt;1%</span></div>
+      <div class="dsa"><span class="stat">в финале 5× подряд</span></div>
+<div class="dsel">открытый отбор</div>
+      <div class="dc">
+
+      </div>
+    </div>
+    <div class="ds">
+      <div class="st">🎵 Песня</div>
+      <div class="dstl">Sólo quiero más</div>
+      <div class="dstr">Я просто хочу большего</div>
+      <div class="dm">🗣️ Литовский · Английский · Испанский · Немецкий · Французский · Итальянский</div>
+<div class="dm">🎵 Арт-поп</div>
+      <div class="dsc">
+        <p>Классический кроссовер В конце песни Лион на 5 языках поёт «Я просто хочу большего»: на испанском, немецком, французском, итальянском и литовском. Песня заканчивается на том, что Лион дотрогивается согнутыми в «о» руками друг до друга 2-3 раза, на Международном жестовом языке это означает слово «больше».</p>
+      </div>
+    </div>
+    <div class="ds">
+      <div class="st">📝 Текст песни</div>
+      <div class="lhint">оригинал → перевод</div>
+      <div class="lyrics">
+        <div class="lpair">
+          <div class="lo">Sólo quiero más</div>
+          <div class="lt">Я просто хочу большего</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Tai gąsdina, vaidenasi visur kur aš esu</div>
+          <div class="lt">Это пугает, это преследует, где бы я ни</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Kas drįsta, tas klausia dėl ko aš gyvenu?</div>
+          <div class="lt">Кто посмеет спросить: &quot;Ради чего я живу?&quot;</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Tai nežeidžia manęs jau seniai</div>
+          <div class="lt">Это не причиняло мне боли долгое время.</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Tai nežeidžia manęs jau</div>
+          <div class="lt">Это больше не причиняет мне боли.</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Vis iš naujo sukuosi, rūke tiesios krantai</div>
+          <div class="lt">Я продолжаю кружиться снова и снова, в</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Sako į vidų žvelki ir rasi ko niekad neradai</div>
+          <div class="lt">Говорят, загляни внутрь себя – и ты</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Kai viskas griūna gyvenimą pamatau</div>
+          <div class="lt">Когда всё рушится, я вижу жизнь.</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Ir kuo toliau žiūriu</div>
+          <div class="lt">И чем дальше я смотрю...</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Aš tiesiog noriu daugiau</div>
+          <div class="lt">Я просто хочу большего.</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Sólo quiero más</div>
+          <div class="lt">Я просто хочу большего.</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Even if we&#x27;re living in a mad world</div>
+          <div class="lt">Даже если мы живём в безумном мире.</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Even if there&#x27;re no more gods to pray for</div>
+          <div class="lt">Даже если больше нет богов, которым</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">(Sólo quiero, sólo quiero más)</div>
+          <div class="lt">Я просто хочу, я просто хочу большего.</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Sólo quiero más</div>
+          <div class="lt">Я просто хочу большего.</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Even if we&#x27;re living in a mad world</div>
+          <div class="lt">Даже если мы живём в безумном мире.</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Even if we&#x27;re standing as the sky falls</div>
+          <div class="lt">Даже если мы стоим, когда небо падает.</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Sólo quiero</div>
+          <div class="lt">Я просто хочу.</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Sólo quiero más</div>
+          <div class="lt">Я просто хочу большего.</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Sólo quiero más</div>
+          <div class="lt">Я просто хочу большего.</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Dolor y alegría, así es la vida</div>
+          <div class="lt">Боль и радость — это жизнь.</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Gal lengviau būtų su subtitrais?</div>
+          <div class="lt">Может быть, было бы легче с субтитрами?</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Comme dans un vieux film la doulеur</div>
+          <div class="lt">Как в старом кино, пусть боль</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Crée la musique qui unit sans mots</div>
+          <div class="lt">Создаёт музыку, которая объединяет без</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Sólo quiero más</div>
+          <div class="lt">Я просто хочу большего.</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Evеn if we&#x27;re living in a mad world</div>
+          <div class="lt">Даже если мы живём в безумном мире.</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Even if there&#x27;re no more gods to pray for</div>
+          <div class="lt">Даже если больше нет богов, которым</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">(Sólo quiero, sólo quiero más)</div>
+          <div class="lt">Я просто хочу, я просто хочу большего.</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Sólo quiero más</div>
+          <div class="lt">Я просто хочу большего.</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Even if we&#x27;re living in a mad world</div>
+          <div class="lt">Даже если мы живём в безумном мире.</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Even if we&#x27;re standing as the sky falls</div>
+          <div class="lt">Даже если мы стоим, когда небо падает.</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">(Sólo quiero)</div>
+          <div class="lt">Я просто хочу.</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">(Sólo quiero más)</div>
+          <div class="lt">Я просто хочу большего.</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Sólo quiero más</div>
+          <div class="lt">Я просто хочу большего.</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">(Even if we&#x27;re living in a mad world)</div>
+          <div class="lt">(Даже если мы живём в безумном мире.)</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Ich will einfach mehr</div>
+          <div class="lt">Я просто хочу большего.</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">(Even if there&#x27;re no more gods to pray for)</div>
+          <div class="lt">(Даже если больше нет богов, которым</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Je veux juste plus</div>
+          <div class="lt">Я просто хочу большего.</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">(Even if we&#x27;re living in a mad world)</div>
+          <div class="lt">(Даже если мы живём в безумном мире.)</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Voglio solo di più</div>
+          <div class="lt">Я просто хочу большего.</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">(Even if we&#x27;re standing as the sky falls)</div>
+          <div class="lt">(Даже если мы стоим, когда небо падает.)</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Aš tiesiog noriu daugiau</div>
+          <div class="lt">Я просто хочу большего.</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">16</div>
+          <div class="lt">Нацотбор</div>
+        </div>
+
+      </div>
+    </div>
+    <div class="spacer"></div>
+  </div>
+  <div class="dp" id="detail-15" style="display:none">
+    <div class="dh">
+      <button class="back" onclick="showList()">← Назад</button>
+      <img class="dba" src="img/banner_p17.webp" alt="">
+      <div class="dcn">Сан Марино</div>
+      <div class="dst">🎤 Участвует в полуфинале</div>
+    </div>
+    <div class="ds">
+      <div class="st">🎤 Исполнитель</div>
+      <div class="ab">
+        <img class="dai" src="img/artist_p17.webp" alt="">
+        <div class="ai">
+          <div class="dpr">Сенит (feat. Boy George)</div>
+<div class="dbi">р. 1979</div>
+          <div class="dbo">
+          <p>Сенит Задик Задик Болонья, Италия 🌈 Гей (Boy George) Сенит — итальянская певица из семьи эмигрантов из Эритреи, а Boy George — британский певец, они не живут в Сан-Марино. Сенит уже представляла Сан-Марино в 2011 (не вышла в финал), в 2020 (конкурс отменили) и в 2021 (22 место в финале). Boy George был фронтменом британской группы Culture Club в 80-ые, выступавшей в жанре Новая романтика.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="ds">
+      <div class="st">🌍 Страна</div>
+<div class="do"><span class="b bg">В финал: 20%</span> <span class="b bb">Победа: &lt;1%</span></div>
+      <div class="dsa"></div>
+<div class="dsel">открытый отбор</div>
+      <div class="dc">
+
+      </div>
+    </div>
+    <div class="ds">
+      <div class="st">🎵 Песня</div>
+      <div class="dstl">Superstar</div>
+      <div class="dstr">Суперзвезда</div>
+      <div class="dm">🗣️ Английский</div>
+<div class="dm">🎵 Поп</div>
+      <div class="dsc">
+        <p>Соавтор песни — Андерс Вретов, соавтор песен Bara bada bastu (Швеция-2025, 4 место), Voices (Швеция-2021, 7 место), Fuego (Кипр-2018, 2 место) и Always (Азербайджан-2009, 3 место). Соавтором песен для Великобритании, Люксембурга и Сан-Марино в этом году стала Kill J, ранее написавшая много других песен для Евровидения.</p>
+      </div>
+    </div>
+    <div class="ds">
+      <div class="st">📝 Текст песни</div>
+      <div class="lhint">оригинал → перевод</div>
+      <div class="lyrics">
+        <div class="lpair">
+          <div class="lo">Superstar</div>
+          <div class="lt">Суперзвезда</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">All the boys in the back</div>
+          <div class="lt">Все парни сзади</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Wearing black</div>
+          <div class="lt">Одеты в черное</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Lookin&#x27; like they&#x27;re up to somethin&#x27;</div>
+          <div class="lt">Выглядят, как будто что-то задумали</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">All the girls on the floor</div>
+          <div class="lt">Все девчонки на танцполе</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Lookin&#x27; for something more</div>
+          <div class="lt">Ищут чего-то большего,</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Like it&#x27;s all or nothing</div>
+          <div class="lt">Как будто все или ничего</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Neon lights, smoky eyes</div>
+          <div class="lt">Неоновый свет, смоки-айз</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Drippin&#x27; diamonds, flashin&#x27; lights</div>
+          <div class="lt">Сыплющиеся бриллианты, мерцающий свет</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">There you are</div>
+          <div class="lt">Вот ты где</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Look at you, starin&#x27; at your shoes</div>
+          <div class="lt">Посмотри на себя, уставилась в пол</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Like you&#x27;re scared or something</div>
+          <div class="lt">Как будто ты чего-то боишься</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Oh baby, there you are</div>
+          <div class="lt">О детка, вот ты где</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Go, go and get it like a superstar</div>
+          <div class="lt">Иди, иди и зажги, как суперзвезда</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Go, go and do it for your broken heart</div>
+          <div class="lt">Иди, иди и сделай это ради своего разбитого</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">&#x27;Cause baby, you&#x27;re a superstar, superstar</div>
+          <div class="lt">Потому что, детка, ты суперзвезда,</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Uh-huh, uh-huh</div>
+          <div class="lt">А-га, а-га</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">There you are</div>
+          <div class="lt">Вот ты где</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Go, go ahead and show them all your scars</div>
+          <div class="lt">Иди, иди вперед и покажи всем свои шрамы</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Go, go and show exactly who you are</div>
+          <div class="lt">Иди, иди и покажи, кто ты на самом деле</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Let them know you&#x27;re a superstar, superstar</div>
+          <div class="lt">Пусть они знают, что ты суперзвезда,</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Baby you&#x27;re a gem, freaky queen</div>
+          <div class="lt">Детка, ты алмаз, чудачка-королева</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Four a.m. you&#x27;re really something</div>
+          <div class="lt">4 утра, ты просто нечто,</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">And it&#x27;s about time</div>
+          <div class="lt">И это самое время</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">You get out, show it off</div>
+          <div class="lt">Выйти и показать им всем,</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">What you&#x27;re becoming</div>
+          <div class="lt">Кем ты становишься</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">They took themselves on the floor</div>
+          <div class="lt">Они приходят на танцпол</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">They&#x27;ve never seen perfection like this before</div>
+          <div class="lt">Они никогда раньше не видели такого</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Baby, I know that</div>
+          <div class="lt">Детка, я знаю, что</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">You&#x27;ve been to hell and back</div>
+          <div class="lt">Ты прошла сквозь ад и обратно</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">But there is one thing</div>
+          <div class="lt">Но вот в чем дело</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Oh baby, there you are</div>
+          <div class="lt">О детка, вот ты где</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Go, go and get it like a superstar</div>
+          <div class="lt">Иди, иди и зажги, как суперзвезда</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Go, go and do it for your broken heart</div>
+          <div class="lt">Иди, иди и сделай это ради своего разбитого</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">&#x27;Cause baby, you&#x27;re a superstar, superstar</div>
+          <div class="lt">Потому что, детка, ты суперзвезда,</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Uh-huh, uh-huh</div>
+          <div class="lt">А-га, а-га</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">There you are</div>
+          <div class="lt">Вот ты где</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Go, go ahead and show them all your scars</div>
+          <div class="lt">Иди, иди вперед и покажи всем свои шрамы</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Go, go and show exactly who you are</div>
+          <div class="lt">Иди, иди и покажи, кто ты на самом деле</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Let them know you&#x27;re a superstar, superstar</div>
+          <div class="lt">Пусть они узнают, что ты суперзвезда,</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">(All the boys at the bar sipping cool champagne)</div>
+          <div class="lt">(Все парни в баре пьют прохладное</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">(All the girls on the dance floor freaking insane)</div>
+          <div class="lt">(Все девчонки на танцполе сходят с ума)</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">You&#x27;re a superstar</div>
+          <div class="lt">Ты суперзвезда</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Oh baby, there you are</div>
+          <div class="lt">О, детка, вот ты где</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Go, go and get it like a superstar</div>
+          <div class="lt">Иди, иди и зажги как суперзвезда</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Go, go and do it for your broken heart</div>
+          <div class="lt">Иди, иди и сделай это ради своего разбитого</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">&#x27;Cause baby, you&#x27;re a superstar, superstar</div>
+          <div class="lt">Потому что, детка, ты суперзвезда,</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Uh-huh, uh-huh</div>
+          <div class="lt">А-га, а-га</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">There you are</div>
+          <div class="lt">Вот ты где</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">(All the boys at bar sipping cool champagne)</div>
+          <div class="lt">(Все парни в баре пьют прохладное</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Go, go ahead and show them all your scars</div>
+          <div class="lt">Иди, иди вперед и покажи всем свои шрамы</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Go, go and show exactly who you are</div>
+          <div class="lt">Иди, иди и покажи кто ты на самом деле</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">(All the girls on the dance floor freaking insane)</div>
+          <div class="lt">(Все девчонки на танцполе сходят с ума)</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Let them know you&#x27;re a superstar, superѕtаr</div>
+          <div class="lt">Пусть они узнают, что ты суперзвезда,</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">17</div>
+          <div class="lt">Нацотбор</div>
+        </div>
+
+      </div>
+    </div>
+    <div class="spacer"></div>
+  </div>
+  <div class="dp" id="detail-16" style="display:none">
+    <div class="dh">
+      <button class="back" onclick="showList()">← Назад</button>
+      <img class="dba" src="img/banner_p18.webp" alt="">
+      <div class="dcn">Польша</div>
+      <div class="dst">🎤 Участвует в полуфинале</div>
+    </div>
+    <div class="ds">
+      <div class="st">🎤 Исполнитель</div>
+      <div class="ab">
+        <img class="dai" src="img/artist_p18.webp" alt="">
+        <div class="ai">
+          <div class="dpr">Алиция</div>
+<div class="dbi">р. 2002</div>
+          <div class="dbo">
+          <p>Алиция Шемплинская Цеханув Победительница The Voice of Poland в 2019 году. Должна была представлять Польшу на отменённом Евровидении-2020. Поучаствовала в польском благотворительном стриме, собравшем $70 000 000 на борьбу с раком, спев песню и продав на аукционе свой билет на Евровидение.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="ds">
+      <div class="st">🌍 Страна</div>
+<div class="do"><span class="b bg">В финал: 57%</span> <span class="b bb">Победа: &lt;1%</span></div>
+      <div class="dsa"></div>
+<div class="dsel">открытый отбор</div>
+      <div class="dc">
+        <p>Среди фанатов Польша славится избыточными спецэффектами и сексуализацией на сцене</p>
+      </div>
+    </div>
+    <div class="ds">
+      <div class="st">🎵 Песня</div>
+      <div class="dstl">Pray</div>
+      <div class="dstr">Молись</div>
+      <div class="dm">🗣️ Английский</div>
+<div class="dm">🎵 R&amp;B</div>
+      <div class="dsc">
+        <p>Госпел Хип-Хоп Фанаты слышат очень большое влияние Beyoncé в этой песне</p>
+      </div>
+    </div>
+    <div class="ds">
+      <div class="st">📝 Текст песни</div>
+      <div class="lhint">оригинал → перевод</div>
+      <div class="lyrics">
+        <div class="lpair">
+          <div class="lo">Pray</div>
+          <div class="lt">Молись</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Freedom, just freedom</div>
+          <div class="lt">Свобода, просто свобода</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Won&#x27;t you give it all to me?</div>
+          <div class="lt">Ты не можешь просто взять и отдать мне её?</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Lay down all my struggle</div>
+          <div class="lt">Оставив в стороне все мои страдания,</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">And bring back the missing piece, the missing piece of</div>
+          <div class="lt">Верни эту недостающую часть меня</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">me</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Lord, are You givin&#x27; up on me?</div>
+          <div class="lt">Господи, ты оставляешь меня?</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">&#x27;Cause I&#x27;m not givin&#x27; up on me</div>
+          <div class="lt">Потому что я не сдамся,</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Thought You would forgive my sins</div>
+          <div class="lt">Я думал, ты простишь мои грехи</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">You told me to pray (Pray)</div>
+          <div class="lt">Ты велел мне молиться (молиться)</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">So I gotta pray (Pray)</div>
+          <div class="lt">Поэтому я должна молиться (молиться)</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">I gotta just pray, pray, pray</div>
+          <div class="lt">Я должна просто молиться, молиться, молиться</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Pretty girls rock</div>
+          <div class="lt">Красотки всегда зажигают,</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">I&#x27;ve been on my shit, now it&#x27;s pretty on top</div>
+          <div class="lt">Я сосредоточена на своей цели,</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">You ain&#x27;t my loss</div>
+          <div class="lt">Ты не моя потеря,</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Step down, take five, now I&#x27;m the boss</div>
+          <div class="lt">Спустись, сделай перерыв, теперь я главная,</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">I&#x27;ma go, move fast</div>
+          <div class="lt">Мне нужно идти вперед, очень быстро</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Take this style, take this class</div>
+          <div class="lt">Зацени этот стиль, зацени этот класс</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Make the money when you run with me</div>
+          <div class="lt">Зарабатывай деньги, когда будешь бегать со мной</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">They told me, &quot;Go, shake that ass</div>
+          <div class="lt">Они сказали мне: &quot;Вперёд, потряси своей задницей,</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Take that off, two steps back&quot;</div>
+          <div class="lt">Сними это, два шага назад&quot;</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Why it always feel the same?</div>
+          <div class="lt">Почему каждый раз всё одно и то же?</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Someone come gеt me out of here, gеt me out of here</div>
+          <div class="lt">Кто-нибудь, вытащите меня отсюда, вытащите меня</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">I guess I gotta fight &#x27;til nobody can hurt you</div>
+          <div class="lt">Мне придётся бороться до тех пор, пока никто не</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">In my era, no more errors, so stay out of my way</div>
+          <div class="lt">В мою эру больше никаких ошибок, так что держись</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Droppin&#x27; all them number ones with white gloves on my</div>
+          <div class="lt">Сбрасываю всех этих звезд, не снимая белых</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">hands</div>
+          <div class="lt">перчаток,</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Honey, I&#x27;m trying to stay where the sky ends</div>
+          <div class="lt">Дорогой, я пытаюсь остаться там, где заканчивается</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Paving my own ways with one important phrase</div>
+          <div class="lt">Прокладываю свой собственный путь одной важной</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Pray (Pray)</div>
+          <div class="lt">Молись (Молись)</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Pray, yeah (Pray, pray)</div>
+          <div class="lt">Молись, да (Молись, молись)</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Pray (Pray)</div>
+          <div class="lt">Молись (Молись)</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">I think you need a sip of holy water, mm</div>
+          <div class="lt">Думаю, тебе нужен глоток святой воды, мм</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Don&#x27;t want no problems with my mother&#x27;s daughter</div>
+          <div class="lt">Ты не захочешь проблем с дочерью моей матери,</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Scared, scared, now I guess I&#x27;m takin&#x27; over</div>
+          <div class="lt">Испуган, испуган, теперь, кажется, я беру всё в свои</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Ayy, ayy, trickery ain&#x27;t nothing new</div>
+          <div class="lt">Эй, эй, в этих трюках ничего нового</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">From page of your news</div>
+          <div class="lt">Для страницы твоих новостей,</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">There ain&#x27;t nothing you can do</div>
+          <div class="lt">Ты ничего не можешь сделать</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Nothing you can do, ooh</div>
+          <div class="lt">Ничего не можешь сделать, оо</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">In my era, no more errors, so stay out of my way</div>
+          <div class="lt">В мою эру больше никаких ошибок, так что держись</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Droppin&#x27; all them number ones with white gloves on my</div>
+          <div class="lt">Сбрасываю всех этих звезд, не снимая белых</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">hands</div>
+          <div class="lt">перчаток,</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Honey, I&#x27;m trying to stay where the sky ends</div>
+          <div class="lt">Дорогой, я пытаюсь остаться там, где заканчивается</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Paving my own ways with one important phrase</div>
+          <div class="lt">Прокладываю свой собственный путь одной важной</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Pray (Pray)</div>
+          <div class="lt">Молись (Молись)</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Pray, yeah (Pray, pray)</div>
+          <div class="lt">Молись, да (Молись, молись)</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Pray</div>
+          <div class="lt">Молись</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">18</div>
+          <div class="lt">Нацотбор</div>
+        </div>
+
+      </div>
+    </div>
+    <div class="spacer"></div>
+  </div>
+  <div class="dp" id="detail-17" style="display:none">
+    <div class="dh">
+      <button class="back" onclick="showList()">← Назад</button>
+      <img class="dba" src="img/banner_p19.webp" alt="">
+      <div class="dcn">Сербия</div>
+      <div class="dst">🎤 Участвует в полуфинале</div>
+    </div>
+    <div class="ds">
+      <div class="st">🎤 Исполнитель</div>
+      <div class="ab">
+        <img class="dai" src="img/artist_p19.webp" alt="">
+        <div class="ai">
+          <div class="dpr">Лавина</div>
+
+          <div class="dbo">
+          <p>Лука Аранджелович Павле Аранджелович Павле Самарджич Андрия Цветанович Никола Петрович Боян Илич Группа долго искала название, пока наконец Андрия не открыл одну из книг серии про Ведьмака и не показал на слово «лавина».</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="ds">
+      <div class="st">🌍 Страна</div>
+<div class="do"><span class="b bg">В финал: 80%</span> <span class="b bb">Победа: &lt;1%</span></div>
+      <div class="dsa"><span class="stat">🏆 1 победа</span></div>
+<div class="dsel">открытый отбор</div>
+      <div class="dc">
+
+      </div>
+    </div>
+    <div class="ds">
+      <div class="st">🎵 Песня</div>
+      <div class="dstl">Крај мене (Kraj mene)</div>
+      <div class="dstr">Рядом со мной</div>
+      <div class="dm">🗣️ Сербский</div>
+<div class="dm">🎵 Прогрессивный метал</div>
+      <div class="dsc">
+
+      </div>
+    </div>
+    <div class="ds">
+      <div class="st">📝 Текст песни</div>
+      <div class="lhint">оригинал → перевод</div>
+      <div class="lyrics">
+        <div class="lpair">
+          <div class="lo">Крај мене (Kraj mene)</div>
+          <div class="lt">Рядом со мной</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">(Ja još ti čuvam mesto kraj sebe)</div>
+          <div class="lt">(Я все еще приберегаю для тебя место</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">(A ova jednostrana ljubav ubija me)</div>
+          <div class="lt">(И эта безответная любовь убивает меня)</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Toliko trebalo je</div>
+          <div class="lt">Я так долго ждал,</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Da potonem u naručje</div>
+          <div class="lt">Чтобы утонуть в объятиях</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Podle, stare navike</div>
+          <div class="lt">Дурных старых привычек.</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Srce si otvorila</div>
+          <div class="lt">Ты открыла мне сердце.</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Uzalud poklonila</div>
+          <div class="lt">Напрасно ты отдала его,</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Iz nemara da zgazim ga</div>
+          <div class="lt">Чтобы я небрежно растоптал его.</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Kako da ti pokažem da stalo mi je</div>
+          <div class="lt">Как мне показать тебе, что я люблю тебя?</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Naravno, pre ili kasnije, srušiću sve</div>
+          <div class="lt">Конечно, рано или поздно я все разрушу.</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Ja još ti čuvam mesto kraj sebe</div>
+          <div class="lt">Я все еще приберегаю для тебя место</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">A ova jednostrana ljubav ubija me</div>
+          <div class="lt">И эта безответная любовь убивает меня.</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Zar ne vidiš koliko lomim se</div>
+          <div class="lt">Разве ты не видишь, как сильно я</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Što više dajem manje imam te</div>
+          <div class="lt">Чем больше я отдаю, тем меньше у меня</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Zašto me gledaš s visine</div>
+          <div class="lt">Почему ты смотришь на меня свысока,</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Dok zovem u prazno</div>
+          <div class="lt">Пока я взываю в пустоту?</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">I odgovaraš glasom tišine</div>
+          <div class="lt">А ты отвечаешь голосом молчания,</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Da ipak je kasno</div>
+          <div class="lt">Что уже поздно.</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Ne mogu još dugo ovako</div>
+          <div class="lt">Я больше не могу продолжать</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Da puzim i molim i klanjam se</div>
+          <div class="lt">Пресмыкаться, молиться и кланяться.</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Tu si bila kad bilo je lako</div>
+          <div class="lt">Ты была рядом, когда все было легко,</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Dok mislila si da sam (Savršen)</div>
+          <div class="lt">Пока ты думала, что я (идеален).</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Ja još ti čuvam mesto kraj sebе</div>
+          <div class="lt">Я все еще приберегаю для тебя место</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">A ova jednostrana ljubav ubija me</div>
+          <div class="lt">И эта безответная любовь убивает меня.</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Zar ne vidiš koliko lomim sе</div>
+          <div class="lt">Разве ты не видишь, как сильно я</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Što više dajem manje želiš</div>
+          <div class="lt">Чем больше я отдаю, тем меньше тебе</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Me</div>
+          <div class="lt">Я</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Ne želiš me</div>
+          <div class="lt">Я тебе не нужен.</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Još uvek sanjam da si kraj mene</div>
+          <div class="lt">Я все еще приберегаю для тебя место</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">A ova nemoguća ljubav ubija me</div>
+          <div class="lt">И эта безответная любовь убивает меня.</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Zar ne vidiš koliko lomim se</div>
+          <div class="lt">Разве ты не видишь, как сильно я</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">Što više dajem manje želiš me</div>
+          <div class="lt">Чем больше я отдаю, тем меньше я тебе</div>
+        </div>
+        <div class="lpair">
+          <div class="lo">19</div>
+          <div class="lt">Нацотбор</div>
+        </div>
+
+      </div>
+    </div>
+    <div class="spacer"></div>
+  </div>
+  <div class="ap" id="about-page" style="display:none">
+    <div class="dh">
+      <button class="back" onclick="showList()">← Назад</button>
+      <div class="dcn" style="padding-top:52px">ℹ️ О Евровидении</div>
+    </div>
+    <div class="ds">
+      <div class="st">📅 Когда?</div>
+      <p>Евровидение-2026 в 3 этапа:</p>
+      <p><strong>12 мая</strong> — Первый полуфинал</p>
+      <p><strong>14 мая</strong> — Второй полуфинал</p>
+      <p><strong>16 мая</strong> — Финал</p>
+    </div>
+    <div class="ds">
+      <div class="st">🏆 Кто в финале?</div>
+      <p><strong>35 стран</strong> участвуют. 5 проходят автоматически:</p>
+      <p>• <strong>Большая Пятёрка:</strong> Великобритания, Германия, Италия, Франция, Испания (не участвует)</p>
+      <p>• <strong>Победитель прошлого года:</strong> Австрия</p>
+      <p>Голосовать за них в полуфиналах нельзя. 30 стран в двух полуфиналах — по 10 проходят в финал.</p>
+    </div>
+    <div class="ds">
+      <div class="st">🗳️ Голосование</div>
+      <p>• <strong>Телезрители</strong> + <strong>жюри</strong> от каждой страны</p>
+      <p>Баллы: 1, 2, 3, 4, 5, 6, 7, 8, 10, 12</p>
+      <p>Страны не голосуют за себя. Есть также «Остальной мир».</p>
+    </div>
+    <div class="ds">
+      <div class="st">🎵 Отбор</div>
+      <p>• <strong>Открытый</strong> — национальный конкурс</p>
+      <p>• <strong>Внутренний</strong> — выбор вещателя/жюри</p>
+    </div>
+    <div class="spacer"></div>
+  </div>
+<script>
+
+function showDetail(n){
+  document.getElementById('list-page').style.display='none';
+  document.getElementById('about-page').style.display='none';
+  document.querySelectorAll('.dp').forEach(function(e){e.style.display='none'});
+  var d=document.getElementById('detail-'+n);
+  if(d){d.style.display='block';scrollTo(0,0);history.pushState({p:'d',n:n},'');}
+}
+function showAbout(){
+  document.getElementById('list-page').style.display='none';
+  document.querySelectorAll('.dp').forEach(function(e){e.style.display='none'});
+  document.getElementById('about-page').style.display='block';
+  scrollTo(0,0);history.pushState({p:'a'},'');
+}
+function showList(){
+  document.querySelectorAll('.dp').forEach(function(e){e.style.display='none'});
+  document.getElementById('about-page').style.display='none';
+  document.getElementById('list-page').style.display='block';
+  scrollTo(0,0);history.pushState({p:'l'},'');
+}
+onpopstate=function(e){
+  if(!e.state){showList();return;}
+  if(e.state.p==='d')showDetail(e.state.n);
+  else if(e.state.p==='a')showAbout();
+  else showList();
+};
+history.replaceState({p:'l'},'');
+
+</script>
+</body>
+</html>
