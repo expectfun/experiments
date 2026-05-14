@@ -1,0 +1,1343 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Особое мнение — KodikRouter</title>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <style>
+      :root {
+        --bg-top: #121826;
+        --bg-bottom: #1d2742;
+        --panel: rgba(16, 22, 36, 0.76);
+        --panel-border: rgba(160, 190, 255, 0.16);
+        --panel-soft: rgba(8, 12, 22, 0.42);
+        --text: #eef2ff;
+        --muted: #9ca8c7;
+        --muted-strong: #c6d0ea;
+        --accent: #7de2ff;
+        --accent-strong: #4db9ff;
+        --accent-soft: rgba(125, 226, 255, 0.14);
+        --accent2: #ffd97d;
+        --accent2-soft: rgba(255, 217, 125, 0.14);
+        --accent3: #9dff7d;
+        --accent3-soft: rgba(157, 255, 125, 0.14);
+        --error: #ff7e7e;
+        --success: #7dff9e;
+        --shadow: 0 24px 80px rgba(6, 10, 20, 0.42);
+        --radius-xl: 24px;
+        --radius-lg: 18px;
+        --radius-md: 14px;
+        --radius-sm: 10px;
+      }
+
+      * { box-sizing: border-box; }
+
+      body {
+        margin: 0;
+        min-height: 100dvh;
+        font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        color: var(--text);
+        background:
+          radial-gradient(circle at top, rgba(125, 226, 255, 0.16), transparent 28%),
+          linear-gradient(145deg, var(--bg-top), var(--bg-bottom));
+      }
+
+      .page {
+        width: min(960px, calc(100vw - 32px));
+        margin: 0 auto;
+        padding: 40px 0 72px;
+      }
+
+      .back-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        margin-bottom: 24px;
+        color: var(--muted);
+        text-decoration: none;
+        font-size: 0.95rem;
+        transition: color 140ms ease, transform 140ms ease;
+      }
+
+      .back-link:hover,
+      .back-link:focus-visible {
+        color: var(--accent-strong);
+        outline: none;
+        transform: translateX(-2px);
+      }
+
+      .hero { margin-bottom: 32px; }
+
+      .hero h1 {
+        margin: 0 0 10px;
+        font-size: clamp(2.4rem, 6vw, 4rem);
+        line-height: 0.93;
+        letter-spacing: -0.05em;
+      }
+
+      .hero p {
+        margin: 0;
+        max-width: 56ch;
+        color: var(--muted);
+        font-size: 1rem;
+        line-height: 1.65;
+      }
+
+      .panel {
+        background: var(--panel);
+        border: 1px solid var(--panel-border);
+        border-radius: var(--radius-xl);
+        box-shadow: var(--shadow);
+        backdrop-filter: blur(22px);
+        padding: 28px 28px 32px;
+      }
+
+      textarea {
+        width: 100%;
+        min-height: 130px;
+        resize: vertical;
+        padding: 18px 20px;
+        border-radius: var(--radius-lg);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        background:
+          linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01)),
+          var(--panel-soft);
+        color: var(--text);
+        font: inherit;
+        font-size: 1rem;
+        line-height: 1.65;
+      }
+
+      textarea::placeholder { color: rgba(198, 208, 234, 0.6); }
+
+      textarea:focus-visible {
+        outline: 1px solid rgba(125, 226, 255, 0.45);
+        border-color: rgba(125, 226, 255, 0.35);
+      }
+
+      /* ---- Model slots ---- */
+
+      .model-slots {
+        display: flex;
+        gap: 10px;
+        margin-top: 16px;
+        flex-wrap: wrap;
+      }
+
+      .model-slot { flex: 1; min-width: 180px; }
+
+      .model-select {
+        width: 100%;
+        padding: 9px 32px 9px 12px;
+        border-radius: var(--radius-sm);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        background-color: var(--panel-soft);
+        color: var(--text);
+        font: inherit;
+        font-size: 0.88rem;
+        cursor: pointer;
+        appearance: none;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%239ca8c7' d='M6 8.5L1 3.5h10z'/%3E%3C/svg%3E");
+        background-repeat: no-repeat;
+        background-position: right 10px center;
+      }
+
+      .model-select:focus-visible {
+        outline: 1px solid rgba(125, 226, 255, 0.45);
+        border-color: rgba(125, 226, 255, 0.35);
+      }
+
+      .model-select option { background: #1a2236; }
+
+      .custom-input {
+        width: 100%;
+        margin-top: 6px;
+        padding: 8px 12px;
+        border-radius: var(--radius-sm);
+        border: 1px solid rgba(125, 226, 255, 0.35);
+        background: var(--panel-soft);
+        color: var(--accent);
+        font: inherit;
+        font-size: 0.88rem;
+      }
+
+      .custom-input::placeholder { color: rgba(125, 226, 255, 0.4); }
+
+      .custom-input:focus-visible {
+        outline: none;
+        border-color: rgba(125, 226, 255, 0.6);
+      }
+
+      .hidden { display: none !important; }
+
+      /* ---- Buttons ---- */
+
+      .button-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-top: 16px;
+      }
+
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        padding: 11px 24px;
+        border: none;
+        border-radius: 999px;
+        font-family: inherit;
+        font-size: 0.95rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: opacity 140ms ease, transform 120ms ease, border-color 140ms ease;
+      }
+
+      .btn:active { transform: scale(0.97); }
+
+      .btn-secondary {
+        background: transparent;
+        color: var(--muted-strong);
+        border: 1px solid var(--panel-border);
+      }
+
+      .btn-secondary:hover {
+        border-color: rgba(125, 226, 255, 0.32);
+        color: var(--text);
+      }
+
+      .btn-primary {
+        background: var(--accent-soft);
+        color: var(--accent);
+        border: 1px solid rgba(125, 226, 255, 0.25);
+      }
+
+      .btn-primary:hover {
+        background: rgba(125, 226, 255, 0.22);
+        border-color: rgba(125, 226, 255, 0.4);
+      }
+
+      .btn-gold {
+        background: var(--accent2-soft);
+        color: var(--accent2);
+        border: 1px solid rgba(255, 217, 125, 0.25);
+      }
+
+      .btn-gold:hover {
+        background: rgba(255, 217, 125, 0.22);
+        border-color: rgba(255, 217, 125, 0.4);
+      }
+
+      .btn-green {
+        background: var(--accent3-soft);
+        color: var(--accent3);
+        border: 1px solid rgba(157, 255, 125, 0.25);
+      }
+
+      .btn-green:hover {
+        background: rgba(157, 255, 125, 0.22);
+        border-color: rgba(157, 255, 125, 0.4);
+      }
+
+      .btn:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+      }
+
+      .btn:disabled:active { transform: none; }
+
+      /* ---- Stages ---- */
+
+      .stage-section {
+        margin-top: 28px;
+      }
+
+      .stage-section.hidden { display: none; }
+
+      .stage-heading {
+        margin: 0 0 14px;
+        font-size: 0.82rem;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        color: var(--muted-strong);
+      }
+
+      .stage-grid {
+        display: grid;
+        gap: 14px;
+        grid-template-columns: repeat(3, 1fr);
+      }
+
+      /* ---- Response column ---- */
+
+      .response-column {
+        background: var(--panel);
+        border: 1px solid var(--panel-border);
+        border-radius: var(--radius-lg);
+        box-shadow: var(--shadow);
+        backdrop-filter: blur(22px);
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        min-width: 0;
+      }
+
+      .response-column.hidden { display: none; }
+
+      .response-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 12px 16px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+        background: rgba(255, 255, 255, 0.02);
+        gap: 8px;
+      }
+
+      .response-model-name {
+        font-size: 0.82rem;
+        font-weight: 600;
+        color: var(--accent);
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .response-actions {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        flex-shrink: 0;
+      }
+
+      .response-status {
+        font-size: 0.75rem;
+        color: var(--muted);
+        white-space: nowrap;
+      }
+
+      .response-status.streaming { color: var(--accent); }
+      .response-status.done { color: var(--success); }
+      .response-status.error { color: var(--error); }
+
+      @keyframes blink {
+        0%, 100% { opacity: 1; }
+        50% { opacity: 0.3; }
+      }
+
+      .response-status.streaming::before {
+        content: "● ";
+        animation: blink 1.2s ease-in-out infinite;
+      }
+
+      .copy-btn {
+        background: none;
+        border: none;
+        color: var(--muted);
+        cursor: pointer;
+        font-size: 0.75rem;
+        padding: 2px 6px;
+        border-radius: 4px;
+        transition: color 140ms ease, background 140ms ease;
+      }
+
+      .copy-btn:hover { color: var(--accent); background: var(--accent-soft); }
+
+      .response-content {
+        padding: 16px;
+        font-size: 0.92rem;
+        line-height: 1.7;
+        max-height: 600px;
+        overflow-y: auto;
+        flex: 1;
+      }
+
+      /* ---- Verdict (full-width single column) ---- */
+
+      .verdict-column {
+        background: var(--panel);
+        border: 1px solid rgba(157, 255, 125, 0.2);
+        border-radius: var(--radius-lg);
+        box-shadow: var(--shadow);
+        backdrop-filter: blur(22px);
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .verdict-column .response-model-name { color: var(--accent3); }
+
+      .verdict-column .response-content { max-height: 800px; }
+
+      /* ---- Markdown styles ---- */
+
+      .response-content p { margin: 0 0 0.75em; }
+      .response-content p:last-child { margin-bottom: 0; }
+      .response-content h1, .response-content h2, .response-content h3,
+      .response-content h4, .response-content h5, .response-content h6 {
+        margin: 1.1em 0 0.45em;
+        color: var(--text);
+      }
+      .response-content h1 { font-size: 1.25em; }
+      .response-content h2 { font-size: 1.12em; }
+      .response-content h3 { font-size: 1.04em; }
+      .response-content ul, .response-content ol { margin: 0.5em 0; padding-left: 1.5em; }
+      .response-content li { margin: 0.2em 0; }
+      .response-content code {
+        background: rgba(125, 226, 255, 0.1);
+        padding: 0.12em 0.38em;
+        border-radius: 4px;
+        font-size: 0.87em;
+        color: var(--accent);
+      }
+      .response-content pre {
+        background: rgba(0, 0, 0, 0.3);
+        border-radius: var(--radius-sm);
+        padding: 14px;
+        overflow-x: auto;
+        margin: 0.75em 0;
+      }
+      .response-content pre code {
+        background: none;
+        padding: 0;
+        color: var(--text);
+        font-size: 0.84em;
+      }
+      .response-content blockquote {
+        border-left: 3px solid var(--accent);
+        margin: 0.75em 0;
+        padding: 0.4em 1em;
+        color: var(--muted);
+      }
+      .response-content a { color: var(--accent); text-decoration: underline; }
+      .response-content hr {
+        border: none;
+        border-top: 1px solid rgba(255,255,255,0.1);
+        margin: 1.1em 0;
+      }
+      .response-content table {
+        border-collapse: collapse;
+        width: 100%;
+        margin: 0.75em 0;
+        font-size: 0.9em;
+      }
+      .response-content th, .response-content td {
+        border: 1px solid rgba(255,255,255,0.1);
+        padding: 5px 9px;
+        text-align: left;
+      }
+      .response-content th { background: rgba(255,255,255,0.04); }
+
+      .error-text { color: var(--error); }
+
+      .response-empty {
+        color: var(--muted);
+        font-style: italic;
+        text-align: center;
+        padding: 40px 20px;
+      }
+
+      /* ---- Modal ---- */
+
+      .modal-overlay {
+        position: fixed;
+        inset: 0;
+        z-index: 100;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: rgba(6, 10, 20, 0.7);
+        backdrop-filter: blur(6px);
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 200ms ease;
+      }
+
+      .modal-overlay.open {
+        opacity: 1;
+        pointer-events: auto;
+      }
+
+      .modal {
+        width: min(420px, calc(100vw - 32px));
+        background: var(--panel);
+        border: 1px solid var(--panel-border);
+        border-radius: var(--radius-xl);
+        box-shadow: var(--shadow);
+        backdrop-filter: blur(22px);
+        padding: 28px;
+      }
+
+      .modal h2 {
+        margin: 0 0 8px;
+        font-size: 1.2rem;
+        font-weight: 700;
+      }
+
+      .modal p {
+        margin: 0 0 20px;
+        color: var(--muted);
+        font-size: 0.92rem;
+        line-height: 1.6;
+      }
+
+      .modal input[type="password"] {
+        width: 100%;
+        padding: 12px 14px;
+        border-radius: var(--radius-md);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        background: var(--panel-soft);
+        color: var(--text);
+        font-family: inherit;
+        font-size: 0.95rem;
+        margin-bottom: 16px;
+      }
+
+      .modal input[type="password"]:focus-visible {
+        outline: 1px solid rgba(125, 226, 255, 0.45);
+        border-color: rgba(125, 226, 255, 0.35);
+      }
+
+      .modal-buttons {
+        display: flex;
+        gap: 10px;
+        justify-content: flex-end;
+      }
+
+      @media (max-width: 768px) {
+        .page {
+          width: min(100vw - 20px, 960px);
+          padding-top: 28px;
+          padding-bottom: 48px;
+        }
+        .panel { padding: 20px 18px 24px; }
+        .model-slots { flex-direction: column; }
+        .model-slot { min-width: auto; }
+        .button-row { flex-direction: column; }
+        .button-row .btn { width: 100%; }
+        .stage-grid { grid-template-columns: 1fr !important; }
+        .response-content { max-height: 400px; }
+        .verdict-column .response-content { max-height: 600px; }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="page">
+      <a class="back-link" href="https://kodikrouter.ru/docs/base">← KodikRouter Docs</a>
+
+      <section class="hero">
+        <h1>особое мнение</h1>
+        <p>Задай вопрос трём LLM сразу и сравни ответы. Требует API-ключа <a href="https://kodikrouter.ru" style="color: var(--accent);">KodikRouter</a>.</p>
+      </section>
+
+      <div class="panel">
+        <textarea
+          id="promptInput"
+          spellcheck="false"
+          placeholder="Задайте вопрос… (Ctrl+Enter для отправки)"
+        ></textarea>
+
+        <div class="button-row">
+          <button class="btn btn-primary" id="askButton" type="button">Спросить</button>
+          <button class="btn btn-gold" id="reviewButton" type="button" disabled>Оценить</button>
+          <button class="btn btn-green" id="verdictButton" type="button" disabled>Вердикт</button>
+          <button class="btn btn-secondary" id="stopButton" type="button" disabled>Стоп</button>
+          <button class="btn btn-secondary" id="settingsButton" type="button">Настройки</button>
+        </div>
+
+        <div class="model-slots hidden" id="settingsPanel">
+          <div class="model-slot">
+            <select id="slot0" class="model-select"></select>
+            <input type="text" id="custom0" class="custom-input hidden" placeholder="model id (e.g. vendor/model-name)" />
+          </div>
+          <div class="model-slot">
+            <select id="slot1" class="model-select"></select>
+            <input type="text" id="custom1" class="custom-input hidden" placeholder="model id (e.g. vendor/model-name)" />
+          </div>
+          <div class="model-slot">
+            <select id="slot2" class="model-select"></select>
+            <input type="text" id="custom2" class="custom-input hidden" placeholder="model id (e.g. vendor/model-name)" />
+          </div>
+        </div>
+      </div>
+
+      <!-- Stage 1: Answers -->
+      <div class="stage-section hidden" id="answersSection">
+        <h2 class="stage-heading">Answers</h2>
+        <div class="stage-grid" id="answersGrid">
+          <div class="response-column" id="col0">
+            <div class="response-header">
+              <span class="response-model-name" id="name0">—</span>
+              <div class="response-actions">
+                <span class="response-status" id="status0"></span>
+                <button class="copy-btn" id="copy0" title="Copy response">Copy</button>
+              </div>
+            </div>
+            <div class="response-content" id="content0"></div>
+          </div>
+          <div class="response-column" id="col1">
+            <div class="response-header">
+              <span class="response-model-name" id="name1">—</span>
+              <div class="response-actions">
+                <span class="response-status" id="status1"></span>
+                <button class="copy-btn" id="copy1" title="Copy response">Copy</button>
+              </div>
+            </div>
+            <div class="response-content" id="content1"></div>
+          </div>
+          <div class="response-column" id="col2">
+            <div class="response-header">
+              <span class="response-model-name" id="name2">—</span>
+              <div class="response-actions">
+                <span class="response-status" id="status2"></span>
+                <button class="copy-btn" id="copy2" title="Copy response">Copy</button>
+              </div>
+            </div>
+            <div class="response-content" id="content2"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Stage 2: Reviews -->
+      <div class="stage-section hidden" id="reviewsSection">
+        <h2 class="stage-heading">Оценки <span id="labelMap" style="font-weight:400; letter-spacing:0; text-transform:none; color:var(--muted);"></span></h2>
+        <div class="stage-grid" id="reviewsGrid">
+          <div class="response-column" id="rcol0">
+            <div class="response-header">
+              <span class="response-model-name" id="rname0">—</span>
+              <div class="response-actions">
+                <span class="response-status" id="rstatus0"></span>
+                <button class="copy-btn" id="rcopy0" title="Copy review">Copy</button>
+              </div>
+            </div>
+            <div class="response-content" id="rcontent0"></div>
+          </div>
+          <div class="response-column" id="rcol1">
+            <div class="response-header">
+              <span class="response-model-name" id="rname1">—</span>
+              <div class="response-actions">
+                <span class="response-status" id="rstatus1"></span>
+                <button class="copy-btn" id="rcopy1" title="Copy review">Copy</button>
+              </div>
+            </div>
+            <div class="response-content" id="rcontent1"></div>
+          </div>
+          <div class="response-column" id="rcol2">
+            <div class="response-header">
+              <span class="response-model-name" id="rname2">—</span>
+              <div class="response-actions">
+                <span class="response-status" id="rstatus2"></span>
+                <button class="copy-btn" id="rcopy2" title="Copy review">Copy</button>
+              </div>
+            </div>
+            <div class="response-content" id="rcontent2"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Stage 3: Verdict -->
+      <div class="stage-section hidden" id="verdictSection">
+        <h2 class="stage-heading">Verdict</h2>
+        <div class="verdict-column" id="vcol">
+          <div class="response-header">
+            <span class="response-model-name" id="vname">—</span>
+            <div class="response-actions">
+              <span class="response-status" id="vstatus"></span>
+              <button class="copy-btn" id="vcopy" title="Copy verdict">Copy</button>
+            </div>
+          </div>
+          <div class="response-content" id="vcontent"></div>
+        </div>
+      </div>
+    </main>
+
+    <!-- API Key Modal -->
+    <div class="modal-overlay" id="modalOverlay">
+      <div class="modal" role="dialog" aria-labelledby="modalTitle">
+        <h2 id="modalTitle">KodikRouter API key</h2>
+        <p>Your key is stored in your browser and sent directly to KodikRouter. It is never sent anywhere else.</p>
+        <input type="password" id="apiKeyInput" placeholder="sk-sr_live_…" autocomplete="off" />
+        <div class="modal-buttons">
+          <button class="btn btn-secondary" id="modalCancel" type="button">Cancel</button>
+          <button class="btn btn-primary" id="modalSave" type="button">Save</button>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      /* ---- Config ---- */
+
+      const API_URL = "https://api.kodikrouter.ru/v1/chat/completions";
+      const STORAGE_KEY = "minority_kodik_api_key";
+      const MODEL_PREFS_KEY = "minority_kodik_models";
+      const MAX_TOKENS = 4096;
+      const SLOT_COUNT = 3;
+
+      const MODELS = [
+        { id: "deepseek/deepseek-v4-flash",            name: "DeepSeek V4 Flash" },
+        { id: "deepseek/deepseek-v4-pro",              name: "DeepSeek V4 Pro" },
+        { id: "google/gemma-4-31b-it",                name: "Gemma 4 31B" },
+        { id: "deepseek/deepseek-chat-v3.1",          name: "DeepSeek V3.1" },
+        { id: "qwen/qwen-max",                        name: "Qwen Max" },
+        { id: "anthropic/claude-sonnet-4",             name: "Claude Sonnet 4" },
+        { id: "openai/gpt-5.5",                       name: "GPT-5.5" },
+        { id: "openai/gpt-5.5-pro",                   name: "GPT-5.5 Pro" },
+        { id: "openai/gpt-5.1",                       name: "GPT-5.1" },
+        { id: "z-ai/glm-5.1",                         name: "GLM 5.1" },
+        { id: "moonshotai/kimi-k2.6",                  name: "Kimi K2.6" },
+        { id: "meta-llama/llama-3.3-70b-instruct",     name: "Llama 3.3 70B" },
+        { id: "xiaomi/mimo-v2.5-pro",                  name: "MiMo V2.5 Pro" },
+        { id: "mistralai/devstral-small",              name: "Devstral Small" },
+        { id: "qwen/qwen3-coder:free",                 name: "Qwen3 Coder (free)" },
+        { id: "nvidia/nemotron-3-nano-30b-a3b:free",   name: "Nemotron Nano (free)" },
+      ];
+
+      const DEFAULT_MODELS = [
+        "deepseek/deepseek-v4-flash",
+        "google/gemma-4-31b-it",
+        "xiaomi/mimo-v2.5-pro",
+      ];
+
+      /* ---- DOM refs ---- */
+
+      const slotSelects  = Array.from({ length: SLOT_COUNT }, (_, i) => document.getElementById(`slot${i}`));
+      const customInputs = Array.from({ length: SLOT_COUNT }, (_, i) => document.getElementById(`custom${i}`));
+      const colEls       = Array.from({ length: SLOT_COUNT }, (_, i) => document.getElementById(`col${i}`));
+      const nameEls      = Array.from({ length: SLOT_COUNT }, (_, i) => document.getElementById(`name${i}`));
+      const statusEls    = Array.from({ length: SLOT_COUNT }, (_, i) => document.getElementById(`status${i}`));
+      const contentEls   = Array.from({ length: SLOT_COUNT }, (_, i) => document.getElementById(`content${i}`));
+      const copyBtns     = Array.from({ length: SLOT_COUNT }, (_, i) => document.getElementById(`copy${i}`));
+
+      // Review refs
+      const rcolEls     = Array.from({ length: SLOT_COUNT }, (_, i) => document.getElementById(`rcol${i}`));
+      const rnameEls    = Array.from({ length: SLOT_COUNT }, (_, i) => document.getElementById(`rname${i}`));
+      const rstatusEls  = Array.from({ length: SLOT_COUNT }, (_, i) => document.getElementById(`rstatus${i}`));
+      const rcontentEls = Array.from({ length: SLOT_COUNT }, (_, i) => document.getElementById(`rcontent${i}`));
+      const rcopyBtns   = Array.from({ length: SLOT_COUNT }, (_, i) => document.getElementById(`rcopy${i}`));
+
+      // Verdict refs
+      const vcol     = document.getElementById("vcol");
+      const vname    = document.getElementById("vname");
+      const vstatus  = document.getElementById("vstatus");
+      const vcontent = document.getElementById("vcontent");
+      const vcopyBtn = document.getElementById("vcopy");
+
+      const promptInput     = document.getElementById("promptInput");
+      const askButton       = document.getElementById("askButton");
+      const reviewButton    = document.getElementById("reviewButton");
+      const verdictButton   = document.getElementById("verdictButton");
+      const stopButton      = document.getElementById("stopButton");
+      const settingsButton  = document.getElementById("settingsButton");
+      const settingsPanel   = document.getElementById("settingsPanel");
+      const answersSection  = document.getElementById("answersSection");
+      const answersGrid     = document.getElementById("answersGrid");
+      const reviewsSection  = document.getElementById("reviewsSection");
+      const reviewsGrid     = document.getElementById("reviewsGrid");
+      const verdictSection  = document.getElementById("verdictSection");
+
+      const modalOverlay = document.getElementById("modalOverlay");
+      const apiKeyInput  = document.getElementById("apiKeyInput");
+      const modalCancel  = document.getElementById("modalCancel");
+      const modalSave    = document.getElementById("modalSave");
+
+      /* ---- State ---- */
+
+      let pendingAction = null; // "ask" | "review" | "verdict"
+      let abortControllers = [];
+      let isBusy = false;
+
+      // Stored answers after Ask: { index: { model, name, text } }
+      let answers = {};
+      // Stored review texts after Review: { index: text }
+      let reviews = {};
+
+      /* ---- Helpers ---- */
+
+      function getApiKey() {
+        return localStorage.getItem(STORAGE_KEY);
+      }
+
+      function requireApiKey(action) {
+        if (getApiKey()) return true;
+        pendingAction = action;
+        openModal();
+        return false;
+      }
+
+      function getModelValue(index) {
+        const sel = slotSelects[index];
+        if (sel.value === "__custom__") return customInputs[index].value.trim();
+        return sel.value;
+      }
+
+      function getModelName(index) {
+        const sel = slotSelects[index];
+        if (sel.value === "__custom__") return customInputs[index].value.trim() || "custom";
+        return sel.value ? sel.options[sel.selectedIndex].text : "—";
+      }
+
+      function isSlotEnabled(index) {
+        return getModelValue(index) !== "";
+      }
+
+      function getEnabledSlots() {
+        const slots = [];
+        for (let i = 0; i < SLOT_COUNT; i++) {
+          if (isSlotEnabled(i)) {
+            slots.push({ model: getModelValue(i), name: getModelName(i), index: i });
+          }
+        }
+        return slots;
+      }
+
+      /* ---- Populate selects ---- */
+
+      const CUSTOM_VALUE = "__custom__";
+
+      function populateSelect(selectEl, defaultModel) {
+        const disabledOpt = document.createElement("option");
+        disabledOpt.value = "";
+        disabledOpt.textContent = "— disabled —";
+        selectEl.appendChild(disabledOpt);
+
+        for (const m of MODELS) {
+          const opt = document.createElement("option");
+          opt.value = m.id;
+          opt.textContent = m.name;
+          if (m.id === defaultModel) opt.selected = true;
+          selectEl.appendChild(opt);
+        }
+
+        const customOpt = document.createElement("option");
+        customOpt.value = CUSTOM_VALUE;
+        customOpt.textContent = "Custom…";
+        selectEl.appendChild(customOpt);
+      }
+
+      function loadModelPrefs() {
+        const saved = localStorage.getItem(MODEL_PREFS_KEY);
+        if (!saved) return;
+        try {
+          const prefs = JSON.parse(saved);
+          prefs.forEach((pref, i) => {
+            if (i >= SLOT_COUNT || pref === undefined) return;
+            if (pref.select === CUSTOM_VALUE) {
+              slotSelects[i].value = CUSTOM_VALUE;
+              customInputs[i].value = pref.custom || "";
+              customInputs[i].classList.remove("hidden");
+            } else {
+              slotSelects[i].value = pref.select;
+              customInputs[i].classList.add("hidden");
+            }
+          });
+        } catch {}
+      }
+
+      function saveModelPrefs() {
+        const prefs = slotSelects.map((sel, i) => ({
+          select: sel.value,
+          custom: customInputs[i].value.trim(),
+        }));
+        localStorage.setItem(MODEL_PREFS_KEY, JSON.stringify(prefs));
+      }
+
+      /* ---- Layout ---- */
+
+      function updateLayout() {
+        const enabled = getEnabledSlots();
+        const count = enabled.length;
+
+        answersGrid.style.gridTemplateColumns = count > 0
+          ? `repeat(${count}, 1fr)`
+          : "1fr";
+
+        const enabledSet = new Set(enabled.map(s => s.index));
+        for (let i = 0; i < SLOT_COUNT; i++) {
+          colEls[i].classList.toggle("hidden", !enabledSet.has(i));
+          nameEls[i].textContent = getModelName(i);
+        }
+
+        askButton.disabled = !count;
+      }
+
+      function updateReviewLayout() {
+        const enabled = getEnabledSlots();
+        const count = enabled.length;
+        reviewsGrid.style.gridTemplateColumns = count > 0
+          ? `repeat(${count}, 1fr)`
+          : "1fr";
+        const enabledSet = new Set(enabled.map(s => s.index));
+        for (let i = 0; i < SLOT_COUNT; i++) {
+          rcolEls[i].classList.toggle("hidden", !enabledSet.has(i));
+        }
+      }
+
+      function setButtonStates(hasAnswers, hasReviews) {
+        reviewButton.disabled = !hasAnswers || isBusy;
+        verdictButton.disabled = !hasAnswers || isBusy;
+      }
+
+      /* ---- Modal ---- */
+
+      function openModal() {
+        apiKeyInput.value = getApiKey() || "";
+        modalOverlay.classList.add("open");
+        setTimeout(() => apiKeyInput.focus(), 100);
+      }
+
+      function closeModal() {
+        modalOverlay.classList.remove("open");
+      }
+
+      /* ---- Status helpers ---- */
+
+      function setStatus(el, text, cls) {
+        el.textContent = text;
+        el.className = "response-status" + (cls ? ` ${cls}` : "");
+      }
+
+      /* ---- Generic streaming ---- */
+
+      async function streamToModel(model, messages, contentEl, statusEl, index) {
+        const apiKey = getApiKey();
+        if (!apiKey) throw new Error("No API key");
+
+        setStatus(statusEl, "Thinking…", "streaming");
+        contentEl.innerHTML = "";
+
+        const controller = new AbortController();
+        abortControllers[index] = controller;
+
+        const res = await fetch(API_URL, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${apiKey}`,
+          },
+          body: JSON.stringify({
+            model,
+            messages,
+            max_tokens: MAX_TOKENS,
+            stream: true,
+          }),
+          signal: controller.signal,
+        });
+
+        if (!res.ok) {
+          const body = await res.json().catch(() => null);
+          const msg = body?.error?.message || `HTTP ${res.status}`;
+          if (res.status === 401) localStorage.removeItem(STORAGE_KEY);
+          throw new Error(msg);
+        }
+
+        setStatus(statusEl, "Streaming…", "streaming");
+
+        const reader = res.body.getReader();
+        const decoder = new TextDecoder();
+        let buffer = "";
+        let accumulated = "";
+
+        while (true) {
+          const { done, value } = await reader.read();
+          if (done) break;
+
+          buffer += decoder.decode(value, { stream: true });
+          const lines = buffer.split("\n");
+          buffer = lines.pop();
+
+          for (const line of lines) {
+            if (!line.startsWith("data: ")) continue;
+            const data = line.slice(6).trim();
+            if (data === "[DONE]") continue;
+            try {
+              const json = JSON.parse(data);
+              const chunk = json.choices?.[0]?.delta?.content || "";
+              if (chunk) {
+                accumulated += chunk;
+                contentEl.innerHTML = marked.parse(accumulated);
+              }
+            } catch {}
+          }
+        }
+
+        if (accumulated) {
+          contentEl.innerHTML = marked.parse(accumulated);
+        } else {
+          contentEl.innerHTML = '<div class="response-empty">No response.</div>';
+        }
+
+        setStatus(statusEl, "Done", "done");
+        return accumulated;
+      }
+
+      /* ---- Stage 1: Ask ---- */
+
+      async function ask() {
+        const prompt = promptInput.value.trim();
+        if (!prompt) { promptInput.focus(); return; }
+
+        const slots = getEnabledSlots();
+        if (slots.length === 0) return;
+        if (!requireApiKey("ask")) return;
+
+        // Reset downstream stages
+        reviewsSection.classList.add("hidden");
+        verdictSection.classList.add("hidden");
+        reviews = {};
+
+        answersSection.classList.remove("hidden");
+        updateLayout();
+
+        abortControllers.forEach(c => c?.abort());
+        abortControllers = [];
+
+        isBusy = true;
+        setButtonStates(false, false);
+        stopButton.disabled = false;
+
+        for (const s of slots) {
+          contentEls[s.index].innerHTML = "";
+          setStatus(statusEls[s.index], "Waiting…", "");
+          nameEls[s.index].textContent = s.name;
+        }
+
+        answers = {};
+        await Promise.all(slots.map(async (slot) => {
+          try {
+            const text = await streamToModel(
+              slot.model,
+              [{ role: "user", content: prompt }],
+              contentEls[slot.index],
+              statusEls[slot.index],
+              slot.index
+            );
+            answers[slot.index] = { model: slot.model, name: slot.name, text };
+          } catch (err) {
+            if (err.name === "AbortError") {
+              setStatus(statusEls[slot.index], "Cancelled", "");
+              contentEls[slot.index].innerHTML = '<div class="response-empty">Cancelled.</div>';
+            } else {
+              setStatus(statusEls[slot.index], "Error", "error");
+              contentEls[slot.index].innerHTML = `<p class="error-text">${err.message}</p>`;
+            }
+          }
+        }));
+
+        isBusy = false;
+        stopButton.disabled = true;
+        const hasAnswers = Object.keys(answers).length > 0;
+        setButtonStates(hasAnswers, false);
+      }
+
+      /* ---- Stage 2: Review ---- */
+
+      function buildReviewPrompt() {
+        const prompt = promptInput.value.trim();
+        const enabled = getEnabledSlots();
+
+        const labels = enabled.map((_, i) => String.fromCharCode(65 + i));
+        const indices = enabled.map(s => s.index);
+
+        const shuffled = [...indices];
+        for (let i = shuffled.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+        }
+
+        const responsesText = shuffled.map((idx, i) => {
+          const answer = answers[idx];
+          return `Response ${labels[i]}:\n${answer.text}`;
+        }).join("\n\n");
+
+        window._reviewLabelMap = {};
+        shuffled.forEach((idx, i) => { window._reviewLabelMap[labels[i]] = idx; });
+
+        return `Вы оцениваете разные ответы на следующий вопрос:
+
+Вопрос: ${prompt}
+
+Вот ответы от разных моделей (анонимизированы):
+
+${responsesText}
+
+Ваша задача:
+1. Оцените каждый ответ индивидуально. Для каждого укажите, что в нём хорошего, а что плохого.
+2. Сравните ответы между собой. Укажите, в целом ли они согласны, или есть существенное расхождение («особое мнение»), когда один ответ противоречит остальным по существенному вопросу. Если есть «особое мнение», объясните, в чём расхождение и какой ответ является исключением.
+3. В самом конце приведите итоговый рейтинг.
+
+ВАЖНО: Итоговый рейтинг должен быть оформлен СТРОГО следующим образом:
+- Начните со строки "ИТОГОВЫЙ РЕЙТИНГ:" (заглавными буквами, с двоеточием)
+- Затем перечислите ответы от лучшего к худшему в виде нумерованного списка
+- Каждая строка: номер, точка, пробел, затем ТОЛЬКО метку ответа (например, "1. Ответ A")
+- Не добавляйте никакого другого текста или пояснений в секции рейтинга
+
+Теперь предоставьте свою оценку, анализ согласия и рейтинг:`;
+      }
+
+      async function review() {
+        const slots = getEnabledSlots();
+        if (slots.length === 0 || Object.keys(answers).length === 0) return;
+        if (!requireApiKey("review")) return;
+
+        verdictSection.classList.add("hidden");
+
+        reviewsSection.classList.remove("hidden");
+        updateReviewLayout();
+
+        abortControllers.forEach(c => c?.abort());
+        abortControllers = [];
+
+        isBusy = true;
+        setButtonStates(true, false);
+        stopButton.disabled = false;
+
+        const reviewPrompt = buildReviewPrompt();
+
+        // Show label → model mapping
+        const labelMapEl = document.getElementById("labelMap");
+        const mapEntries = Object.entries(window._reviewLabelMap)
+          .map(([label, idx]) => `${label} = ${answers[idx]?.name || "?"}`);
+        labelMapEl.textContent = mapEntries.length ? `(анонимизация: ${mapEntries.join(", ")})` : "";
+
+        for (const s of slots) {
+          rcontentEls[s.index].innerHTML = "";
+          setStatus(rstatusEls[s.index], "Waiting…", "");
+          rnameEls[s.index].textContent = s.name;
+        }
+
+        reviews = {};
+        await Promise.all(slots.map(async (slot) => {
+          try {
+            const text = await streamToModel(
+              slot.model,
+              [{ role: "user", content: reviewPrompt }],
+              rcontentEls[slot.index],
+              rstatusEls[slot.index],
+              slot.index + SLOT_COUNT
+            );
+            reviews[slot.index] = text;
+          } catch (err) {
+            if (err.name === "AbortError") {
+              setStatus(rstatusEls[slot.index], "Cancelled", "");
+              rcontentEls[slot.index].innerHTML = '<div class="response-empty">Cancelled.</div>';
+            } else {
+              setStatus(rstatusEls[slot.index], "Error", "error");
+              rcontentEls[slot.index].innerHTML = `<p class="error-text">${err.message}</p>`;
+            }
+          }
+        }));
+
+        isBusy = false;
+        stopButton.disabled = true;
+        setButtonStates(true, Object.keys(reviews).length > 0);
+      }
+
+      /* ---- Stage 3: Verdict ---- */
+
+      function buildVerdictPrompt(hasReviews) {
+        const prompt = promptInput.value.trim();
+        const slots = getEnabledSlots();
+        const chairman = slots[0];
+
+        const answersText = slots.map(s => {
+          return `Model: ${s.name}\nResponse: ${answers[s.index]?.text || "(no response)"}`;
+        }).join("\n\n");
+
+        let reviewsText = "";
+        let labelMappingText = "";
+        if (hasReviews && Object.keys(reviews).length > 0) {
+          reviewsText = `\n\nЭТАП 2 — Взаимные оценки:\n` + slots.map(s => {
+            return `Модель: ${s.name}\nОценка: ${reviews[s.index] || "(нет оценки)"}`;
+          }).join("\n\n");
+
+          // Build label mapping from review stage
+          if (window._reviewLabelMap) {
+            const mapEntries = Object.entries(window._reviewLabelMap)
+              .map(([label, idx]) => `Ответ ${label} = ${answers[idx]?.name || "?"}`);
+            labelMappingText = `\n\nВажно: на этапе оценки ответы были анонимизированы. Соответствие букв и моделей:\n${mapEntries.join("\n")}\n`;
+          }
+
+          return `Вы — Председатель Совета LLM. Несколько ИИ-моделей дали ответы на вопрос пользователя, а затем провели взаимную оценку и ранжирование ответов.
+
+Исходный вопрос: ${prompt}
+
+ЭТАП 1 — Индивидуальные ответы:
+${answersText}
+${reviewsText}
+${labelMappingText}
+Ваша задача как Председателя — синтезировать всю эту информацию в единый, исчерпывающий и точный ответ на исходный вопрос пользователя. Учтите:
+- Индивидуальные ответы и их идеи
+- Взаимные оценки и то, что они раскрывают о качестве ответов
+- Любые закономерности согласия или несогласия между моделями
+
+В частности, отметьте, все ли модели в целом согласны, или существует «особое мнение» — существенное расхождение, при котором ответ одной модели значительно противоречит остальным. Если «особое мнение» существует, объясните, в чём расхождение, и вынесите своё суждение о том, какая позиция, скорее всего, верна.
+
+Дайте чёткий, аргументированный итоговый ответ, представляющий коллективную мудрость совета:`;
+
+        } else {
+          return `Вы — Председатель Совета LLM. Несколько ИИ-моделей дали ответы на вопрос пользователя, но взаимная оценка не проводилась.
+
+Исходный вопрос: ${prompt}
+
+Индивидуальные ответы:
+${answersText}
+
+Ваша задача как Председателя — синтезировать всю эту информацию в единый, исчерпывающий и точный ответ на исходный вопрос пользователя. Учтите:
+- Индивидуальные ответы и их идеи
+- Любые закономерности согласия или несогласия между моделями
+
+В частности, отметьте, все ли модели в целом согласны, или существует «особое мнение» — существенное расхождение, при котором ответ одной модели значительно противоречит остальным. Если «особое мнение» существует, объясните, в чём расхождение, и вынесите своё суждение о том, какая позиция, скорее всего, верна.
+
+Дайте чёткий, аргументированный итоговый ответ, представляющий коллективную мудрость совета:`;
+        }
+      }
+
+      async function verdict() {
+        const slots = getEnabledSlots();
+        if (slots.length === 0 || Object.keys(answers).length === 0) return;
+        if (!requireApiKey("verdict")) return;
+
+        const chairman = slots[0];
+        const hasReviews = Object.keys(reviews).length > 0;
+
+        verdictSection.classList.remove("hidden");
+
+        abortControllers.forEach(c => c?.abort());
+        abortControllers = [];
+
+        isBusy = true;
+        setButtonStates(true, hasReviews);
+        stopButton.disabled = false;
+
+        vname.textContent = chairman.name + " (Chairman)";
+        vcontent.innerHTML = "";
+        setStatus(vstatus, "Waiting…", "");
+
+        const verdictPrompt = buildVerdictPrompt(hasReviews);
+
+        try {
+          await streamToModel(
+            chairman.model,
+            [{ role: "user", content: verdictPrompt }],
+            vcontent,
+            vstatus,
+            SLOT_COUNT * 2
+          );
+        } catch (err) {
+          if (err.name === "AbortError") {
+            setStatus(vstatus, "Cancelled", "");
+            vcontent.innerHTML = '<div class="response-empty">Cancelled.</div>';
+          } else {
+            setStatus(vstatus, "Error", "error");
+            vcontent.innerHTML = `<p class="error-text">${err.message}</p>`;
+          }
+        }
+
+        isBusy = false;
+        stopButton.disabled = true;
+        setButtonStates(true, hasReviews);
+      }
+
+      /* ---- Stop / Clear ---- */
+
+      function stop() {
+        abortControllers.forEach(c => c?.abort());
+        abortControllers = [];
+      }
+
+      /* ---- Copy ---- */
+
+      function copyText(text, btn) {
+        if (!text) return;
+        navigator.clipboard.writeText(text).then(() => {
+          btn.textContent = "Copied!";
+          setTimeout(() => { btn.textContent = "Copy"; }, 1200);
+        });
+      }
+
+      /* ---- Event listeners ---- */
+
+      settingsButton.addEventListener("click", () => {
+        settingsPanel.classList.toggle("hidden");
+      });
+
+      askButton.addEventListener("click", ask);
+      reviewButton.addEventListener("click", review);
+      verdictButton.addEventListener("click", verdict);
+      stopButton.addEventListener("click", stop);
+
+      slotSelects.forEach((sel, i) => {
+        sel.addEventListener("change", () => {
+          const isCustom = sel.value === CUSTOM_VALUE;
+          customInputs[i].classList.toggle("hidden", !isCustom);
+          if (isCustom) customInputs[i].focus();
+          updateLayout();
+          saveModelPrefs();
+        });
+      });
+
+      customInputs.forEach((inp, i) => {
+        inp.addEventListener("input", () => {
+          updateLayout();
+          saveModelPrefs();
+        });
+      });
+
+      copyBtns.forEach((btn, i) => {
+        btn.addEventListener("click", () => copyText(contentEls[i].innerText, btn));
+      });
+
+      rcopyBtns.forEach((btn, i) => {
+        btn.addEventListener("click", () => copyText(rcontentEls[i].innerText, btn));
+      });
+
+      vcopyBtn.addEventListener("click", () => copyText(vcontent.innerText, vcopyBtn));
+
+      promptInput.addEventListener("keydown", (e) => {
+        if (e.key === "Enter" && (e.metaKey || e.ctrlKey)) {
+          e.preventDefault();
+          ask();
+        }
+      });
+
+      modalCancel.addEventListener("click", () => {
+        pendingAction = null;
+        closeModal();
+      });
+
+      modalSave.addEventListener("click", () => {
+        const key = apiKeyInput.value.trim();
+        if (key) localStorage.setItem(STORAGE_KEY, key);
+        closeModal();
+        if (pendingAction) {
+          const action = pendingAction;
+          pendingAction = null;
+          if (action === "ask") ask();
+          else if (action === "review") review();
+          else if (action === "verdict") verdict();
+        }
+      });
+
+      apiKeyInput.addEventListener("keydown", (e) => {
+        if (e.key === "Enter") modalSave.click();
+        if (e.key === "Escape") modalCancel.click();
+      });
+
+      modalOverlay.addEventListener("click", (e) => {
+        if (e.target === modalOverlay) {
+          pendingAction = null;
+          closeModal();
+        }
+      });
+
+      /* ---- Init ---- */
+
+      DEFAULT_MODELS.forEach((def, i) => populateSelect(slotSelects[i], def));
+      loadModelPrefs();
+      updateLayout();
+      setButtonStates(false, false);
+    </script>
+  </body>
+</html>
