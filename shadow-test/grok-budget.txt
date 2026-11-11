@@ -1,0 +1,3 @@
+Budget conditions for this attempt: answer in a single response, with no tool calls, no file reads or writes, no browsing, no subagents and no self-testing loop. Output only the complete HTML, aiming for at most 5,000 output tokens. This is a requested target, not an enforced API cap. Do not inspect any existing solution. The task prompt follows verbatim.
+
+[Followed by prompt-v4.md, unchanged.]

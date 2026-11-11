@@ -1,0 +1,65 @@
+{
+  "reference": {
+    "description": "Iterated reference; multiple revisions and visual feedback; not a scored model attempt",
+    "entry": "reference/index.html"
+  },
+  "mixed": {
+    "description": "Fable 5.2 low effort failed; person switched to GPT-6.1 Sol, which completed the file. Tool-assisted internal iterations. Not a Fable-only one-shot.",
+    "original": "mixed/original.html",
+    "sha256": "40bcb6eac969b4c4aa76c4ec9f976863c4089fea3b92ed62bd25e3e2456991b4",
+    "preview_changes": "Only Three.js import URLs replaced with bundled paths; explore activated by URL query. No scene or control changes.",
+    "reported_usage": {
+      "Fable 5.2": {
+        "input": 2200533,
+        "output": 115708,
+        "cacheRead": 2059385,
+        "cacheWrite": 141108
+      },
+      "GPT-6.1 Sol": {
+        "input": 237477,
+        "output": 6955,
+        "cacheRead": 229888,
+        "cacheWrite": 0
+      }
+    }
+  },
+  "grok": {
+    "model": "xai/grok-4.7",
+    "provider": "grok",
+    "effort": "low",
+    "description": "Fresh context, one response, no tool calls. Same v4 task plus explicit no-tools budget instructions and a soft 5000-output-token target. Different conditions from the tool-assisted Fable-to-Sol run.",
+    "original": "grok/original.html",
+    "sha256": "8845f473ad2d0ec2b5f2f70f253e57cc5eb0e9d74954fc6a4a2dbdc82b04a419",
+    "preview_changes": "Only CDN import URLs replaced with bundled Three.js 0.170.0 paths.",
+    "reported_usage": {
+      "grok": {
+        "xai/grok-4.7": {
+          "input": 44700,
+          "output": 62274,
+          "cacheRead": 1152,
+          "cacheWrite": 0
+        }
+      }
+    },
+    "runs": [
+      {
+        "status": "completed",
+        "reason": "completed",
+        "startedAt": 1794398717371,
+        "endedAt": 1794399149722,
+        "costUsd": null
+      }
+    ],
+    "verification": {
+      "threeVersion": "0.170.0",
+      "browserErrors": [],
+      "exploreButtons": [
+        "Reset",
+        "HAPPY",
+        "AGENT",
+        "CODER"
+      ],
+      "observation": "No word shadows in default settled view; main readability gate failed. Segmented sculpture construction visible."
+    }
+  }
+}

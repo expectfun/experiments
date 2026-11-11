@@ -1,0 +1,161 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Shadow test</title><style>html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#191b20;color:#eee9df;font:13px Arial,sans-serif}canvas{position:absolute}header,footer,nav{position:absolute;z-index:2;letter-spacing:.06em}header{left:30px;top:26px}footer{right:30px;bottom:26px}nav{left:30px;bottom:26px;display:flex;gap:8px}button{background:#25272be6;border:1px solid #ffffff30;color:#eee9df;padding:9px 12px;border-radius:5px;cursor:pointer}</style><script type="importmap">{"imports":{"three":"./three/build/three.module.js","three/addons/":"./three/examples/jsm/"}}</script></head><body><header>Shadow test: HAPPY / AGENT / CODER</header><footer>happy.engineering</footer><script type="module">
+import * as THREE from 'three';
+import {OrbitControls} from 'three/addons/controls/OrbitControls.js';
+// ---- CORE BEGIN (shared between node checker and the HTML) ----
+const P = {
+  H: 1.0, hw: 0.075,
+  WC: 0.9, gC: 0.18,
+  WA: 0.44, gA: 0.085, kA: 1.31,
+  kappa: 0.45, tilt: 0.17, D: 400, k: 0.02,
+  c: [3.0, 2.9, 5.75],
+};
+P.LC = 5 * P.WC + 4 * P.gC;
+P.LA = 5 * P.WA + 4 * P.gA;
+P.yt = P.H / 2 - P.hw;
+
+function fillet(pts, rad) {
+  const out = [];
+  const n = pts.length;
+  const closed = Math.abs(pts[0][0] - pts[n - 1][0]) < 1e-9 && Math.abs(pts[0][1] - pts[n - 1][1]) < 1e-9;
+  for (let i = 0; i < n; i++) {
+    const p = pts[i];
+    const r = Array.isArray(rad) ? rad[i] : rad;
+    let a, b;
+    if (i > 0 && i < n - 1) { a = pts[i - 1]; b = pts[i + 1]; }
+    else if (closed && i === 0) { a = pts[n - 2]; b = pts[1]; }
+    else { if (!(closed && i === n - 1)) out.push(p); continue; }
+    if (!r) { out.push(p); continue; }
+    const la = Math.hypot(a[0] - p[0], a[1] - p[1]), lb = Math.hypot(b[0] - p[0], b[1] - p[1]);
+    const rr = Math.min(r, la * 0.5, lb * 0.5);
+    const A = [p[0] + (a[0] - p[0]) / la * rr, p[1] + (a[1] - p[1]) / la * rr];
+    const B = [p[0] + (b[0] - p[0]) / lb * rr, p[1] + (b[1] - p[1]) / lb * rr];
+    for (let s = 0; s <= 8; s++) {
+      const t = s / 8, u = 1 - t;
+      // conic-ish quadratic blend, close to a circular arc
+      const w = 0.7071, den = u * u + 2 * w * u * t + t * t;
+      out.push([(u * u * A[0] + 2 * w * u * t * p[0] + t * t * B[0]) / den, (u * u * A[1] + 2 * w * u * t * p[1] + t * t * B[1]) / den]);
+    }
+  }
+  if (closed) out.push(out[0]);
+  return out;
+}
+
+// glyph = list of [unitPoints, radii]
+const GLY = {
+  wC: [[[[1, .70], [1, 1], [0, 1], [0, 0], [1, 0], [1, .30]], .2]],
+  wO: [[[[0, .5], [0, 1], [1, 1], [1, 0], [0, 0], [0, .5]], .22]],
+  wD: [[[[0, 0], [0, 1], [1, 1], [1, 0], [0, 0]], [0, 0, .3, .3, 0]]],
+  wE: [[[[1, 1], [0, 1], [0, 0], [1, 0]], 0], [[[0, .5], [1, .5]], 0]],
+  wR: [[[[0, 0], [0, 1], [1, 1], [1, .5], [0, .5]], [0, 0, .2, .2, 0]], [[[.5, .5], [1, 0]], 0]],
+  wA: [[[[0, 0], [0, 1], [1, 1], [1, 0]], .17], [[[0, .42], [1, .42]], 0]],
+  wG: [[[[1, .72], [1, 1], [0, 1], [0, 0], [1, 0], [1, .45], [.5, .45]], [0, .16, .16, .16, .16, 0, 0]]],
+  wN: [[[[0, 0], [0, 1], [1, 0], [1, 1]], 0]],
+  wT: [[[[0, 1], [1, 1]], 0], [[[.5, 1], [.5, 0]], 0]],
+  fH: [[[[0, 0], [0, 1]], 0], [[[1, 0], [1, 1]], 0], [[[0, .5], [1, .5]], 0]],
+  fA: [[[[0, 0], [0, 1], [1, 1], [1, 0]], .2], [[[0, .5], [1, .5]], 0]],
+  fP: [[[[0, 0], [0, 1], [1, 1], [1, .5], [0, .5]], [0, 0, .2, .2, 0]]],
+  fY: [[[[0, 1], [0, .74], [.5, .4], [1, .74], [1, 1]], [0, .1, 0, .1, 0]], [[[.5, .4], [.5, 0]], 0]],
+};
+
+// Build a word SDF image. letters: glyph keys; W,Hb letter box; gap; sy = vertical stretch applied after (floor)
+function buildWord(keys, W, Hb, gap, sx, sy) {
+  const hw = P.hw, segs = [];
+  keys.forEach((key, i) => {
+    const x0 = i * (W + gap);
+    for (const [pts, rad] of GLY[key]) {
+      const wp = pts.map(([u, v]) => [x0 + hw + u * (W - 2 * hw), hw + v * (Hb - 2 * hw)]);
+      const fp = fillet(wp, rad);
+      for (let j = 0; j + 1 < fp.length; j++) segs.push([fp[j][0], fp[j][1], fp[j + 1][0], fp[j + 1][1]]);
+    }
+  });
+  const L = keys.length * W + (keys.length - 1) * gap;
+  const res = 0.01, m = 0.12;
+  const nx = Math.ceil((L + 2 * m) / res) + 1, ny = Math.ceil((Hb + 2 * m) / res) + 1;
+  const d = new Float32Array(nx * ny);
+  for (let j = 0; j < ny; j++) for (let i = 0; i < nx; i++) {
+    const x = -m + i * res, y = -m + j * res;
+    let best = 1e9;
+    for (let s = 0; s < segs.length; s++) {
+      const g = segs[s];
+      if (Math.abs(x - g[0]) > 0.45 && Math.abs(x - g[2]) > 0.45) continue;
+      const vx = g[2] - g[0], vy = g[3] - g[1], wx = x - g[0], wy = y - g[1];
+      let t = (wx * vx + wy * vy) / (vx * vx + vy * vy + 1e-12); t = t < 0 ? 0 : t > 1 ? 1 : t;
+      const dx = wx - t * vx, dy = wy - t * vy, q = dx * dx + dy * dy;
+      if (q < best) best = q;
+    }
+    d[j * nx + i] = Math.min(Math.sqrt(best), 0.5) - hw;
+  }
+  // sample with coordinates centered on the word; v is divided by sy (floor stretch)
+  return { L: L * sx, Hb, sx, sy, sample(u, v) {
+    const fx = (u / sx + L / 2 + m) / res, fy = (v / sy + Hb / 2 + m) / res;
+    if (fx < 0 || fy < 0 || fx >= nx - 1 || fy >= ny - 1) return 0.3;
+    const i = fx | 0, j = fy | 0, a = fx - i, b = fy - j, o = j * nx + i;
+    return (d[o] * (1 - a) + d[o + 1] * a) * (1 - b) + (d[o + nx] * (1 - a) + d[o + nx + 1] * a) * b;
+  } };
+}
+
+function buildImages() {
+  const R = buildWord(['wC', 'wO', 'wD', 'wE', 'wR'], P.WC, P.H, P.gC, 1, 1);
+  const L = buildWord(['wA', 'wG', 'wE', 'wN', 'wT'], P.WA * P.kA, P.H, P.gA * P.kA, 1 / P.kA, 1);
+  const T = buildWord(['fH', 'fA', 'fP', 'fP', 'fY'], P.WC, P.LA * P.kappa, P.gC, 1, 1 / P.kappa);
+  return { R, L, T };
+}
+
+function lightPositions() {
+  const [cx, cy, cz] = P.c, D = P.D, n = Math.hypot(1, P.tilt);
+  return {
+    R: [cx, cy, cz + D],
+    L: [cx + D, cy, cz],
+    T: [cx, cy + D / n, cz - D * P.tilt / n],
+  };
+}
+
+// field in sculpture-local coords (x,y,z relative to P.c); negative inside
+function makeField(img) {
+  const D = P.D, n = Math.hypot(1, P.tilt), Ty = D / n, Tz = -D * P.tilt / n, k2 = P.k * P.k, sh = P.tilt * P.yt;
+  return function (x, y, z) {
+    const sR = D / (D - z), dR = img.R.sample(x * sR, y * sR);
+    const sL = D / (D - x), dL = img.L.sample(-z * sL, y * sL);
+    const lam = Ty / (Ty - y), qz = Tz + (z - Tz) * lam;
+    const dT = img.T.sample(x * lam, -qz + sh);
+    let m = 0.5 * (dR + dL + Math.sqrt((dR - dL) * (dR - dL) + k2));
+    m = 0.5 * (m + dT + Math.sqrt((m - dT) * (m - dT) + k2));
+    return m;
+  };
+}
+// ---- CORE END ----
+
+const scene=new THREE.Scene();scene.background=new THREE.Color('#191b20');
+const renderer=new THREE.WebGLRenderer({antialias:true});renderer.setSize(1600,900,false);renderer.setPixelRatio(1);renderer.shadowMap.enabled=true;renderer.shadowMap.type=THREE.PCFSoftShadowMap;renderer.outputColorSpace=THREE.SRGBColorSpace;renderer.toneMapping=THREE.ACESFilmicToneMapping;renderer.toneMappingExposure=1.15;document.body.prepend(renderer.domElement);
+function fit(){const s=Math.min(innerWidth/1600,innerHeight/900),el=renderer.domElement;el.style.width=1600*s+'px';el.style.height=900*s+'px';el.style.left=(innerWidth-1600*s)/2+'px';el.style.top=(innerHeight-900*s)/2+'px'}addEventListener('resize',fit);fit();
+const camera=new THREE.PerspectiveCamera(28,1600/900,.1,1000),home=new THREE.Vector3(5.5,8.2,20),aim=new THREE.Vector3(-.35,.5,3);camera.position.copy(home);camera.lookAt(aim);
+scene.add(new THREE.HemisphereLight(0xb7c6dd,0x35312c,.26));
+const stone=new THREE.MeshStandardMaterial({color:0x96928a,roughness:.91,metalness:.02});
+function plane(w,h,pos,n){const m=new THREE.Mesh(new THREE.PlaneGeometry(w,h),stone);m.position.set(...pos);m.quaternion.setFromUnitVectors(new THREE.Vector3(0,0,1),new THREE.Vector3(...n));m.receiveShadow=true;scene.add(m)}
+plane(60,60,[0,0,0],[0,1,0]);plane(50,16,[9,8,0],[0,0,1]);const th=38*Math.PI/180;plane(40,16,[-8*Math.sin(th),8,8*Math.cos(th)],[Math.cos(th),0,Math.sin(th)]);
+const lp=lightPositions();
+for(const [key,color,intensity]of [['R',0xffe0b3,4.5],['L',0xcadfff,4.2],['T',0xffe7c7,4.4]]){const l=new THREE.SpotLight(color,intensity,0,.0115,.25,0);l.position.set(...lp[key]);l.target.position.set(...P.c);scene.add(l,l.target);l.castShadow=true;l.shadow.mapSize.set(4096,4096);l.shadow.camera.near=385;l.shadow.camera.far=425;l.shadow.bias=-.000008;l.shadow.normalBias=.001;}
+const bronze=new THREE.MeshStandardMaterial({color:0x77503a,metalness:.72,roughness:.29});
+// Continuous intersection of three perspective silhouette volumes. The grid
+// samples a smooth field; only its interpolated isosurface is rendered.
+await new Promise(r=>requestAnimationFrame(r));
+const field=makeField(buildImages()),step=.022,origin=[-P.LC/2-.1,-P.H/2-.1,-P.LA/2-.25];
+const nx=Math.ceil((P.LC+.2)/step)+1,ny=Math.ceil((P.H+.2)/step)+1,nz=Math.ceil((P.LA+.5)/step)+1,N=nx*ny*nz,stride=nx*ny;
+const values=new Float32Array(N),labels=new Int32Array(N);
+for(let k=0;k<nz;k++)for(let j=0;j<ny;j++)for(let i=0;i<nx;i++)values[k*stride+j*nx+i]=field(origin[0]+i*step,origin[1]+j*step,origin[2]+k*step);
+const parts=[],stack=[];
+for(let s=0;s<N;s++){if(values[s]>=0||labels[s])continue;const id=parts.length+1,part={positions:[],normals:[],top:-Infinity,anchor:null};parts.push(part);stack.push(s);labels[s]=id;
+while(stack.length){const q=stack.pop(),i=q%nx,j=Math.floor(q/nx)%ny,k=Math.floor(q/stride),y=origin[1]+j*step;if(y>part.top){part.top=y;part.anchor=[origin[0]+i*step,y,origin[2]+k*step]}
+for(const r of [i>0?q-1:-1,i<nx-1?q+1:-1,j>0?q-nx:-1,j<ny-1?q+nx:-1,k>0?q-stride:-1,k<nz-1?q+stride:-1])if(r>=0&&values[r]<0&&!labels[r]){labels[r]=id;stack.push(r)}}}
+const offsets=[0,1,nx+1,nx,stride,stride+1,stride+nx+1,stride+nx],coords=[[0,0,0],[1,0,0],[1,1,0],[0,1,0],[0,0,1],[1,0,1],[1,1,1],[0,1,1]],tets=[[0,5,1,6],[0,1,2,6],[0,2,3,6],[0,3,7,6],[0,7,4,6],[0,4,5,6]];
+function vertex(a,b,pts,vs){const t=vs[a]/(vs[a]-vs[b]);return pts[a].map((x,d)=>x+(pts[b][d]-x)*t)}
+function normal(p){const e=.0015,[x,y,z]=p;return new THREE.Vector3(field(x+e,y,z)-field(x-e,y,z),field(x,y+e,z)-field(x,y-e,z),field(x,y,z+e)-field(x,y,z-e)).normalize()}
+function tri(part,a,b,c){const na=normal(a),nb=normal(b),nc=normal(c),ab=new THREE.Vector3(b[0]-a[0],b[1]-a[1],b[2]-a[2]),ac=new THREE.Vector3(c[0]-a[0],c[1]-a[1],c[2]-a[2]);if(ab.cross(ac).dot(na)<0){part.positions.push(...a,...c,...b);part.normals.push(...na.toArray(),...nc.toArray(),...nb.toArray())}else{part.positions.push(...a,...b,...c);part.normals.push(...na.toArray(),...nb.toArray(),...nc.toArray())}}
+for(let k=0;k<nz-1;k++)for(let j=0;j<ny-1;j++)for(let i=0;i<nx-1;i++){const base=k*stride+j*nx+i,vs=offsets.map(o=>values[base+o]);if(vs.every(v=>v>=0)||vs.every(v=>v<0))continue;const pts=coords.map(c=>[origin[0]+(i+c[0])*step,origin[1]+(j+c[1])*step,origin[2]+(k+c[2])*step]);
+for(const tet of tets){const ins=tet.filter(a=>vs[a]<0),out=tet.filter(a=>vs[a]>=0);if(!ins.length||!out.length)continue;const part=parts[labels[base+offsets[ins[0]]]-1];if(ins.length===1)tri(part,...out.map(b=>vertex(ins[0],b,pts,vs)));else if(ins.length===3)tri(part,...ins.map(a=>vertex(a,out[0],pts,vs)));else{const a=vertex(ins[0],out[0],pts,vs),b=vertex(ins[0],out[1],pts,vs),c=vertex(ins[1],out[0],pts,vs),d=vertex(ins[1],out[1],pts,vs);tri(part,a,b,c);tri(part,b,d,c)}}}
+const hanging=[],wireMat=new THREE.LineBasicMaterial({color:0x9f9585,transparent:true,opacity:.42});
+parts.forEach((p,index)=>{if(!p.positions.length)return;const anchor=new THREE.Vector3(...p.anchor);anchor.y+=step*.5;const g=new THREE.BufferGeometry();g.setAttribute('position',new THREE.Float32BufferAttribute(p.positions,3));g.setAttribute('normal',new THREE.Float32BufferAttribute(p.normals,3));g.translate(-anchor.x,-anchor.y,-anchor.z);g.computeBoundingSphere();const group=new THREE.Group();group.position.copy(anchor).add(new THREE.Vector3(...P.c));const m=new THREE.Mesh(g,bronze);m.castShadow=true;m.receiveShadow=true;group.add(m);scene.add(group);const top=group.position.clone();top.y=7.4;scene.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints([group.position.clone(),top]),wireMat));hanging.push({group,index})});
+let controls=null;const explore=new URLSearchParams(location.search).has('explore');
+if(explore){controls=new OrbitControls(camera,renderer.domElement);controls.target.copy(aim);controls.enableDamping=true;const nav=document.createElement('nav');document.body.append(nav);for(const [label,key]of [['Composition','home'],['Floor light','T'],['Left light','L'],['Right light','R']]){const b=document.createElement('button');b.textContent=label;b.onclick=()=>{camera.position.copy(key==='home'?home:new THREE.Vector3(...lp[key]));controls.target.copy(key==='home'?aim:new THREE.Vector3(...P.c));camera.fov=key==='home'?28:1.35;camera.near=key==='home'?.1:1;camera.updateProjectionMatrix();controls.update()};nav.append(b)}}
+const start=performance.now();function frame(now){requestAnimationFrame(frame);const t=((now-start)/1000)%10;let a=0;if(t<1.7)a=Math.sin(t/1.7*Math.PI/2);else if(t<3.7)a=1;else if(t<6){const u=(t-3.7)/2.3;a=1-u*u*u*(u*(u*6-15)+10)}for(const {group,index}of hanging){const p=index*2.39996;group.rotation.set(a*.29*Math.sin(t*1.9+p),a*(.6+.6*Math.sin(t*1.4+p)),a*.24*Math.cos(t*1.7+p))}if(controls)controls.update();renderer.render(scene,camera)}requestAnimationFrame(frame);
+</script></body></html>

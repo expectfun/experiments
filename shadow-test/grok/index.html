@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Shadow test</title>
+<style>
+html,body{margin:0;height:100%;background:#070605;overflow:hidden}
+#frame{position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);width:min(100vw,177.778vh);height:min(100vh,56.25vw)}
+canvas{width:100%;height:100%;display:block}
+#tl,#br{position:absolute;color:#f4efe6;font:15px/1.35 Georgia,"Iowan Old Style",serif;letter-spacing:.03em;text-shadow:0 1px 2px rgba(0,0,0,.55);pointer-events:none}
+#tl{top:16px;left:20px}
+#br{right:20px;bottom:14px;font-size:13px;letter-spacing:.08em}
+#ui{position:absolute;left:16px;bottom:14px;display:flex;gap:6px}
+#ui button{font:12px/1 system-ui,sans-serif;color:#f6f1e8;background:rgba(12,10,8,.42);border:1px solid rgba(255,255,255,.28);border-radius:999px;padding:6px 9px;cursor:pointer}
+</style>
+<script type="importmap">
+{"imports":{
+  "three":"../mixed/three/build/three.module.js",
+  "three/addons/":"../mixed/three/examples/jsm/"
+}}
+</script>
+</head>
+<body>
+<div id="frame">
+<canvas id="c"></canvas>
+<div id="tl">Shadow test: HAPPY / AGENT / CODER</div>
+<div id="br">happy.engineering</div>
+<div id="ui"></div>
+</div>
+<script type="module">
+import * as THREE from "three";
+import { OrbitControls } from "three/addons/controls/OrbitControls.js";
+import { RoomEnvironment } from "three/addons/environments/RoomEnvironment.js";
+import { mergeGeometries } from "three/addons/utils/BufferGeometryUtils.js";
+
+const FONTS = {
+H:[17,17,17,31,17,17,17], A:[14,17,17,31,17,17,17], P:[30,17,17,30,16,16,16],
+Y:[17,17,10,4,4,4,4], G:[14,17,16,23,17,17,14], E:[31,16,16,30,16,16,31],
+N:[17,25,21,19,17,17,17], T:[31,4,4,4,4,4,4], C:[14,17,16,16,16,17,14],
+O:[14,17,17,17,17,17,14], D:[30,17,17,17,17,17,30], R:[30,17,17,30,20,18,17]
+};
+for (const k in FONTS) {
+  const g = FONTS[k].slice();
+  let L = 5, R = -1;
+  for (const row of g) for (let c = 0; c < 5; c++) if (row & (16 >> c)) { L = Math.min(L, c); R = Math.max(R, c); }
+  let m = 0;
+  for (let c = L; c <= R; c++) m |= 16 >> c;
+  g[3] |= m;
+  FONTS[k] = g;
+}
+
+const B = 400, SH = 12, MK = 4095;
+const kk = (a, b) => ((a + B) << SH) | (b + B);
+const ax = id => (id >> SH) - B;
+const ay = id => (id & MK) - B;
+const GAP = 2, ADV = 7, COLS = 5 * ADV - GAP, MID = (COLS - 1) / 2;
+
+function paint(word, plot) {
+  let x = 0;
+  for (const ch of word) {
+    const g = FONTS[ch];
+    for (let r = 0; r < 7; r++) for (let c = 0; c < 5; c++)
+      if (g[r] & (16 >> c)) plot(x + c, r);
+    x += ADV;
+  }
+}
+const H = new Set(), A = new Set(), C = new Set();
+const hp = Array.from({length: COLS}, () => Array(7).fill(0));
+paint("HAPPY", (c, r) => { hp[c][r] = 1; });
+for (let iz = -36; iz <= 36; iz++) for (let ix = -36; ix <= 36; ix++) {
+  const fc = Math.round((ix - iz) / 2 + MID), fr = Math.round((ix + iz) / 2 + 3);
+  if (fc >= 0 && fr >= 0 && fc < COLS && fr < 7 && hp[fc][fr]) H.add(kk(ix, iz));
+}
+paint("CODER", (c, r) => C.add(kk(c - MID, 6 - r)));
+paint("AGENT", (c, r) => A.add(kk(6 - r, MID - c)));
+
+function dilate(src) {
+  const n = new Set(src);
+  for (const id of src) {
+    const a = ax(id), b = ay(id);
+    n.add(kk(a + 1, b)); n.add(kk(a - 1, b)); n.add(kk(a, b + 1)); n.add(kk(a, b - 1));
+  }
+  return n;
+}
+const maskH = dilate(H), maskA = dilate(A), maskC = dilate(C);
+for (const id of maskH) H.add(id);
+for (const id of maskA) A.add(id);
+for (const id of maskC) C.add(id);
+
+const ys = [0,1,2,3,4,5,6];
+function coveredH(x, z) { for (const y of ys) if (A.has(kk(y, z)) && C.has(kk(x, y))) return true; return false; }
+function coveredA(y, z) { for (let x = -40; x <= 40; x++) if (H.has(kk(x, z)) && C.has(kk(x, y))) return true; return false; }
+function coveredC(x, y) { for (let z = -40; z <= 40; z++) if (H.has(kk(x, z)) && A.has(kk(y, z))) return true; return false; }
+for (let pass = 0; pass < 8; pass++) {
+  let ch = false;
+  for (const id of [...H]) {
+    const x = ax(id), z = ay(id);
+    if (coveredH(x, z)) continue;
+    let best = null, sc = 99;
+    for (const y of ys) {
+      if (!maskA.has(kk(y, z)) || !maskC.has(kk(x, y))) continue;
+      const add = (A.has(kk(y, z)) ? 0 : 1) + (C.has(kk(x, y)) ? 0 : 1);
+      const s = add * 8 + Math.abs(y - 3);
+      if (s < sc) { sc = s; best = y; }
+    }
+    if (best == null) continue;
+    if (!A.has(kk(best, z))) { A.add(kk(best, z)); ch = true; }
+    if (!C.has(kk(x, best))) { C.add(kk(x, best)); ch = true; }
+  }
+  for (const id of [...A]) {
+    const y = ax(id), z = ay(id);
+    if (coveredA(y, z)) continue;
+    let best = null, sc = 99;
+    for (let x = -40; x <= 40; x++) {
+      if (!maskH.has(kk(x, z)) || !maskC.has(kk(x, y))) continue;
+      const add = (H.has(kk(x, z)) ? 0 : 1) + (C.has(kk(x, y)) ? 0 : 1);
+      const s = add * 8 + Math.abs(x);
+      if (s < sc) { sc = s; best = x; }
+    }
+    if (best == null) continue;
+    if (!H.has(kk(best, z))) { H.add(kk(best, z)); ch = true; }
+    if (!C.has(kk(best, y))) { C.add(kk(best, y)); ch = true; }
+  }
+  for (const id of [...C]) {
+    const x = ax(id), y = ay(id);
+    if (coveredC(x, y)) continue;
+    let best = null, sc = 99;
+    for (let z = -40; z <= 40; z++) {
+      if (!maskH.has(kk(x, z)) || !maskA.has(kk(y, z))) continue;
+      const add = (H.has(kk(x, z)) ? 0 : 1) + (A.has(kk(y, z)) ? 0 : 1);
+      const s = add * 8 + Math.abs(z);
+      if (s < sc) { sc = s; best = z; }
+    }
+    if (best == null) continue;
+    if (!H.has(kk(x, best))) { H.add(kk(x, best)); ch = true; }
+    if (!A.has(kk(y, best))) { A.add(kk(y, best)); ch = true; }
+  }
+  if (!ch) break;
+}
+
+const vox = [];
+for (const id of H) {
+  const x = ax(id), z = ay(id);
+  for (const y of ys) if (A.has(kk(y, z)) && C.has(kk(x, y))) vox.push([x, y, z]);
+}
+
+const key3 = p => p[0] + "," + p[1] + "," + p[2];
+const index = new Map(vox.map((p, i) => [key3(p), i]));
+const seen = new Uint8Array(vox.length);
+const N6 = [[1,0,0],[-1,0,0],[0,1,0],[0,-1,0],[0,0,1],[0,0,-1]];
+let comps = [];
+for (let i = 0; i < vox.length; i++) {
+  if (seen[i]) continue;
+  const st = [i]; seen[i] = 1; const comp = [];
+  while (st.length) {
+    const k = st.pop(); comp.push(vox[k]);
+    const [x,y,z] = vox[k];
+    for (const d of N6) {
+      const j = index.get((x+d[0])+","+(y+d[1])+","+(z+d[2]));
+      if (j != null && !seen[j]) { seen[j] = 1; st.push(j); }
+    }
+  }
+  comps.push(comp);
+}
+comps.sort((a, b) => b.length - a.length);
+const main = comps.slice(0, 8);
+const rest = comps.slice(8);
+function cen(comp) {
+  let x=0,y=0,z=0; for (const p of comp) { x+=p[0]; y+=p[1]; z+=p[2]; }
+  const n = comp.length; return [x/n, y/n, z/n];
+}
+for (const comp of rest) {
+  const c = cen(comp); let bi = 0, bd = 1e9;
+  main.forEach((m, i) => { const d = cen(m); const q = (d[0]-c[0])**2+(d[1]-c[1])**2+(d[2]-c[2])**2; if (q<bd){bd=q;bi=i;} });
+  main[bi].push(...comp);
+}
+comps = main.filter(c => c.length);
+
+const STEP = 0.062, OX = 2.45, OY = 1.48, OZ = 2.35;
+const wpos = (x,y,z) => [OX + x*STEP, OY + y*STEP, OZ + z*STEP];
+const RAD = STEP * 0.58;
+
+function addRuns(comp, geos) {
+  const S = new Set(comp.map(key3));
+  const take = (x,y,z,dx,dy,dz) => {
+    const runs = [];
+    const used = new Set();
+    for (const p of comp) {
+      const id = key3(p);
+      if (used.has(id)) continue;
+      if (S.has((p[0]-dx)+","+(p[1]-dy)+","+(p[2]-dz))) continue;
+      let n = 0, x = p[0], y = p[1], z = p[2];
+      while (S.has(x+","+y+","+z)) { used.add(x+","+y+","+z); n++; x+=dx; y+=dy; z+=dz; }
+      runs.push([p[0], p[1], p[2], n]);
+    }
+    for (const [x,y,z,n] of runs) {
+      const len = (n - 1) * STEP;
+      const g = n === 1 ? new THREE.SphereGeometry(RAD, 10, 8) : new THREE.CapsuleGeometry(RAD, len, 3, 8);
+      if (n > 1 && dx) g.rotateZ(Math.PI / 2);
+      if (n > 1 && dz) g.rotateX(Math.PI / 2);
+      const [wx,wy,wz] = wpos(x + dx*(n-1)/2, y + dy*(n-1)/2, z + dz*(n-1)/2);
+      g.translate(wx, wy, wz);
+      geos.push(g);
+    }
+  };
+  take(0,0,0,1,0,0); take(0,0,0,0,1,0); take(0,0,0,0,0,1);
+}
+
+const mat = new THREE.MeshPhysicalMaterial({
+  color: 0xe7d7c0, roughness: 0.38, metalness: 0.06,
+  clearcoat: 0.45, clearcoatRoughness: 0.35, envMapIntensity: 0.45
+});
+const pieces = [];
+for (const comp of comps) {
+  const geos = []; addRuns(comp, geos);
+  if (!geos.length) continue;
+  const geo = mergeGeometries(geos, false);
+  geos.forEach(g => g.dispose());
+  geo.computeBoundingBox();
+  const c = new THREE.Vector3(); geo.boundingBox.getCenter(c);
+  const top = geo.boundingBox.max.y;
+  geo.translate(-c.x, -c.y, -c.z);
+  const mesh = new THREE.Mesh(geo, mat);
+  mesh.castShadow = true;
+  const grp = new THREE.Group();
+  grp.position.copy(c);
+  grp.add(mesh);
+  grp.userData.phase = pieces.length * 1.31 + 0.4;
+  grp.userData.top = top - c.y;
+  pieces.push(grp);
+}
+
+const renderer = new THREE.WebGLRenderer({ canvas: document.getElementById("c"), antialias: true, powerPreference: "high-performance" });
+renderer.setPixelRatio(1);
+renderer.setSize(1600, 900, false);
+renderer.setClearColor(0x100e0c, 1);
+renderer.shadowMap.enabled = true;
+renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+renderer.toneMapping = THREE.ACESFilmicToneMapping;
+renderer.toneMappingExposure = 1.05;
+renderer.outputColorSpace = THREE.SRGBColorSpace;
+
+const scene = new THREE.Scene();
+scene.background = new THREE.Color(0x12100e);
+const pmrem = new THREE.PMREMGenerator(renderer);
+scene.environment = pmrem.fromScene(new RoomEnvironment(), 0.045).texture;
+scene.environmentIntensity = 0.38;
+pmrem.dispose();
+
+const cnv = document.createElement("canvas"); cnv.width = cnv.height = 128;
+const ictx = cnv.getContext("2d"); const im = ictx.createImageData(128, 128);
+for (let i = 0; i < im.data.length; i += 4) { const v = 170 + (Math.random()*80|0); im.data[i]=im.data[i+1]=im.data[i+2]=v; im.data[i+3]=255; }
+ictx.putImageData(im, 0, 0);
+const rough = new THREE.CanvasTexture(cnv);
+rough.wrapS = rough.wrapT = THREE.RepeatWrapping; rough.repeat.set(2.5, 2.5);
+
+function wallMat(col) {
+  return new THREE.MeshStandardMaterial({ color: col, roughness: 0.82, metalness: 0.02, roughnessMap: rough, envMapIntensity: 0.2 });
+}
+const floor = new THREE.Mesh(new THREE.BoxGeometry(8, 0.28, 8), wallMat(0xb7afa2));
+floor.position.set(3.6, -0.14, 3.6); floor.receiveShadow = true; floor.layers.enable(1);
+const left = new THREE.Mesh(new THREE.BoxGeometry(0.28, 5.4, 8), wallMat(0xd5cfc5));
+left.position.set(-0.14, 2.7, 3.6); left.receiveShadow = true; left.layers.enable(2);
+const right = new THREE.Mesh(new THREE.BoxGeometry(8, 5.4, 0.28), wallMat(0xe3dbd0));
+right.position.set(3.6, 2.7, -0.14); right.receiveShadow = true; right.layers.enable(3);
+scene.add(floor, left, right);
+
+const hemi = new THREE.HemisphereLight(0xfff4e6, 0x2a241c, 0.42);
+scene.add(hemi);
+
+function sun(layer, color, inten, pos, tgt) {
+  const L = new THREE.DirectionalLight(color, inten);
+  L.layers.set(layer);
+  L.position.set(pos[0], pos[1], pos[2]);
+  L.target.position.set(tgt[0], tgt[1], tgt[2]);
+  L.castShadow = true;
+  L.shadow.mapSize.set(2048, 2048);
+  L.shadow.bias = -0.00012;
+  L.shadow.normalBias = 0.012;
+  const cam = L.shadow.camera;
+  cam.near = 0.2; cam.far = 30; cam.left = cam.bottom = -3.4; cam.right = cam.top = 3.4;
+  scene.add(L, L.target);
+  return L;
+}
+const sc = [2.45, 1.66, 2.35];
+const lightH = sun(1, 0xfff2df, 4.4, [sc[0], 8.5, sc[2]], [sc[0], 0, sc[2]]);
+const lightA = sun(2, 0xe5edff, 3.8, [8.2, sc[1], sc[2]], [0, sc[1], sc[2]]);
+const lightC = sun(3, 0xffe4cc, 3.8, [sc[0], sc[1], 8.2], [sc[0], sc[1], 0]);
+
+const wireMat = new THREE.MeshStandardMaterial({ color: 0x2a2724, roughness: 0.35, metalness: 0.65 });
+const wireGeo = new THREE.CylinderGeometry(0.0045, 0.0045, 1, 6);
+const YUP = new THREE.Vector3(0, 1, 0);
+const wires = pieces.map(grp => {
+  grp.traverse(o => { if (o.isMesh) { o.layers.enable(1); o.layers.enable(2); o.layers.enable(3); } });
+  scene.add(grp);
+  const w = new THREE.Mesh(wireGeo, wireMat);
+  scene.add(w);
+  grp.userData.wire = w;
+  return w;
+});
+
+const camera = new THREE.PerspectiveCamera(30, 1600/900, 0.08, 50);
+const HOME = { p: new THREE.Vector3(5.15, 3.35, 5.85), t: new THREE.Vector3(2.05, 1.22, 1.85) };
+camera.position.copy(HOME.p);
+camera.lookAt(HOME.t);
+
+const explore = new URLSearchParams(location.search).has("explore");
+let controls = null;
+if (explore) {
+  controls = new OrbitControls(camera, renderer.domElement);
+  controls.target.copy(HOME.t);
+  controls.enableDamping = true;
+  controls.maxDistance = 14;
+  const ui = document.getElementById("ui");
+  const shots = {
+    Reset: HOME,
+    HAPPY: { p: new THREE.Vector3(sc[0], sc[1] + 3.4, sc[2] + 0.02), t: new THREE.Vector3(sc[0], 0.15, sc[2]) },
+    AGENT: { p: new THREE.Vector3(sc[0] + 3.3, sc[1], sc[2]), t: new THREE.Vector3(0.15, sc[1], sc[2]) },
+    CODER: { p: new THREE.Vector3(sc[0], sc[1], sc[2] + 3.3), t: new THREE.Vector3(sc[0], sc[1], 0.15) }
+  };
+  for (const name of ["Reset", "HAPPY", "AGENT", "CODER"]) {
+    const b = document.createElement("button");
+    b.textContent = name;
+    b.onclick = () => {
+      camera.position.copy(shots[name].p);
+      controls.target.copy(shots[name].t);
+    };
+    ui.appendChild(b);
+  }
+}
+
+function wave(t, p) { return Math.sin(t * 0.85 + p) * 1.15 + Math.sin(t * 1.7 + p * 1.6) * 0.45; }
+function smooth(u) { return u * u * (3 - 2 * u); }
+function angle(t, p) {
+  if (t < 0.65) return wave(t, p) * smooth(t / 0.65);
+  if (t < 5.25) return wave(t, p);
+  if (t < 6) return wave(5.25, p) * (1 - smooth((t - 5.25) / 0.75));
+  return 0;
+}
+const tmpA = new THREE.Vector3(), tmpB = new THREE.Vector3(), tmpD = new THREE.Vector3();
+const clock = new THREE.Clock();
+function frame() {
+  const t = clock.getElapsedTime() % 10;
+  for (const grp of pieces) {
+    grp.rotation.y = angle(t, grp.userData.phase);
+    tmpA.set(0, grp.userData.top, 0).applyQuaternion(grp.quaternion).add(grp.position);
+    tmpB.set(grp.position.x, 4.7, grp.position.z);
+    tmpD.copy(tmpA).sub(tmpB);
+    const L = tmpD.length();
+    const w = grp.userData.wire;
+    w.scale.set(1, L, 1);
+    w.position.copy(tmpB).add(tmpA).multiplyScalar(0.5);
+    w.quaternion.setFromUnitVectors(YUP, tmpD.multiplyScalar(1 / L));
+  }
+  if (controls) controls.update();
+  renderer.render(scene, camera);
+  requestAnimationFrame(frame);
+}
+frame();
+</script>
+</body>
+</html>

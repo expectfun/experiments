@@ -1,0 +1,441 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="happy-page-mode" content="app">
+<meta name="happy-page-width" content="full">
+<meta name="happy-app-close" content="top-end">
+<title>Shadow test: HAPPY / AGENT / CODER</title>
+<style>
+  html, body { margin: 0; height: 100%; background: #0e0e10; overflow: hidden; }
+  #stage { position: absolute; left: 50%; top: 50%; width: 1600px; height: 900px;
+           transform-origin: 0 0; font-family: Helvetica, Arial, sans-serif; }
+  canvas { display: block; }
+  .label { position: absolute; color: #f1e8da; pointer-events: none; }
+  #title { top: 34px; left: 40px; font-size: 15px; font-weight: 600; letter-spacing: 0.32em;
+           text-transform: uppercase; opacity: 0.85; }
+  #caption { top: 72px; right: 40px; text-align: right; font-size: 15px; line-height: 1.6; letter-spacing: 0.06em; opacity: 0.8; }
+  #caption b { font-size: 21px; font-weight: 600; letter-spacing: 0.02em; font-style: italic; }
+  #site  { bottom: 34px; right: 40px; font-size: 15px; letter-spacing: 0.32em; opacity: 0.7; }
+  #panel { position: absolute; left: 40px; bottom: 26px; display: none; gap: 10px; flex-wrap: nowrap;
+           font-size: 14px; letter-spacing: 0.02em; }
+  #panel .group { display: flex; align-items: center; gap: 2px; padding: 4px; border-radius: 10px;
+           background: #15110ecc; backdrop-filter: blur(6px); color: #f3ede3; }
+  #panel .group > span { padding: 0 8px 0 6px; opacity: 0.55; text-transform: uppercase; letter-spacing: 0.18em; font-size: 11px; }
+  #panel button, #panel label { background: none; color: inherit; border: 0; border-radius: 7px;
+           padding: 6px 10px; font: inherit; cursor: pointer; display: flex; gap: 6px; align-items: center; }
+  #panel button:hover, #panel label:hover { background: #ffffff1f; }
+  #panel input[type=range] { width: 130px; accent-color: #c9a25c; }
+  #panel input[type=checkbox] { accent-color: #c9a25c; margin: 0; }
+  #hint { position: absolute; top: 64px; left: 40px; font-size: 16px; color: #f1e8da; opacity: 0.7; display: none; }
+</style>
+<script type="importmap">
+{ "imports": {
+  "three": "./three/build/three.module.js",
+  "three/addons/": "./three/examples/jsm/"
+} }
+</script>
+</head>
+<body>
+<div id="stage">
+  <div class="label" id="title">Shadow test: HAPPY / AGENT / CODER</div>
+  <div id="hint">Drag to look around, scroll to zoom. Look from a light to see why its word appears.</div>
+  <div class="label" id="site">happy.engineering</div>
+  <div class="label" id="caption"><b>Happy, Agent, Coder</b><br>Walnut, steel wire, three lights. 2026</div>
+  <div id="panel">
+    <div class="group"><button id="play">Pause</button>
+      <label>Twist <input id="twist" type="range" min="0" max="1" step="0.001" value="0"></label></div>
+    <div class="group"><span>View</span>
+      <button data-view="gallery">Gallery</button><button data-view="floor">Floor light</button>
+      <button data-view="left">Left light</button><button data-view="right">Right light</button></div>
+    <div class="group"><span>Lights</span>
+      <label><input type="checkbox" data-light="0" checked> floor</label>
+      <label><input type="checkbox" data-light="1" checked> left</label>
+      <label><input type="checkbox" data-light="2" checked> right</label></div>
+  </div>
+</div>
+<script type="module">
+import * as THREE from 'three';
+import { MarchingCubes } from 'three/addons/objects/MarchingCubes.js';
+import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
+import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+import { EffectComposer } from 'three/addons/postprocessing/EffectComposer.js';
+import { RenderPass } from 'three/addons/postprocessing/RenderPass.js';
+import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js';
+import { ShaderPass } from 'three/addons/postprocessing/ShaderPass.js';
+import { OutputPass } from 'three/addons/postprocessing/OutputPass.js';
+
+// ?explore turns the clip into a page you can walk around.
+const EXPLORE = !new URLSearchParams(location.search).has('clip'); // the artifact opens in explore mode
+
+const W = 1600, H = 900;
+const stage = document.getElementById('stage');
+const fit = () => {
+  const s = Math.min(innerWidth / W, innerHeight / H);
+  stage.style.transform = `scale(${s}) translate(-50%, -50%)`;
+};
+addEventListener('resize', fit); fit();
+
+const renderer = new THREE.WebGLRenderer({ antialias: true });
+renderer.setPixelRatio(1);
+renderer.setSize(W, H);
+renderer.shadowMap.enabled = true;
+renderer.shadowMap.type = THREE.PCFShadowMap;
+renderer.toneMapping = THREE.ACESFilmicToneMapping;
+renderer.toneMappingExposure = 0.78;
+stage.prepend(renderer.domElement);
+
+const scene = new THREE.Scene();
+scene.background = new THREE.Color(0x0d0b0a);
+scene.fog = new THREE.FogExp2(0x0d0b0a, 0.011);
+const pmrem = new THREE.PMREMGenerator(renderer);
+scene.environment = pmrem.fromScene(new RoomEnvironment(), 0.04).texture;
+scene.environmentIntensity = 0.15;
+
+const GALLERY = { pos: new THREE.Vector3(19, 23, 19), look: new THREE.Vector3(-1.2, 2.6, -1.2) };
+const camera = new THREE.PerspectiveCamera(32, W / H, 0.1, 200);
+camera.position.copy(GALLERY.pos);
+camera.lookAt(GALLERY.look);
+
+// Room: left wall x = -ROOM, right wall z = -ROOM, floor y = 0.
+const ROOM = 7;
+const plaster = new THREE.MeshStandardMaterial({ color: 0xd9d4cb, roughness: 0.96 });
+const grain = (mat, big, fine) => {
+  mat.onBeforeCompile = (sh) => {
+    sh.vertexShader = sh.vertexShader
+      .replace('#include <common>', '#include <common>\nvarying vec3 vW;')
+      .replace('#include <worldpos_vertex>', '#include <worldpos_vertex>\nvW = (modelMatrix * vec4(transformed, 1.0)).xyz;');
+    sh.fragmentShader = sh.fragmentShader
+      .replace('#include <common>', `#include <common>
+        varying vec3 vW;
+        float h3(vec3 p) { return fract(sin(dot(p, vec3(12.9898, 78.233, 37.719))) * 43758.5453); }
+        float n3(vec3 p) {
+          vec3 i = floor(p), f = fract(p); f = f * f * (3.0 - 2.0 * f);
+          return mix(mix(mix(h3(i), h3(i + vec3(1,0,0)), f.x), mix(h3(i + vec3(0,1,0)), h3(i + vec3(1,1,0)), f.x), f.y),
+                     mix(mix(h3(i + vec3(0,0,1)), h3(i + vec3(1,0,1)), f.x), mix(h3(i + vec3(0,1,1)), h3(i + vec3(1,1,1)), f.x), f.y), f.z);
+        }`)
+      .replace('#include <color_fragment>', `#include <color_fragment>
+        diffuseColor.rgb *= 1.0 + ${big.toFixed(3)} * (n3(vW * 0.18) - 0.5) + ${fine.toFixed(3)} * (n3(vW * 38.0) - 0.5);`);
+  };
+  return mat;
+};
+grain(plaster, 0.10, 0.05);
+const left = new THREE.Mesh(new THREE.PlaneGeometry(40, 16), plaster);
+left.rotation.y = Math.PI / 2; left.position.set(-ROOM, 8, 0);
+const right = new THREE.Mesh(new THREE.PlaneGeometry(40, 16), plaster);
+right.position.set(0, 8, -ROOM);
+const floor = new THREE.Mesh(new THREE.PlaneGeometry(40, 40),
+  grain(new THREE.MeshStandardMaterial({ color: 0xa9a49c, roughness: 0.55, envMapIntensity: 0.6 }), 0.14, 0.06));
+floor.rotation.x = -Math.PI / 2;
+for (const m of [left, right, floor]) { m.receiveShadow = true; scene.add(m); }
+// Skirting boards and a shadow gap: the kind of detail a real gallery has.
+const trim = new THREE.MeshStandardMaterial({ color: 0x6b625a, roughness: 0.5 });
+for (const [w, d, x, z] of [[0.12, 40, -ROOM + 0.06, 0], [40, 0.12, 0, -ROOM + 0.06]]) {
+  const b = new THREE.Mesh(new THREE.BoxGeometry(w, 0.14, d), trim);
+  b.position.set(x, 0.07, z);
+  b.receiveShadow = true;
+  scene.add(b);
+}
+scene.add(new THREE.HemisphereLight(0x6f8fc4, 0x1d1a18, 0.75));
+
+// The wall lights sit low and shine slightly upward (rise TILT per unit of
+// travel), so the wall shadows land above the pieces instead of behind them.
+const TILT = 0.12;
+const lights = [];
+function surfaceLight(toLight, intensity) {
+  const l = new THREE.DirectionalLight(0xffd6a0, intensity * 1.05);
+  l.target.position.set(0, 4, 0);
+  l.position.copy(toLight).normalize().multiplyScalar(25).add(l.target.position);
+  if (Math.abs(toLight.y) > 0.9) l.shadow.camera.up.set(0, 0, 1);
+  l.castShadow = true;
+  l.shadow.mapSize.set(4096, 4096);
+  Object.assign(l.shadow.camera, { left: -12, right: 12, top: 12, bottom: -12, near: 1, far: 60 });
+  l.shadow.bias = -0.0003;
+  l.shadow.normalBias = 0.02;
+  scene.add(l, l.target);
+  lights.push(l);
+  return l;
+}
+surfaceLight(new THREE.Vector3(0, 1, 0), 2.6);     // straight down onto the floor
+surfaceLight(new THREE.Vector3(1, -TILT, 0), 2.9); // onto the left wall
+surfaceLight(new THREE.Vector3(0, -TILT, 1), 2.9); // onto the right wall
+
+// Voxel grid of one piece, before smoothing: x runs along the right wall,
+// z along the left wall (index up = world z down), y up from the bottom.
+const NX = 44, NZ = 44, NY = 44, V = 0.055;
+const MID = (NX - 1) / 2;
+// Slanted wall light: a voxel's shadow lands this many rows higher on the wall.
+const liftL = (x) => Math.round(TILT * (x - MID));  // farther from the left wall = higher
+const liftR = (z) => Math.round(-TILT * (z - MID)); // world z runs against the index
+const SMAX = Math.ceil(TILT * MID) + 1, NYV = NY + 2 * SMAX;
+const FONT = '900 400px "Arial Black", Arial, sans-serif';
+
+function glyph(ch, w0, h0) {
+  const c = document.createElement('canvas');
+  c.width = w0; c.height = h0;
+  const g = c.getContext('2d');
+  g.font = FONT;
+  const m = g.measureText(ch);
+  return { c, g, m, w: m.actualBoundingBoxLeft + m.actualBoundingBoxRight,
+           h: m.actualBoundingBoxAscent + m.actualBoundingBoxDescent };
+}
+
+// Wall letter, full height so every row has ink. ink(row from bottom, column).
+function wallLetter(ch) {
+  const S = 10, { c, g, m, w, h } = glyph(ch, NX * S, NY * S);
+  const sy = c.height / h, sx = Math.min(sy, (c.width * 0.92) / w);
+  g.setTransform(sx, 0, 0, sy, (c.width - w * sx) / 2, 0);
+  g.fillText(ch, m.actualBoundingBoxLeft, m.actualBoundingBoxAscent);
+  const d = g.getImageData(0, 0, c.width, c.height).data;
+  return (R, k) => R >= 0 && R < NY &&
+    d[(((NY - 1 - R) * S + S / 2) * c.width + k * S + S / 2) * 4 + 3] > 127;
+}
+
+// Floor letter as the camera sees it from the diagonal: screen right is
+// (+x, -z) and screen up is (-x, -z). ink(x, z) on the footprint.
+function floorLetter(ch) {
+  const N = 440, { c, g, m, w, h } = glyph(ch, N, N);
+  const s = (N * 0.78) / Math.max(h, w * 1.25);
+  g.setTransform(s, 0, 0, s, N / 2 - (w * s) / 2, N / 2 - (h * s) / 2);
+  g.fillText(ch, m.actualBoundingBoxLeft, m.actualBoundingBoxAscent);
+  const d = g.getImageData(0, 0, N, N).data, k = N / NX;
+  return (x, z) => {
+    const dx = x - MID, dz = z - MID;
+    const u = (dx + dz) / Math.SQRT2, v = (dz - dx) / Math.SQRT2;
+    const px = Math.round(N / 2 + u * k), py = Math.round(N / 2 - v * k);
+    return px >= 0 && py >= 0 && px < N && py < N && d[(py * N + px) * 4 + 3] > 127;
+  };
+}
+
+// Three letters can't all survive a plain intersection, so redesign them
+// together: start from the intersection, then for every shadow pixel that is
+// missing, add the cheapest voxel that restores it, preferring ink next to
+// existing strokes. Each added voxel slightly thickens the other two letters.
+function solvePiece(f, l, r) {
+  const F = floorLetter(f), L = wallLetter(l), R = wallLetter(r);
+  const xF = new Set(), xL = new Set(), xR = new Set(); // extra ink
+  const onF = (x, z) => F(x, z) || xF.has(x * 1000 + z);
+  const onL = (Y, z) => Y >= 0 && Y < NY && (L(Y, z) || xL.has(Y * 1000 + z));
+  const onR = (Y, x) => Y >= 0 && Y < NY && (R(Y, x) || xR.has(Y * 1000 + x));
+  const vox = new Uint8Array(NX * NYV * NZ);
+  const id = (x, y, z) => x + NX * (y + NYV * z);
+  const yOf = (Y, s) => Y - s + SMAX; // voxel row whose shadow lands on wall row Y
+  for (let z = 0; z < NZ; z++) for (let y = 0; y < NYV; y++) for (let x = 0; x < NX; x++)
+    if (onF(x, z) && onL(y - SMAX + liftL(x), z) && onR(y - SMAX + liftR(z), x)) vox[id(x, y, z)] = 1;
+
+  const near = (on, p, q) => on(p - 1, q) || on(p + 1, q) || on(p, q - 1) || on(p, q + 1);
+  const cost = (on, p, q) => (on(p, q) ? 0 : near(on, p, q) ? 1 : 3);
+  const added = [0, 0, 0];
+  const put = (x, y, z) => {
+    if (!onF(x, z)) { xF.add(x * 1000 + z); added[0]++; }
+    const Yl = y - SMAX + liftL(x), Yr = y - SMAX + liftR(z);
+    if (!onL(Yl, z)) { xL.add(Yl * 1000 + z); added[1]++; }
+    if (!onR(Yr, x)) { xR.add(Yr * 1000 + x); added[2]++; }
+    vox[id(x, y, z)] = 1;
+  };
+  // Left wall pixels: the ray runs along x.
+  for (let Y = 0; Y < NY; Y++) for (let z = 0; z < NZ; z++) if (L(Y, z)) {
+    let best = null, bc = 1e9;
+    for (let x = 0; x < NX; x++) {
+      const y = yOf(Y, liftL(x));
+      if (vox[id(x, y, z)]) { best = null; bc = -1; break; }
+      const Yr = y - SMAX + liftR(z);
+      if (Yr < 0 || Yr >= NY) continue;
+      const cc = cost(onR, Yr, x) + cost(onF, x, z) + Math.abs(x - MID) * 0.01;
+      if (cc < bc) { bc = cc; best = [x, y, z]; }
+    }
+    if (best) put(...best);
+  }
+  // Right wall pixels: the ray runs along z.
+  for (let Y = 0; Y < NY; Y++) for (let x = 0; x < NX; x++) if (R(Y, x)) {
+    let best = null, bc = 1e9;
+    for (let z = 0; z < NZ; z++) {
+      const y = yOf(Y, liftR(z));
+      if (vox[id(x, y, z)]) { best = null; bc = -1; break; }
+      const Yl = y - SMAX + liftL(x);
+      if (Yl < 0 || Yl >= NY) continue;
+      const cc = cost(onL, Yl, z) + cost(onF, x, z) + Math.abs(z - MID) * 0.01;
+      if (cc < bc) { bc = cc; best = [x, y, z]; }
+    }
+    if (best) put(...best);
+  }
+  // Floor pixels: the ray runs straight down.
+  for (let x = 0; x < NX; x++) for (let z = 0; z < NZ; z++) if (F(x, z)) {
+    let best = null, bc = 1e9;
+    for (let y = 0; y < NYV; y++) {
+      if (vox[id(x, y, z)]) { best = null; bc = -1; break; }
+      const Yl = y - SMAX + liftL(x), Yr = y - SMAX + liftR(z);
+      if (Yl < 0 || Yl >= NY || Yr < 0 || Yr >= NY) continue;
+      const cc = cost(onL, Yl, z) + cost(onR, Yr, x) + Math.abs(y - NYV / 2) * 0.01;
+      if (cc < bc) { bc = cc; best = [x, y, z]; }
+    }
+    if (best) put(...best);
+  }
+  console.log(`${f}/${l}/${r}: extra ink ${added.join(' / ')} px`);
+  return vox;
+}
+
+// Smooth carved solid: blur the voxels into a density field and mesh it.
+const PAD = 4, SIZE = Math.max(NYV, NX, NZ) + 2 * PAD, HALF = SIZE / 2;
+function carve(vox, material) {
+  const mc = new MarchingCubes(SIZE, material, false, false, 200000);
+  const raw = new Float32Array(SIZE ** 3);
+  const ox = (SIZE - NX) >> 1, oz = (SIZE - NZ) >> 1;
+  for (let z = 0; z < NZ; z++) for (let y = 0; y < NYV; y++) for (let x = 0; x < NX; x++)
+    if (vox[x + NX * (y + NYV * z)]) raw[(x + ox) + SIZE * ((y + PAD) + SIZE * (z + oz))] = 1;
+  const f = mc.field;
+  for (let z = 1; z < SIZE - 1; z++) for (let y = 1; y < SIZE - 1; y++) for (let x = 1; x < SIZE - 1; x++) {
+    let s = 0;
+    for (let dz = -1; dz <= 1; dz++) for (let dy = -1; dy <= 1; dy++) for (let dx = -1; dx <= 1; dx++)
+      s += raw[(x + dx) + SIZE * ((y + dy) + SIZE * (z + dz))] * (dx || dy || dz ? 1 : 2);
+    f[x + SIZE * (y + SIZE * z)] = s / 28;
+  }
+  mc.isolation = 0.3;
+  mc.update();
+  mc.scale.setScalar(HALF * V);
+  mc.scale.z *= -1; // field z grows with the index, world z the other way
+  mc.castShadow = true;
+  mc.receiveShadow = true;
+  return mc;
+}
+
+// Walnut: growth rings and fine streaks computed in object space.
+const walnut = new THREE.MeshPhysicalMaterial({
+  color: 0x6a4127, roughness: 0.52, clearcoat: 0.35, clearcoatRoughness: 0.45, side: THREE.DoubleSide,
+});
+walnut.onBeforeCompile = (sh) => {
+  sh.vertexShader = sh.vertexShader
+    .replace('#include <common>', '#include <common>\nvarying vec3 vObj;')
+    .replace('#include <begin_vertex>', '#include <begin_vertex>\nvObj = position;');
+  sh.fragmentShader = sh.fragmentShader
+    .replace('#include <common>', '#include <common>\nvarying vec3 vObj;')
+    .replace('#include <color_fragment>', `#include <color_fragment>
+      float r = length(vObj.xz * vec2(9.0, 5.0) + vec2(0.0, 3.0)) + sin(vObj.y * 7.0) * 0.35;
+      float ring = smoothstep(0.15, 0.5, abs(fract(r * 0.8) - 0.5));
+      float streak = 0.5 + 0.5 * sin(vObj.y * 140.0 + sin(vObj.x * 30.0) * 2.0);
+      diffuseColor.rgb *= mix(0.62, 1.08, ring) * mix(0.93, 1.03, streak);`);
+};
+
+// HAPPY is the main word, on the floor; AGENT and CODER sit on the walls.
+const FLOOR = 'HAPPY', LEFT = 'AGENT', RIGHT = 'CODER';
+const STEP = 2.6, SHIFT = 2.4, LIFT = 3.2;
+const pieces = [];
+const wireMat = new THREE.MeshStandardMaterial({ color: 0x333333, metalness: 0.8, roughness: 0.4 });
+for (let i = 0; i < 5; i++) {
+  const g = new THREE.Group();
+  g.add(carve(solvePiece(FLOOR[i], LEFT[i], RIGHT[i]), walnut));
+  const top = (NYV + PAD - HALF) * V;
+  const wire = new THREE.Mesh(new THREE.CylinderGeometry(0.008, 0.008, 14), wireMat);
+  wire.position.y = top + 7;
+  wire.castShadow = true;
+  g.add(wire);
+  const cap = new THREE.Mesh(new THREE.CylinderGeometry(0.05, 0.07, 0.12, 20),
+    new THREE.MeshStandardMaterial({ color: 0xc9a25c, metalness: 1, roughness: 0.28 }));
+  cap.position.y = top + 0.04;
+  g.add(cap);
+  // Reading order runs -z along the left wall and +x along the right wall.
+  // SHIFT moves the row away from the walls, so pieces don't cover their shadows.
+  g.position.set((i - 2) * STEP + SHIFT, LIFT + (HALF - PAD) * V, -(i - 2) * STEP + SHIFT);
+  scene.add(g);
+  pieces.push(g);
+}
+
+const DUST = 700, dustPos = new Float32Array(DUST * 3), dustSeed = [];
+for (let i = 0; i < DUST; i++) dustSeed.push([Math.random() * 14 - 6, Math.random() * 9 + 1, Math.random() * 14 - 6, Math.random() * 6.28]);
+const dustGeo = new THREE.BufferGeometry();
+dustGeo.setAttribute('position', new THREE.BufferAttribute(dustPos, 3));
+const dust = new THREE.Points(dustGeo, new THREE.PointsMaterial({
+  color: 0xffe6c2, size: 0.075, transparent: true, opacity: 0.9, depthWrite: false, blending: THREE.AdditiveBlending,
+}));
+scene.add(dust);
+function drift(t) {
+  dustSeed.forEach(([x, y, z, ph], i) => {
+    dustPos[i * 3] = x + Math.sin(t * 0.6283 + ph) * 0.4;
+    dustPos[i * 3 + 1] = y + Math.sin(t * 0.6283 + ph * 2) * 0.5;
+    dustPos[i * 3 + 2] = z + Math.cos(t * 1.2566 + ph) * 0.4;
+  });
+  dustGeo.attributes.position.needsUpdate = true;
+}
+
+// Bloom on the brightest highlights, then grade, vignette and film grain.
+const composer = new EffectComposer(renderer);
+composer.setPixelRatio(1);
+composer.setSize(W, H);
+composer.addPass(new RenderPass(scene, camera));
+composer.addPass(new UnrealBloomPass(new THREE.Vector2(W, H), 0.35, 0.5, 0.8));
+composer.addPass(new OutputPass());
+const look = new ShaderPass({
+  uniforms: { tDiffuse: { value: null }, uTime: { value: 0 } },
+  vertexShader: 'varying vec2 vUv; void main() { vUv = uv; gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0); }',
+  fragmentShader: `
+    uniform sampler2D tDiffuse; uniform float uTime; varying vec2 vUv;
+    void main() {
+      vec3 c = texture2D(tDiffuse, vUv).rgb;
+      float l = dot(c, vec3(0.299, 0.587, 0.114));
+      c = mix(c, c * vec3(0.92, 0.97, 1.08), smoothstep(0.55, 0.05, l) * 1.4); // cool shadows
+      c = mix(c, c * vec3(1.05, 1.0, 0.92), smoothstep(0.4, 1.0, l));  // warm highlights
+      vec2 q = vUv - 0.5; q.x *= 1.25;
+      c *= mix(1.0, 0.28, smoothstep(0.28, 0.78, length(q)));           // vignette
+      float n = fract(sin(dot(vUv * 1600.0 + uTime * 61.0, vec2(12.9898, 78.233))) * 43758.5453);
+      c += (n - 0.5) * 0.035;                                         // film grain
+      gl_FragColor = vec4(c, 1.0);
+    }`,
+});
+composer.addPass(look);
+
+// 10 s loop: pieces twist on their wires one after another for 6 s, then hold for 4 s.
+const LOOP = 10, SPIN = 6, STAGGER = 0.15;
+const ease = (x) => (x < 0.5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2);
+const twistAt = (u) => pieces.forEach((g, i) => {
+  const p = Math.min(Math.max((u - i * STAGGER) / (SPIN - 5 * STAGGER), 0), 1);
+  g.rotation.y = ease(p) * Math.PI * 2;
+});
+
+let playing = true, controls = null, last = 0, clock = 0;
+if (EXPLORE) {
+  document.getElementById('panel').style.display = 'flex';
+  document.getElementById('hint').style.display = 'block';
+  controls = new OrbitControls(camera, renderer.domElement);
+  controls.target.copy(GALLERY.look);
+  controls.enableDamping = true;
+  controls.update();
+  const play = document.getElementById('play'), twist = document.getElementById('twist');
+  play.onclick = () => { playing = !playing; play.textContent = playing ? 'Pause' : 'Play'; };
+  twist.oninput = () => {
+    playing = false; play.textContent = 'Play';
+    twistAt(twist.value * SPIN);
+  };
+  // Standing where a light is, you see each piece's outline: that is its letter.
+  const center = new THREE.Vector3(SHIFT, LIFT + 1.4, SHIFT);
+  const views = {
+    gallery: [GALLERY.pos, GALLERY.look],
+    floor: [center.clone().add(new THREE.Vector3(0.01, 26, 0.01)), center],
+    left: [center.clone().add(new THREE.Vector3(26, -26 * TILT, 0)), center],
+    right: [center.clone().add(new THREE.Vector3(0, -26 * TILT, 26)), center],
+  };
+  for (const b of document.querySelectorAll('[data-view]')) b.onclick = () => {
+    const [pos, look] = views[b.dataset.view];
+    camera.up.set(0, 1, 0);
+    if (b.dataset.view === 'floor') camera.up.set(-1, 0, -1);
+    camera.position.copy(pos);
+    controls.target.copy(look);
+    controls.update();
+  };
+  for (const c of document.querySelectorAll('[data-light]'))
+    c.onchange = () => { lights[c.dataset.light].visible = c.checked; };
+}
+
+function frame(ms) {
+  if (playing) clock += ms - last;
+  last = ms;
+  if (playing) twistAt((((clock / 1000 - 7) % LOOP) + LOOP) % LOOP);
+  if (controls) controls.update();
+  drift(ms / 1000);
+  look.uniforms.uTime.value = (ms / 1000) % 10;
+  composer.render();
+  requestAnimationFrame(frame);
+}
+requestAnimationFrame(frame);
+</script>
+</body>
+</html>
