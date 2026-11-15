@@ -6,7 +6,7 @@ An animated typographic journey built in Happy, with an original score synthesiz
 
 ## Watch
 
-Select **Sound off** to enable the music; **Play/Pause** controls playback. When invited, type or tap the letters of LIGHTHOUSE to continue, or choose **Watch instead**. The player supports seeking, replaying, and toggling music. Audio starts after a user gesture, as required by browsers. Desktop and mobile browsers need WebGL and Web Audio support.
+Choose **Enter with sound** to prepare the original score and begin the film with music from the start, or **Watch silently** to begin without audio. **Play/Pause** controls playback. When invited, type or tap the letters of LIGHTHOUSE to continue, or choose **Watch instead**. The player supports seeking, replaying, and toggling music. Audio starts after an explicit sound choice, as required by browsers. Desktop and mobile browsers need WebGL and Web Audio support.
 
 ## Run and publish
 
