@@ -1,0 +1,151 @@
+{
+  "title": "Words become worlds - pre-rendered score cues",
+  "composition": "Fable: original composition, instruments, synthesis, cues and playback body",
+  "integration": "Sol: asset encoding, loading, transport and deployment",
+  "scoreVersion": "1.0.2",
+  "sourceSHA256": "bb30f3e897f00892776161668923449c90258e3f0a85ad105c505c29a2f622ea",
+  "sampleRate": 48000,
+  "channels": 2,
+  "codec": "MP3 / libmp3lame",
+  "bitrate": 160000,
+  "gaplessMetadata": true,
+  "pcmSource": "Float32 stereo rendered directly from the unchanged score",
+  "totalBytes": 3541068,
+  "durationSumSeconds": 152,
+  "preparedPlayerSHA256": "814a83856172a39475d842b0476423b15acef24dea93837dc4b6703ebc272f36",
+  "verbatimPlayerBodySHA256": "af660436da423377f221cce8f5d5b8ac57611f20e868d3ff2a38ec9f87ddd4d2",
+  "files": [
+    {
+      "key": "intro",
+      "file": "intro.mp3",
+      "seconds": 53,
+      "bytes": 1061380,
+      "sha256": "5cac0c5d0c29fc1f5c698c68909dc05c871239b635b746e1bade32d8669a3025",
+      "sourceFloatWavSHA256": "a3c9a8cd5740b0dc69e1f768ae7bac0f9339b9b4e38e4db8ab7d2fe72060635b"
+    },
+    {
+      "key": "gate",
+      "file": "gate-loop.mp3",
+      "seconds": 12,
+      "encodedSeconds": 36,
+      "trimStart": 12,
+      "bytes": 721064,
+      "sha256": "bd7c41d4f49fdc36d90627acb9bac76dfcd4002ba88d0bb0dbaa8b6301bee2b8",
+      "sourceFloatWavSHA256": "a1955ef6e984146c11cf91f4bc20e3b729041f063250065713c35298970f2dd9"
+    },
+    {
+      "key": "letters",
+      "index": 0,
+      "file": "letter-01.mp3",
+      "seconds": 5.5,
+      "bytes": 111464,
+      "sha256": "0d7f36cccd2cfb68ca3820a6b78e2392100a3ea9cb5ee85b456612c01dc2bbef",
+      "sourceFloatWavSHA256": "2aeec7f3c761990e724887941ea9fc9191967c3117b767f146f685f0e4b577b1"
+    },
+    {
+      "key": "letters",
+      "index": 1,
+      "file": "letter-02.mp3",
+      "seconds": 5.5,
+      "bytes": 111464,
+      "sha256": "51388448f8e841c585667ef312e160dd57e367783aed5643da0a8a801e08df80",
+      "sourceFloatWavSHA256": "d384efe3c3cb069ef8d3c61679be98184a4439ce21eae758bcca6487d6597b10"
+    },
+    {
+      "key": "letters",
+      "index": 2,
+      "file": "letter-03.mp3",
+      "seconds": 5.5,
+      "bytes": 111464,
+      "sha256": "b8bb602dbe61b11d987e623e8c16882622e209d4ead6160957e32211ec08be1b",
+      "sourceFloatWavSHA256": "0efb9b49df5780258b526be73fd31c8e58f86aaeeaee84321fe4940d68bd030c"
+    },
+    {
+      "key": "letters",
+      "index": 3,
+      "file": "letter-04.mp3",
+      "seconds": 5.5,
+      "bytes": 111464,
+      "sha256": "d5f42e0e11238aa6ab39fbc8733896ea4b6ec9403a64291515014a89ade098ef",
+      "sourceFloatWavSHA256": "0211f7b247e3b3be2f60caa81ef26aaad5d5c645e6b5f92ed60e4741fbfde94d"
+    },
+    {
+      "key": "letters",
+      "index": 4,
+      "file": "letter-05.mp3",
+      "seconds": 5.5,
+      "bytes": 111464,
+      "sha256": "7338afb4bfbbe7c2593727e0dc47097fc501263103d8a0ccbd121d766c3dd3e6",
+      "sourceFloatWavSHA256": "ff73c0b9bd12d432b484406dbc07d23e4b989eb9ef0dec02378a21664d13b774"
+    },
+    {
+      "key": "letters",
+      "index": 5,
+      "file": "letter-06.mp3",
+      "seconds": 5.5,
+      "bytes": 111464,
+      "sha256": "795368cfe330931aa4cd171abdb5459ac47830dd73184724165098866b381534",
+      "sourceFloatWavSHA256": "8840414391da396e893025b53371c0578663616d795e52ee5eb834327a1da3f0"
+    },
+    {
+      "key": "letters",
+      "index": 6,
+      "file": "letter-07.mp3",
+      "seconds": 5.5,
+      "bytes": 111464,
+      "sha256": "abe2b75ce3ad5f742436194029266daca224a8f42e5b59476cc9c5562adf0e9c",
+      "sourceFloatWavSHA256": "6dd84db57e2d90f47f49c3cf9576584323bdc6e2a75858c5b3e7e10e9d46bbb0"
+    },
+    {
+      "key": "letters",
+      "index": 7,
+      "file": "letter-08.mp3",
+      "seconds": 5.5,
+      "bytes": 111464,
+      "sha256": "2b0d9a3e2e86dfd4562454760499cbd4ddbd681706a34aef6cfb05bd0842013f",
+      "sourceFloatWavSHA256": "d946377741970b2abb777286936834dc2563a00e5e119338102125bc9f1f1167"
+    },
+    {
+      "key": "letters",
+      "index": 8,
+      "file": "letter-09.mp3",
+      "seconds": 5.5,
+      "bytes": 111464,
+      "sha256": "a1ec799b9981042e6ee7efe61df66fecce2d405752dc9623bb9bdc410cd39f66",
+      "sourceFloatWavSHA256": "aecdb6a4239a8c175e64938f7a2e570471ccaf6fc67a04ea3587e417c6de448c"
+    },
+    {
+      "key": "letters",
+      "index": 9,
+      "file": "letter-10.mp3",
+      "seconds": 5.5,
+      "bytes": 111464,
+      "sha256": "aae207955cee9acfe30a9d13407946da0c520673a9c320f7971c1937e491d423",
+      "sourceFloatWavSHA256": "4fc712e8390913dcb479b6f36a4c1b63e9378f76ede1d5791a310e504c97cb9f"
+    },
+    {
+      "key": "complete",
+      "file": "complete.mp3",
+      "seconds": 6.5,
+      "bytes": 131143,
+      "sha256": "2542bd5d7be66f7e8d17fdac09be7e0bd03b862ace2e5dcdc0ce707e5e676f07",
+      "sourceFloatWavSHA256": "cca5c3ab2954805cce593dd340022f47eea403fd43d1f1b8772b1c71d4e513e1"
+    },
+    {
+      "key": "wrong",
+      "file": "wrong.mp3",
+      "seconds": 2.5,
+      "bytes": 51460,
+      "sha256": "67500a48873dc229ed4e5047791c9a7e173f8e28da1d3259608ee3a72d374ddf",
+      "sourceFloatWavSHA256": "f1a35630eaeee70f4fe14b76a92e2ff471136861a9e53274dfcc62ade94f152f"
+    },
+    {
+      "key": "ending",
+      "file": "ending.mp3",
+      "seconds": 23,
+      "bytes": 461381,
+      "sha256": "11cf179841ed8182e11af99a5d80923a66347286e5c20c73ca80b1a8e3072152",
+      "sourceFloatWavSHA256": "2e83ff4f9f8fa72c479346d1273350500b6644a867d9c6fd2cb9759d7b6e2d44"
+    }
+  ]
+}

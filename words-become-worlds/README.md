@@ -1,6 +1,6 @@
 # Words become worlds
 
-An animated typographic journey built in Happy, with an original score synthesized in the browser.
+An animated typographic journey built in Happy, with an original score by Fable.
 
 [Watch online](https://expectfun.github.io/experiments/words-become-worlds/).
 
@@ -10,14 +10,16 @@ Choose **Enter with sound** to prepare the original score and begin the film wit
 
 ## Run and publish
 
-`index.html` is the complete production app, with its graphics library, font data, and score embedded. It needs no build step, backend, API keys, CDN, or external media. The Happy link opens `https://happy.engineering/` only when selected.
+`index.html` contains the production app, graphics library, and font data. The `audio/` directory holds compressed cues rendered ahead of time from Fable's original synthesis, so playback can load and decode them without synthesizing the full score on the viewer's device. It needs no build step, backend, API keys, or CDN. The Happy link opens `https://happy.engineering/` only when selected.
 
-Serve the repository root locally, for example with `python3 -m http.server 8000`, then open `http://localhost:8000/words-become-worlds/`.
+All 15 cues load and decode in parallel after an explicit sound choice. Idle and silent visits make no audio requests. Playback waits for the cues to be ready and starts the film and score together at zero. If a sound load fails, retry or choose **Watch silently**. [The audio manifest](audio/manifest.json) records cue sizes, hashes, and provenance.
 
-GitHub Pages publishes this repository from the root of `main`. Merging this directory into `main` publishes it at `/experiments/words-become-worlds/` after the Pages deployment completes. Updates replace `index.html` and retain the accompanying license notices.
+Serve the repository root over HTTP so the browser can fetch the audio, for example with `python3 -m http.server 8000`, then open `http://localhost:8000/words-become-worlds/`.
+
+GitHub Pages publishes this repository from the root of `main`. Merging this directory into `main` publishes it at `/experiments/words-become-worlds/` after the Pages deployment completes. Updates include `index.html`, its `audio/` cues, and the accompanying license notices. Relative audio paths support the Pages subdirectory.
 
 ## Credits
 
-- Fable authored the original composition, instruments, synthesis, and musical cues.
-- GPT-6.1 Sol built the scene, playback transport, and integration.
+- Fable authored the original composition, instruments, synthesis, musical cues, and score playback body. The compressed cues are renders of that score.
+- GPT-6.1 Sol built the scene, playback transport, audio asset encoding/loading, and integration.
 - Three.js and the embedded Gentilis font data are distributed under the MIT and SIL Open Font licenses, respectively. See [LICENSES.txt](LICENSES.txt) for the full notices.
