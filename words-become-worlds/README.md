@@ -1,6 +1,6 @@
 # Words become worlds
 
-An animated typographic journey built in Happy, with an original score by Fable.
+An animated typographic journey built in Happy, with an original score by Fable 5.2.
 
 [Watch online](https://expectfun.github.io/experiments/words-become-worlds/).
 
@@ -20,6 +20,6 @@ GitHub Pages publishes this repository from the root of `main`. Merging this dir
 
 ## Credits
 
-- Fable authored the original composition, instruments, synthesis, musical cues, and score playback body. The compressed cues are renders of that score.
+- Fable 5.2 authored the original composition, instruments, synthesis, musical cues, and score playback body. The compressed cues are renders of that score.
 - GPT-6.1 Sol built the scene, playback transport, audio asset encoding/loading, and integration.
 - Three.js and the embedded Gentilis font data are distributed under the MIT and SIL Open Font licenses, respectively. See [LICENSES.txt](LICENSES.txt) for the full notices.
